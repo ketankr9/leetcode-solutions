@@ -79,20 +79,15 @@ class Solution {
 public:
     int calPoints(vector<string>& ops) {
       vector<int> stk;
-      int L = -1;
       for(auto w: ops){
         if(w == "+"){
-          stk.push_back(stk[L] + stk[L-1]);
-          L++;
+          stk.push_back(stk[(int)stk.size()-1] + stk[(int)stk.size()-2]);
         }else if(w == "D"){
-          stk.push_back(stk[L]*2);
-          L++;
+          stk.push_back(stk[(int)stk.size()-1]*2);
         }else if(w == "C"){
           stk.pop_back();
-          L--;
         }else{
           stk.push_back(stoi(w));
-          L++;
         }
       }
       int ans = 0;
