@@ -34,27 +34,7 @@
  */
 class Solution {
 public:
-    // int jumpFrom(int start, std::vector<int>& nums, int *memo){
-    //   if(start >= (int)nums.size()-1)
-    //     return 0;
-    //   if(memo[start] != -1)
-    //     return memo[start];
-    //   if(start + nums[start] >= (int)nums.size()-1)
-    //     return 1;
-    //
-    //   int minn = INT_MAX-1;
-    //   for(int i=start+1; i<=start + nums[start] && i<=(int)nums.size();i++){
-    //     minn = min(minn, jumpFrom(i, nums, memo));
-    //     // if(minn == )
-    //   }
-    //   memo[start] = 1 + minn;
-    //   return memo[start];
-    // }
     int jump(vector<int>& nums) {
-        // int N = nums.size();
-        // if(N == 0)  return 0;
-        // int memo[N]; fill_n(memo, N, -1);
-        // return jumpFrom(0, nums, memo);
         int N = nums.size();
         if(N==0 || N==1) return 0;
         int start = 0, end = 0 + nums[0];
