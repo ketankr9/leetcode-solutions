@@ -51,8 +51,7 @@ public:
         for(int i=0;i<(int)st.size()/2;i++)
           swap(st[i], st[(int)st.size()-1-i]);
         try{
-            int temp = stoi(st)*neg;
-            return temp;
+            return stoi(st)*neg;
         }catch(exception& e){
           return 0;
         }
