@@ -47,15 +47,12 @@ public:
   int ROW,COL;
   int sum;
   void floodFill(vector<vector<int>>& grid, int i, int j, bool *visited){
-      if(i<0 || i>=ROW || j<0 || j>=COL)
+      if(i<0 || i>=ROW || j<0 || j>=COL || !grid[i][j] || visited[i*COL+j])
         return;
-      if(!grid[i][j] || visited[i*COL+j])
-        return;
-      // int sum = 0;
+
       // right, j++
-      if(j==COL-1 || !grid[i][j+1]){
+      if(j==COL-1 || !grid[i][j+1])
         sum++;
-      }
       // left, j--
       if(j==0 || !grid[i][j-1])
         sum++;
@@ -65,19 +62,19 @@ public:
       // down, i++
       if(i==ROW-1 || !grid[i+1][j])
         sum++;
+
       visited[i*COL+j] = true;
-      // if(i+1 < ROW && grid[i+1][j] && !visited[(i+1)*COL+j])
+
       floodFill(grid, i+1, j, visited);
-      // if(i-1>=0 && grid[i-1][j] && !visited[(i-1)*COL+j])
       floodFill(grid, i-1, j, visited);
-      // if(j+1<COL && grid[][])
       floodFill(grid, i, j+1, visited);
       floodFill(grid, i, j-1, visited);
   }
     int islandPerimeter(vector<vector<int>>& grid) {
-        ROW = grid.size();  if(!ROW)  return 0;
+        ROW = grid.size();
         COL = grid[0].size();
         sum = 0;
+        
         bool visited[ROW*COL];
         fill_n(visited, ROW*COL, false);
 
