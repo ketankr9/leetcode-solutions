@@ -50,10 +50,11 @@ public:
         string st = to_string(x);
         for(int i=0;i<(int)st.size()/2;i++)
           swap(st[i], st[(int)st.size()-1-i]);
-        long temp = stol(st);
-        if(temp > INT_MAX)
+        try{
+            int temp = stoi(st)*neg;
+            return temp;
+        }catch(exception& e){
           return 0;
-        else
-          return stoi(st)*neg;
+        }
     }
 };
