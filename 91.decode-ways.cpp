@@ -43,31 +43,28 @@
  */
 class Solution {
 public:
-    bool valid(string st, int i, int num){
-      if(num == 1){ // num == 1
-        int t = (int)st[i]-(int)'0';
-        return i < (int)st.size() && t > 0 && t < 10;
-      }else{ // num == 2
-        int t = (int)st[i]*10 + (int)st[i+1]-(int)'0'*11;
-        return i + 1 < (int)st.size() && t > 9 && t <= 26;
-      }
+    bool valid(char a, char b){
+      return a=='1' || (a=='2' && b <= '6');
+    }
+    bool valid(char a){
+      return a != '0';
     }
 
     int callme(int i, string s, int* memo){
       int N = (int)s.size();
 
       if( N-1 == i)
-        return (int)valid(s, i, 1);
+        return (int)valid(s[i]);
       else if( N-1 == i+1)
-        return (int)(valid(s, i, 1) && valid(s, i+1, 1)) + (int)valid(s, i, 2);
+        return (int)(valid(s[i]) && valid(s[i+1])) + (int)valid(s[i], s[i+1]);
 
       if(memo[i] != NULL)
         return memo[i];
 
       memo[i] = 0;
-      if(valid(s,i,1))
+      if(valid(s[i]))
         memo[i] += callme(i+1, s, memo);
-      if(valid(s,i,2))
+      if(valid(s[i], s[i+1]))
         memo[i] += callme(i+2, s, memo);
 
       return memo[i];
