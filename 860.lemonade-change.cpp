@@ -93,22 +93,20 @@ public:
           if(b == 5)
             c5++;
           else if(b == 10){
-            if(c5==0) return false;
             c5--; c10++;
           }else{
             if(c10 == 0){
-              if(c5 < 3)  return false;
               c5 -= 3;
               c20++;
             }else{ // c10 >= 1
-              if(c5 == 0) return false;
               c5--;
               c10--;
               c20++;
             }
           }
+          if(c5 < 0 || c10 < 0)
+            return false;
         }
-        // cout<<c5<<":"<<c10<<":"<<c20;
         return true;
     }
 };
