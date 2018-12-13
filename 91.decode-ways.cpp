@@ -62,10 +62,10 @@ public:
         return memo[i];
 
       memo[i] = 0;
-      if(valid(s[i]))
-        memo[i] += callme(i+1, s, memo);
       if(valid(s[i], s[i+1]))
         memo[i] += callme(i+2, s, memo);
+      if(valid(s[i]))
+          memo[i] += callme(i+1, s, memo);
 
       return memo[i];
     }
