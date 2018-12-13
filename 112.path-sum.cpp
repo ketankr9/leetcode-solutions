@@ -44,19 +44,9 @@
  */
 class Solution {
 public:
-    bool callme(TreeNode* root, int sum){
-      if(root == NULL) return false;
-      if(root -> left == NULL && root->right == NULL){
-        if(sum == root->val)
-          return true;
-        else
-          return false;
-      }
-      return callme(root->left, sum-root->val) || callme(root->right, sum-root->val);
-    }
-
     bool hasPathSum(TreeNode* root, int sum) {
-        if(root == NULL) return false;
-        return callme(root, sum);
+      if(root == NULL) return false;
+      if(root -> left == NULL && root->right == NULL && sum == root->val) return true;
+      return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
     }
 };
