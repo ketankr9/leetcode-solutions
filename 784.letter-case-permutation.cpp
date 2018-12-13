@@ -37,9 +37,6 @@
  */
 class Solution {
 public:
-    bool isAlpha(char c){
-      return (c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A');
-    }
     char flip(char c){
       if(c <= 'z' && c >= 'a'){// small
         return 'A' + c-'a';
@@ -47,20 +44,22 @@ public:
         return 'a' + c-'A';
       }
     }
-    void callme(int i, string temp, string s, vector<string>& ans){
+    void callme(int i, string s, vector<string>& ans){
       if(i==(int)s.size()){
-        ans.push_back(temp);
+        ans.push_back(s);
         return;
       }
-      callme(i+1, temp+s[i], s, ans);
-      if(isAlpha(s[i]))
-        callme(i+1, temp+flip(s[i]), s, ans);
-
+      callme(i+1, s, ans);
+      if(isalpha(s[i])){
+        s[i] = flip(s[i]);
+        callme(i+1, s, ans);
+        s[i] = flip(s[i]);
+      }
     }
 
     vector<string> letterCasePermutation(string S) {
         vector<string> ans;
-        callme(0,"", S, ans);
+        callme(0, S, ans);
         return ans;
     }
 };
