@@ -88,7 +88,7 @@
 class Solution {
 public:
     bool lemonadeChange(vector<int>& bills) {
-        int c5=0,c10=0,c20=0;
+        int c5=0,c10=0;
         for(auto b: bills){
           if(b == 5)
             c5++;
@@ -97,11 +97,9 @@ public:
           }else{
             if(c10 == 0){
               c5 -= 3;
-              c20++;
             }else{ // c10 >= 1
               c5--;
               c10--;
-              c20++;
             }
           }
           if(c5 < 0 || c10 < 0)
