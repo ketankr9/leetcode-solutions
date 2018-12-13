@@ -53,7 +53,7 @@ public:
       if(isalpha(s[i])){
         s[i] = flip(s[i]);
         callme(i+1, s, ans);
-        s[i] = flip(s[i]);
+        // s[i] = flip(s[i]);
       }
     }
 
