@@ -43,6 +43,7 @@
  */
 class Solution {
 public:
+    int hit;
     bool valid(char a, char b){
       return a=='1' || (a=='2' && b <= '6');
     }
@@ -58,21 +59,29 @@ public:
       else if( N-1 == i+1)
         return (valid(s[i]) && valid(s[i+1])) + valid(s[i], s[i+1]);
 
-      if(memo[i] != NULL)
+      if(memo[i] != -1){
+        hit++;
+        // cout<<"+";
         return memo[i];
+      }
 
       memo[i] = 0;
+      // cout<<"1:"<<memo[i+1]<<" ";
+      if(valid(s[i]))
+        memo[i] += callme(i+1, s, memo);
+      // cout<<"2:"<<memo[i+2]<<" ";
       if(valid(s[i], s[i+1]))
         memo[i] += callme(i+2, s, memo);
-      if(valid(s[i]))
-          memo[i] += callme(i+1, s, memo);
 
       return memo[i];
     }
     int numDecodings(string s) {
+      hit = 0;
       if((int)s.size() == 0)  return 0;
       int memo[(int)s.size()];
-      fill_n(memo, (int)s.size(), NULL);
-      return callme(0, s, memo);
+      fill_n(memo, (int)s.size(), -1);
+      int ans= callme(0, s, memo);
+      // cout<<hit<<endl;
+      return ans;
     }
 };
