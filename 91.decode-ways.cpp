@@ -54,9 +54,9 @@ public:
       int N = (int)s.size();
 
       if( N-1 == i)
-        return (int)valid(s[i]);
+        return valid(s[i]);
       else if( N-1 == i+1)
-        return (int)(valid(s[i]) && valid(s[i+1])) + (int)valid(s[i], s[i+1]);
+        return (valid(s[i]) && valid(s[i+1])) + valid(s[i], s[i+1]);
 
       if(memo[i] != NULL)
         return memo[i];
