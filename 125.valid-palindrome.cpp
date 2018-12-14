@@ -37,11 +37,6 @@ public:
     bool isalphanum(char c){
       return ('0' <= c && c<= '9') || ('a' <=c && c <= 'z') || ('A' <=c && c <= 'Z');
     }
-    char lower(char c){
-      if('A' <=c && c <= 'Z')
-        return c - 'A' + 'a';
-      return c;
-    }
     bool isPalindrome(string s) {
         int i=0;
         int j = s.size()-1;
@@ -49,9 +44,7 @@ public:
         while(i<j){
           if(!isalphanum(s[i]))  {  i++; continue; }
           if(!isalphanum(s[j]))  {  j--; continue; }
-          if(lower(s[i]) != lower(s[j])){
-            return false;
-          }
+          if(tolower(s[i]) != tolower(s[j]))  return false;
           i++; j--;
         }
         return true;
