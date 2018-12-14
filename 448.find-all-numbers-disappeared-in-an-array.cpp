@@ -36,15 +36,15 @@ public:
         int N = nums.size();
         for(int i=0;i<N;i++){
           int present = nums[i];
-          while(present != -1){
+          while(present > 0){
             int temp = nums[present-1];
-            nums[present-1] = -1;
+            nums[present-1] = -abs(nums[present-1]);
             present = temp;
           }
         }
-        
+
         for(int i=0;i<N;i++){
-          if(nums[i]!=-1)
+          if(nums[i] > 0)
             ans.push_back(i+1);
         }
         return ans;
