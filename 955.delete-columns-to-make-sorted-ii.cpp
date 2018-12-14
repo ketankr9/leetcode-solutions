@@ -94,19 +94,19 @@ public:
         int n = A.size();
         int m = A[0].size();
         bool same[n];  fill_n(same, n, true);
+
         for(int i=0;i<m;i++){
-          bool status = false;
+          bool charAt_i_Ok = true;
           vector<int> tp;
           for(int j=0;j<n-1;j++){
             if(same[j] && A[j][i] > A[j+1][i]){
-              status  = true;
-            }
-            if(same[j] && A[j][i] < A[j+1][i]){
+              charAt_i_Ok  = false;
+            }else if(same[j] && A[j][i] < A[j+1][i]){
               same[j] = false;
               tp.push_back(j);
             }
           }
-          if(status){
+          if(!charAt_i_Ok){
             for(auto e: tp)
               same[e] = true;
             count++;
