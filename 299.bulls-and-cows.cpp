@@ -50,23 +50,22 @@
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        unordered_map<char, int> mm;
         int A=0, B=0;
         int N = secret.size();
-        bool matched[N];
-        fill_n(matched, N, false);
+        // bool matched[N]; fill_n(matched, N, false);
+        int numbers[10];
+        fill_n(numbers, 10, 0);
         for(int i=0;i<N;i++){
           if(secret[i] == guess[i])
-            A++, matched[i]=true;
-          else
-            mm[secret[i]]++;
-        }
-        for(int i=0;i<(int)guess.size();i++){
-          if(!matched[i] && mm[guess[i]] > 0){
-            B++;
-            mm[guess[i]]--;
+            A++;
+          else{
+            if(numbers[secret[i] -'0'] < 0) B++;
+            if(numbers[guess[i] - '0'] > 0) B++;
+            numbers[secret[i]-'0']++;
+            numbers[guess[i]-'0']--;
           }
         }
+
         return to_string(A) + "A" + to_string(B) + "B";
     }
 };
