@@ -77,26 +77,23 @@
  */
 class Solution {
 public:
-    bool helper(vector<int>& A){
-      int N = A.size();
-      if(N == 0)  return true;
-
-      sort(A.begin(), A.end());
-      bool visited[N];
-      fill_n(visited, N, false);
-      for(int i=0; i<N; i++){ if(visited[i])  continue;
-        visited[i] = true;
-        auto lower = lower_bound(A.begin(), A.end(), 2*A[i]);
-        int pos = lower - A.begin();
-        while(pos < N && visited[pos] && A[pos] == 2*A[i])
-          pos++;
-        if(pos == N)  return false;
-        if(A[pos] != 2*A[i]) return false;
-        visited[pos] = true;
+    bool helper(vector<int> &vec){
+      sort(vec.begin(), vec.end());
+      int N = vec.size();
+      if(N==0)  return true;
+      unordered_map<int, int> count;
+      for(auto e: vec){
+        count[e]++;
       }
+      for(auto e: vec){
+        if(count[e] == 0)  continue;
+        if(count[e] > count[2*e]) return false;
+        count[2*e] -= count[e];
+        count[e] = 0;
+        }
       return true;
+      }
 
-    }
     bool canReorderDoubled(vector<int>& A) {
       int N = A.size();
       vector<int> positive;
@@ -107,7 +104,6 @@ public:
         else
           negative.push_back(-e);
       }
-      // reverse(negative.begin(), negative.end());
       return  helper(positive) && helper(negative);
     }
 };
