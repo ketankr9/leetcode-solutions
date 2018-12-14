@@ -34,19 +34,12 @@ public:
     vector<int> findDisappearedNumbers(vector<int> nums) {
         vector<int> ans;
         int N = nums.size();
-        for(int i=0;i<N;i++){
-          int present = nums[i];
-          while(present > 0){
-            int temp = nums[present-1];
-            nums[present-1] = -abs(nums[present-1]);
-            present = temp;
-          }
-        }
+        for(int i=0;i<N;i++)
+          nums[abs(nums[i])-1] = -abs(nums[abs(nums[i])-1]);
 
-        for(int i=0;i<N;i++){
+        for(int i=0;i<N;i++)
           if(nums[i] > 0)
             ans.push_back(i+1);
-        }
         return ans;
     }
 };
