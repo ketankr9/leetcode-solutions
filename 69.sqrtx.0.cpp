@@ -39,10 +39,6 @@
 class Solution {
 public:
     int binsearch(long start, long end, long value){
-      if(start*start <= value && value < (start+1)*(start+1))
-        return start;
-      if(end*end <= value && value < (end+1)*(end+1))
-          return end;
       long mid  = (start+end)/2;
       if(mid*mid <= value && value < (mid+1)*(mid+1))
         return mid;
@@ -54,7 +50,7 @@ public:
     }
 
     int mySqrt(int x) {
-        return binsearch(0, x, x);
-
+      if(x == 1)  return x;
+      return binsearch(0, x, x);
     }
 };
