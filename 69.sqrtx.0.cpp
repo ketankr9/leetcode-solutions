@@ -42,11 +42,13 @@ public:
       if(x < 2)  return x;
       double x0 = x/2;
       double x1;
-      // x_n = x_n-1 - f(x_n-1)/f'(x_n-1)
-      // f(x_) = x_**2 - x
-      // f'(x_) = 2x_
+      // x1 = x0 - f(x0)/f'(x0)
+      // f(x0) = x0**2 - x
+      // f'(x0) = 2x0
+
       while(true){
-        x1 = x0 - (x0*x0-x)/(2*x0);
+        // x1 = x0 - (x0*x0-x)/(2*x0);
+        x1 = (x0 + x/x0)/2;
         x0 = x1;
         // cout<<x0<<" ";
         long t = x0;
