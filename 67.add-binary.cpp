@@ -34,27 +34,23 @@ public:
         int i = a.size()-1;
         int j = b.size()-1;
         int carry = 0;
-        int num;
         string res;
         while (i>=0 && j>=0) {
           int ss = carry + (int)(a[i]-'0') + (int)(b[j]-'0');
-          num = ss%2;
           carry = ss/2;
-          res = (char)('0'+ num) + res;
+          res = (char)('0'+ ss%2) + res;
           i--; j--;
         }
         while(i>=0){
           int ss = carry + a[i]-'0';
-          num = ss%2;
           carry = ss/2;
-          res = (char)('0'+num) + res;
+          res = (char)('0'+ss%2) + res;
           i--;
         }
         while(j>=0){
           int ss = carry + b[j]-'0';
-          num = ss%2;
           carry = ss/2;
-          res = (char)('0'+num) + res;
+          res = (char)('0'+ss%2) + res;
           j--;
         }
         if(carry) res = '1' + res;
