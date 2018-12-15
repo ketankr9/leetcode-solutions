@@ -38,19 +38,19 @@
  */
 class Solution {
 public:
-    int binsearch(long start, long end, long value){
-      long mid  = (start+end)/2;
-      if(mid*mid <= value && value < (mid+1)*(mid+1))
-        return mid;
-      if(mid*mid < value){
-        return binsearch(mid, end, value);
-      }else{
-        return binsearch(start, mid, value);
-      }
-    }
-
     int mySqrt(int x) {
-      if(x == 1)  return x;
-      return binsearch(0, x, x);
+      if(x < 2)  return x;
+      double x0 = x/2;
+      double x1;
+      // x_n = x_n-1 - f(x_n-1)/f'(x_n-1)
+      // f(x_) = x_**2 - x
+      // f'(x_) = 2x_
+      while(true){
+        x1 = x0 - (x0*x0-x)/(2*x0);
+        x0 = x1;
+        // cout<<x0<<" ";
+        long t = x0;
+        if(t*t <= (long)x && (long)x < (t+1)*(t+1)) return t;
+      }
     }
 };
