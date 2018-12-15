@@ -65,21 +65,45 @@ function commit {
 }
 
 function star {
-Q="$(cat .lastAttempt | tr -d '\n')";
+  Q="$(cat .lastAttempt | tr -d '\n')";
 	if [ -z "$1" ]; then
 		leetcode star $(echo -n "${Q%%.*}");
+	elif [ "$1" = "del" ]; then
+		leetcode star $(echo -n "${Q%%.*}") -d;
+  else
+    leetcode star "$@";
+	fi
+}
+function fetch {
+  if [ -z "$1" ]; then
+    Q="$(cat .lastAttempt | tr -d '\n')";
+		leetcode submission $(echo -n "${Q%%.*}");
 	else
-		leetcode star $(echo -n "${Q%%.*}") "$@";
+    out=$(leetcode submission "$1");
+    echo "$out";
+    if [ "$(echo -n $out | awk '{ print $NF }')" != "submissions?" ]; then
+      atom "$(echo -n $out | awk '{ print $NF }')";
+    fi
 	fi
 }
 function solution {
 	Q="$(cat .lastAttempt | tr -d '\n')";
-	leetcode show $(echo -n "${Q%%.*}") --solution;
+  echo "########   Java   ########";
+  leetcode show $(echo -n "${Q%%.*}") --solution -l java;
+  echo "########   cpp   ########";
+  leetcode show $(echo -n "${Q%%.*}") --solution -l cpp;
 }
 function resume {
   Q="$(cat .lastAttempt | tr -d '\n')";
   leetcode show $(echo -n "${Q%%.*}");
   atom ./"$(cat .lastAttempt | tr -d '\n')";
+}
+function solve {
+  if [ -z "$1" ]; then
+    resume;
+  else
+    show "$1" -gxe -q D;
+  fi
 }
 export -f run
 export -f commit
@@ -88,4 +112,5 @@ export -f show
 export -f star
 export -f solution
 export -f resume
+export -f solve
 ```
