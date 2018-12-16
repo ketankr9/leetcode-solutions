@@ -103,37 +103,4 @@ public:
         if(carry)   ans = (char)(carry + '0') + ans;
         return ans;
     }
-
-    string multiplySingle(string num1, string num2) {
-        int i=num1.size()-1;
-        int j=num2.size()-1;
-        int carry = 0;
-        string ans = "";
-        int prod;
-        int val;
-        while(i>=0 && j>=0){
-            prod = carry + (int)(num1[i]-'0')*(int)(num2[j]-'0');
-            carry = prod/10;
-            val = prod%10;
-            ans = (char)('0'+val) + ans;
-            i--;j--;
-        }
-
-        while(i>=0){
-            prod = carry + (int)(num1[i]-'0');
-            carry = prod/10;
-            val = prod%10;
-            ans = (char)('0'+val) + ans;
-            i--;
-        }
-        while(j>=0){
-            prod = carry + (int)(num2[j]-'0');
-            carry = prod/10;
-            val = prod%10;
-            ans = (char)('0'+val) + ans;
-            j--;
-        }
-        if(carry)   ans = (char)(carry + '0') + ans;
-        return ans;
-    }
 };
