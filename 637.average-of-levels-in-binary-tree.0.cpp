@@ -46,7 +46,7 @@
  */
 class Solution {
 public:
-    unordered_map<int, double> vec;
+    vector<double> vec;
     unordered_map<int, int> count;
     int maxLevel;
     void callme(int level, TreeNode* root){
@@ -54,7 +54,11 @@ public:
             maxLevel = max(maxLevel, level);
             return;
         }
-        vec[level] += root->val;
+        if(level == (int)vec.size())
+            vec.push_back(root->val);
+        else
+            vec[level]+=root->val;
+        // vec[level] += root->val;
         count[level] += 1;
         callme(level+1, root->left);
         callme(level+1, root->right);
@@ -63,11 +67,10 @@ public:
     vector<double> averageOfLevels(TreeNode* root) {
         maxLevel = INT_MIN;
         callme(0, root);
-        vector<double> ans;
         for(int i=0;i<maxLevel;i++){
-            ans.push_back((double)vec[i]/(double)count[i]);
+            vec[i] /= (double)count[i];
         }
-        return ans;
+        return vec;
 
     }
 };
