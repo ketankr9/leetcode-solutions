@@ -41,32 +41,32 @@ bool isBadVersion(int version);
 class Solution {
 public:
     unordered_map<int, bool> mm;
-    int binsearch(long start, long end){
+    int binsearch(int start, int end){
         // cout<<start<<":"<<end<<" ";
         if(start == end){
             if(start == 1)
                 return 1;
-            
         }
-        long mid = (start + end)/2;
+        // ** MOST IMPORTANT, (start+mid)2 may overflow but (start/2 + end/2) will not.
+        int mid = (start/2) + (end/2);
     
-        // if(mm.count(mid) > 0)
-            // mm[mid] = mm[mid];
-        // else
+        if(mm.count(mid) > 0)
+            mm[mid] = mm[mid];
+        else
             mm[mid] = isBadVersion(mid);
         
-        // if(mm.count(mid+1)>0)
-            // mm[mid+1]=mm[mid+1];
-        // else
+        if(mm.count(mid+1)>0)
+            mm[mid+1]=mm[mid+1];
+        else
             mm[mid+1]=isBadVersion(mid+1);
         
-        if(mm[mid] == true && mm[mid+1] == true){ // search in mm[mid] half
-            return binsearch(start, mid);
-        }else if(mm[mid] == false && mm[mid+1] == false){ // search in mm[mid+1] half
-            return binsearch(mid+1, end);
-        }else if(mm[mid] == false && mm[mid+1] == true){
+        if(mm[mid] == false && mm[mid+1] == true){
             return mid+1;
-        }
+        }else if(mm[mid] == true){ // search in left half
+            return binsearch(start, mid);
+        }else if(mm[mid+1] == false){ // search in right half
+            return binsearch(mid+1, end);
+        } 
 
     }
     int firstBadVersion(int n) {
