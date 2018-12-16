@@ -50,14 +50,14 @@ public:
         }
         long mid = (start + end)/2;
     
-        if(mm.count(mid) > 0)
-            mm[mid] = mm[mid];
-        else
+        // if(mm.count(mid) > 0)
+            // mm[mid] = mm[mid];
+        // else
             mm[mid] = isBadVersion(mid);
         
-        if(mm.count(mid+1)>0)
-            mm[mid+1]=mm[mid+1];
-        else
+        // if(mm.count(mid+1)>0)
+            // mm[mid+1]=mm[mid+1];
+        // else
             mm[mid+1]=isBadVersion(mid+1);
         
         if(mm[mid] == true && mm[mid+1] == true){ // search in mm[mid] half
