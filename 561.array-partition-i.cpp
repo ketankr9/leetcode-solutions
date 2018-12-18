@@ -46,14 +46,10 @@ public:
         int ans = 0;
         for(int i=0;i<20001;i++){
             if(count[i] == 0)   continue;
-            if(carry == 1)  { carry = 0; count[i]--;};
-            if(count[i] == 0)   continue;
+            if(carry == 1)  count[i]--;
 
             carry = count[i]%2;
-            while(count[i] >= 1){
-                ans += (i-10000);
-                count[i] -= 2;
-                }
+            ans += (i-10000)*((count[i]+1)/2);
         }
         return ans;
     }
