@@ -38,13 +38,10 @@ public:
     vector<int> getRow(int rowIndex) {
         vector<int> ans(1,1);
         while(rowIndex--){
-            vector<int> temp;
-            temp.push_back(1);
-            for(int i=0;i<(int)ans.size()-1; i++){
-                temp.push_back(ans[i]+ans[i+1]);
+            ans.insert(ans.begin()+0, 1);
+            for(int i=1;i<(int)ans.size()-1; i++){
+                ans[i] = ans[i]+ans[i+1];
             }
-            temp.push_back(1);
-            swap(ans, temp);
         }
         return ans;
     }
