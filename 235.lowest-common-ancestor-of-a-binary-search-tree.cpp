@@ -68,10 +68,11 @@ public:
         bool temp = false;
         if(root == p || root == q)
             temp = true;
+
         bool foundLeft = callme(root->left, level+1, p, q);
         bool foundRight = callme(root->right, level+1, p, q);
 
-        if(((foundLeft && foundRight) || ((foundLeft || foundRight) && temp)) && maxLevel){
+        if((foundLeft && foundRight) || ((foundLeft ^ foundRight) && temp)){
             ans = root;
             maxLevel = false;
         }
