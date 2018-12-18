@@ -37,10 +37,24 @@
 class Solution {
 public:
     int arrayPairSum(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
+        int count[20001];
+        fill_n(count, 20001, 0);
+        
+        for(auto e: nums)
+            count[e+10000]++;
+        int carry = 0;
         int ans = 0;
-        for(int i=0;i<(int)nums.size();i+=2)
-            ans +=  nums[i];
+        for(int i=0;i<20001;i++){
+            if(count[i] == 0)   continue;
+            if(carry == 1)  { carry = 0; count[i]--;};
+            if(count[i] == 0)   continue;
+
+            carry = count[i]%2;
+            while(count[i] >= 1){
+                ans += (i-10000);
+                count[i] -= 2;
+                }
+        }
         return ans;
     }
 };
