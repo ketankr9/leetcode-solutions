@@ -93,16 +93,11 @@ public:
             if(A[pos[0]] == B[pos[1]] && A[pos[1]]==B[pos[0]])
                 return true;    
             return false;
-        }
-        else if(differ == 1)
+        }else if(differ == 1)
             return false;
-        sort(A.begin(), A.end());
-        
-        for(int i = 0; i < n1 - 1; i++)
-        {
-            if(A[i] == A[i+1])  return true;
-        }
-        
-        return false;
+            
+        // differ == 0
+        unordered_set<char> ss(A.begin(), A.end());
+        return ss.size() == n1 ? false : true;
     }
 };
