@@ -61,7 +61,8 @@
 class Solution {
 public:
     void deleteNode(ListNode* node) {
-        node->val = node->next->val;
-        node->next = node->next->next;
+        ListNode* next = node->next;
+        *node = *node->next; // * is meant to copy all the attributes of the node without affecting its address.
+        free(next); 
     }
 };
