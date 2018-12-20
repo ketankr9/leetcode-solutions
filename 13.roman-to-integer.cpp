@@ -77,6 +77,7 @@
  * Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
  * 
  */
+static int speedup=[](){ ios_base::sync_with_stdio(false); cin.tie(nullptr); return 0; }();
 class Solution {
 public:
     int val(char c){
