@@ -45,6 +45,7 @@
  * The length of words[i] will be in the range [1, 30].
  * 
  */
+static int speedup=[](){ ios_base::sync_with_stdio(false); cin.tie(nullptr); return 0; }();
 class Solution {
 public:
     vector<string> res;
