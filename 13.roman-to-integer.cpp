@@ -109,31 +109,21 @@ public:
         }
         return v;
     }
-    bool beforeCond(char cur, char s){
-        if ((cur == 'I' && (s == 'V' || s == 'X')) || \
-        (cur == 'X' && (s == 'L' || s == 'C')) || \
-        (cur == 'C' && (s == 'D' || s == 'M')))
-            return true;
-        return false;        
-    }
+
     int romanToInt(string s) {
         int ans = 0;
         int i=0;
         int N = s.size();
-        while(i<N){
-            int count = 0;
-            char cur = s[i];
-            while(i < N && cur == s[i]){
-                count++;
-                i++;
-            }
-            if(count == 1 && val(cur) < val(s[i])){ //check I, X, C;
-                ans += val(s[i]) - val(cur), i++;
+        while(i<N-1){
+            if(val(s[i]) < val(s[i+1])){ //check I, X, C;
+                ans += val(s[i+1]) - val(s[i]), i++;
             }else{
-                ans += count*val(cur);
+                ans += val(s[i]);
             }
-            // cout<<ans<<" ";
+            i++;
         }
+        if(i == N-1)
+            ans += val(s[N-1]);
         return ans;
     }
 };
