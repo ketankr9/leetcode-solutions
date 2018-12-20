@@ -26,17 +26,22 @@ public:
     int countPrimes(int n) {
         if(n < 2)
             return 0;
+        if(n == 2)
+            return 0;
         bool arr[n];
         fill_n(arr, n, true);
-
-        for(int i=2; i<=sqrt(n);i++){
-            for(int j = i*i; j < n; j += i ){
+        int N = sqrt(n);
+        for(int i=3; i<=N;i+=2){
+            for(int j = i*i; j < n; j += 2*i ){
                 arr[j] = false;
             }
         }
-        int count = -2;
-        for(auto s: arr)
-            if(s)   count++;
+        int count = 0;
+        for(int i = 1; i<n;i+=2){
+            // cout<<i<<","<<arr[i]<<" ";
+            if(arr[i])
+                count++;
+        }
         return count;
     }
 };
