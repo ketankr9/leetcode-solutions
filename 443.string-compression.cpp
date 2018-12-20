@@ -96,53 +96,20 @@ public:
         
     }
     int compress(vector<char>& chars) {
-        int i=0;
+        int i = 0;
+        int pos = 0;
         int N = chars.size();
-        int ans = 0;
-        while(i < (int)chars.size()){
-            // printme(chars);
+        while(i < N){
             char cur = chars[i];
-            int pos = i;
-            int count = 1;  i++;
-            while(i < (int)chars.size() && cur == chars[i]){
-                i++;
-                count++;
+            int count = 1; i++;
+            while(i < N && cur == chars[i]){
+                i++;count++;
             }
-            if(count == 1){
-                ans += 1;
-            }else if(count == 2){
-                chars[i-1] = '2';
-                ans += 2;
-            }else{
-                if(count == 1000){
-                    ans += 5;
-                    chars[pos+1] = '1';
-                    chars[pos+2] = '0';
-                    chars[pos+3] = '0';
-                    chars[pos+4] = '0';
-                    chars.erase(chars.begin()+pos+4+1, chars.begin()+i);
-                    i = pos + 5;
-                }else if(count >= 100){
-                    ans += 4;
-                    chars[pos+1] = (char)(count/100) + '0'; count = count%100;
-                    chars[pos+2] = (char)(count/10) + '0'; count = count%10;
-                    chars[pos+3] = (char)(count) + '0';
-                    chars.erase(chars.begin()+pos+3+1, chars.begin()+i);
-                    i = pos+4;
-                }else if(count >= 10){
-                    ans += 3;
-                    chars[pos+1] = (char)(count/10) + '0'; count = count%10;
-                    chars[pos+2] = (char)(count) + '0';
-                    chars.erase(chars.begin()+pos+2+1, chars.begin()+i);
-                    i = pos+3;
-                }else{
-                    ans += 2;
-                    chars[pos+1] = (char)(count) + '0';
-                    chars.erase(chars.begin()+pos+1+1, chars.begin()+i);
-                    i = pos+2;  
-                }
-            }
+            chars[pos++] = cur;
+            if(count == 1)  continue;
+            for(auto c: to_string(count))
+                chars[pos++] = c;
         }
-        return ans;
+        return pos;
     }
 };
