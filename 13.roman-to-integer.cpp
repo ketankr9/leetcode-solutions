@@ -127,7 +127,7 @@ public:
                 count++;
                 i++;
             }
-            if(count == 1 && beforeCond(cur, s[i])){ //check I, X, C;
+            if(count == 1 && val(cur) < val(s[i])){ //check I, X, C;
                 ans += val(s[i]) - val(cur), i++;
             }else{
                 ans += count*val(cur);
