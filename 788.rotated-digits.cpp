@@ -55,10 +55,36 @@ public:
     }
     int rotatedDigits(int N) {
     int i = 1;
+    bool dp[N+1];
+    fill_n(dp, N+1, false);
     int count = 0;
     while( i <= N){
-        if(countme(i))
-            count++;
+        if(i < 10){
+            if(countme(i)){
+                count++;
+                dp[i] = true;
+                }
+        }else{
+            int last = i%10;
+            if(last == 3 || last == 4 || last == 7){
+                i++;
+                continue;
+            }
+            if((last == 1 || last == 0 || last == 8) && dp[i/10]){
+                count++;
+                dp[i] = true;
+                }
+            else if((last == 2 || last == 5 || last == 6 || last == 9) && dp[i/10]){
+                count++;
+                dp[i] = true;
+                }
+            else{
+                if(countme(i)){
+                    count++;
+                    dp[i] = true;
+                }
+            }
+            }
         i++;
         }   
     return count;
