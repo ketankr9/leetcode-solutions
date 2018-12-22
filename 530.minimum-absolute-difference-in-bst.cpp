@@ -49,32 +49,18 @@
  */
 class Solution {
 public:
-    int minn;
-    int findmin(TreeNode* root){
-
-        if(root->left == NULL)
-            return root->val;
-        return findmin(root->left);
-    }
-    int findmax(TreeNode* root){
-        if(root->right == NULL)
-            return root->val;
-        return findmax(root->right);
-    }
+    int minn = INT_MAX;
+    int prev = INT_MAX;
     void callme(TreeNode* root){
-        if(root == NULL)    return ;
-
-        if(root->left != NULL){
-        minn = min(minn, root->val - findmax(root->left));
+        if(root == NULL)
+            return;
         callme(root->left);
-        }
-        if(root->right != NULL){
-        minn = min(minn, findmin(root->right) - root->val);
+        if(prev != INT_MAX)
+            minn = min(minn, abs(prev - root->val));
+        prev = root->val;
         callme(root->right);
-        }
     }
     int getMinimumDifference(TreeNode* root) {
-        minn = INT_MAX;
         callme(root);
         return minn;
     }
