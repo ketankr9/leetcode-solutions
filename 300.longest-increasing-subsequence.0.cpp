@@ -35,27 +35,15 @@
  */
 class Solution {
 public:
-    int callme(int start, vector<int>& nums, int *memo){
-        int maxx = 1;
-        if(memo[start] != -1)
-            return memo[start];
-        for(int i=start+1; i<(int)nums.size();i++){
-            if(nums[start] < nums[i])
-                maxx = max(maxx, 1 + callme(i, nums, memo));
-        }
-        memo[start] = maxx;
-        return maxx;
-    }
-
     int lengthOfLIS(vector<int>& nums) {
-        int maxx = 0;
-        int N = (int)nums.size();
-        if (N == 0)
-            return {};
-        int memo[N];
-        fill_n(memo,N,-1);
-        for(int i=0;i<N;i++)
-            maxx = max(maxx,callme(i, nums, memo));
-        return maxx;
+        vector<int> res;
+        for(auto e: nums){
+            auto it = lower_bound(res.begin(), res.end(), e);
+            if(it == res.end())
+                res.push_back(e);
+            else
+                *it = e;
+        }
+        return res.size();
     }
 };
