@@ -44,6 +44,7 @@ public:
             else
                 *it = e;
         }
+        // for(auto e: res)    cout<<e<<" ";
         return res.size();
     }
 };
