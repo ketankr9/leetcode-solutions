@@ -44,7 +44,7 @@ class Solution {
 public:
     int ans; 
     int N;
-    void callme(int row,  bool col[], bool dia1[], bool dia2[], vector<string> bd){
+    void callme(int row,  bool col[], bool dia1[], bool dia2[]){
         if(row == 0){
             ans++;
             return;
@@ -52,9 +52,7 @@ public:
         for(int i=0;i<N;i++){
             if(col[i] || dia1[i+row-1] || dia2[N-1+row-1-i]) continue;
             col[i] = dia1[i+row-1] = dia2[N-1+row-1-i] = true;
-            bd[row-1][i] = 'Q';
-            callme(row-1, col, dia1, dia2, bd);
-            bd[row-1][i] = '.';
+            callme(row-1, col, dia1, dia2);
             col[i] = dia1[i+row-1] = dia2[N-1+row-1-i] = false;
         }
     }
@@ -64,8 +62,7 @@ public:
         bool col[n]; fill_n(col, n, false);
         bool dia1[2*n-1]; fill_n(dia1, 2*n-1, false);
         bool dia2[2*n-1]; fill_n(dia2, 2*n-1, false);
-        vector<string> bd(n, string(n , '.'));
-        callme(n, col, dia1, dia2, bd);
+        callme(n, col, dia1, dia2);
         return ans;
     }
 };
