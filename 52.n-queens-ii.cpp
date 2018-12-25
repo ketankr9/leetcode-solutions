@@ -49,7 +49,6 @@ public:
             ans++;
             return;
         }
-        // cout<<row<<" ";
         for(int i=0;i<N;i++){
             if(col[i] || dia1[i+row-1] || dia2[N-1+row-1-i]) continue;
             col[i] = dia1[i+row-1] = dia2[N-1+row-1-i] = true;
@@ -65,9 +64,7 @@ public:
         bool col[n]; fill_n(col, n, false);
         bool dia1[2*n-1]; fill_n(dia1, 2*n-1, false);
         bool dia2[2*n-1]; fill_n(dia2, 2*n-1, false);
-        string temp(n , '.');
-        vector<string> bd;
-        for(int i=0;i<n;i++) bd.push_back(temp);
+        vector<string> bd(n, string(n , '.'));
         callme(n, col, dia1, dia2, bd);
         return ans;
     }
