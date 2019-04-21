@@ -57,30 +57,41 @@
  */
 class MyCalendar {
 public:
-    vector<pair<int, int> > booking_list;
+    struct Node{
+        int start = -1;
+        int end = -1;
+        Node* next;
+        Node(int x, int y): start(x), end(y), next(NULL){};
+    };
+    Node* head;
     MyCalendar() {
-        booking_list.clear();
+        head = new Node(-1, -1);
     }
     
     bool book(int start, int end) {
-        if(booking_list.empty()){
-            booking_list.push_back(make_pair(start, end));
+        Node* cur = head;
+        Node* prev = head;
+        if(cur->next == NULL){
+            cur->next = new Node(start, end);
             return true;
         }
-        int i;
-        for(i=0;i<booking_list.size();i++){
-            if(booking_list[i].second <= start)
-                continue;
-            else if(end <= booking_list[i].first){
-                booking_list.insert(booking_list.begin()+i, make_pair(start, end));
+        cur = cur->next;
+        while(cur != NULL){
+            if(cur->end <= start){
+                if(cur->next == NULL){
+                    cur->next = new Node(start, end);
+                    return true;
+                }
+                prev = cur;
+                cur = cur->next;
+            }else if(end <= cur->start){
+                Node* temp = new Node(start, end);
+                temp->next = cur;
+                prev->next = temp;
                 return true;
             }else{
                 return false;
             }
-        }
-        if(i == booking_list.size()){
-            booking_list.push_back(make_pair(start, end));
-            return true;
         }
         return false;
     }
