@@ -61,25 +61,19 @@ public:
 
         if(arr[start] != -1)
             return arr[start];
-        
-        bool flag = false;
+        arr[start] = 0;
         for(auto st: wordDict){
             if(s.substr(start, st.size()) == st){
                 if(find(s, start+st.size(), wordDict, arr)){
-                    flag = true;
+                    arr[start] = true;
                     break;
                 }
-            }else if(st > s.substr(start, st.size()))
-                break;
+            }
         }
-        if(flag)
-            arr[start] = 1;
-        else
-            arr[start] = 0;
-        return flag;
+        
+        return arr[start];
     }
     bool wordBreak(string s, vector<string>& wordDict) {
-        sort(wordDict.begin(), wordDict.end());
         int match[s.size()+1];
         fill_n(match, s.size()+1, -1);
         return find(s, 0, wordDict, match);
