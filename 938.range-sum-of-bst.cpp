@@ -64,9 +64,10 @@ public:
             return;
         if(root->val <= R && root->val >= L)
             sum += root->val;
-        // if(root->left != NUL)
-        traverse(root->left, L, R);
-        traverse(root->right, L, R);
+        if(L < root->val)
+            traverse(root->left, L, R);
+        if(root->val < R)
+            traverse(root->right, L, R);
     }
     int rangeSumBST(TreeNode* root, int L, int R) {
         sum = 0;
