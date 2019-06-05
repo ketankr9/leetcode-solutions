@@ -53,17 +53,19 @@ using namespace std;
 class Solution {
 public:
     bool checkSubarraySum(vector<int>& nums, int k) {
-        vector<int> summ;
-        // if(k == 0)  return false;
-        int n = nums.size();
-        summ.push_back(0);
-        for(int i=0; i<(int)nums.size(); i++){
-            summ.push_back(summ[i]+nums[i]);
+        unordered_set<int> ss;
+        int summ = 0;
+        if(k == 0){
+            for(int i=0; i+1<(int)nums.size(); i++)
+                if(nums[i] == 0 && nums[i+1] == 0)  return true;
+            return false;
         }
-        for(int i=0; i<n; i++)
-            for(int j=i+1; j<n;j++)
-                if(k==0?(summ[j+1]-summ[i]==0):((summ[j+1]-summ[i])%k == 0))
-                    return true;
+        for(int i=0; i<(int)nums.size(); i++){
+            int e = nums[i];
+            if(ss.count((summ+e)%k))    return true;
+            ss.insert(summ%k);
+            summ += e;
+        }
         return false;
     }
 };
