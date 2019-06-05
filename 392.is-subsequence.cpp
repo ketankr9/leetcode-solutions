@@ -54,28 +54,20 @@ using namespace std;
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        unordered_map<char, queue<int> > q;
-        // vector<int> pos(26, 0);
+        unordered_map<char, vector<int> > q;
+        vector<int> pos(26, 0);
 
         for(int i=0; i<(int)t.size(); i++)
-            q[t[i]].push(i);
+            q[t[i]].push_back(i);
         
         int prev = -1;
-        // for(auto it: q){
-        //     cout<<it.first<<"::\n";
-        //     if(it.first == 'y') continue;
-        //     while(!it.second.empty()){
-        //         cout<<it.second.front()<<" ";
-        //         it.second.pop();
-        //         }
-        // }
         for(auto e: s){
-            while(!q[e].empty() && q[e].front() < prev)
-                q[e].pop();
-            // cout<<e<<":"<<q[e].front()<<"  ";
-            if(q[e].empty())   return false;
-            prev = q[e].front();
-            q[e].pop();
+            int k = pos[(int)((int)e-'a')];
+            while(k<(int)q[e].size() && q[e][k] < prev)
+                k++;
+            if(k == (int)q[e].size())  return false;
+            prev = q[e][k];
+            pos[(int)(e-'a')] = k+1;
         }
 
         return true;
