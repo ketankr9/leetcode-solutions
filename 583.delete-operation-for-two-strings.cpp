@@ -43,25 +43,29 @@ public:
     int minDistance(string word1, string word2) {
         int n = word1.size();
         int m = word2.size();
-        vector<vector<int> > d(n+1, vector<int>(m+1));
-        d[0][0] = 0;
+        vector<int> d(m+1);
+        d[0] = 0;
+        int prev;
         for(int i = 0; i<=n; i++){
             for(int j = 0; j<=m; j++){
                 if(j == 0){
-                    d[i][0] = i;
+                    prev = d[0];
+                    d[0] = i;
                     continue;
                 }
                 if(i == 0){
-                    d[i][j] = j;
+                    d[j] = j;
                     continue;
                 }
-                d[i][j] = 1 + min(d[i-1][j], d[i][j-1]);
+                int tmp = d[j];
+                
+                d[j] = 1 + min(d[j], d[j-1]);
                 if(word1[i-1] == word2[j-1])
-                    d[i][j] = min(d[i][j], d[i-1][j-1]);
-
+                    d[j] = min(d[j], prev);
+                prev = tmp;
             }
         }
-        return d[n][m];
+        return d[m];
     }
 };
 
