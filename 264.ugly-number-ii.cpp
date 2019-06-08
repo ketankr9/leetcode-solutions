@@ -37,22 +37,31 @@ using namespace std;
 class Solution {
 public:
     int nthUglyNumber(int n) {
-        priority_queue<long long, vector<long long>, greater<long long> > pq;
-        pq.push(1);
-        long long f;
-        unordered_set<int> ss;
-        ss.insert(1);
-        for(int i=0; i<n; i++){
-            f = pq.top(); pq.pop();
-            while(!pq.empty() && ss.count(f)){
-                f = pq.top();
-                pq.pop();
+        int i=0, j=0, k=0;
+        if(n == 1)  return 1;
+        vector<long> l2(1, 2);
+        vector<long> l3(1, 3);
+        vector<long> l5(1, 5);
+        for(int z=2; z<=n; z++){
+            if(l2[i] < l3[j] && l2[i] < l5[k]){
+                if(z == n)  return l2[i];
+                l2.push_back(l2[i]*2);
+                l3.push_back(l2[i]*3);
+                l5.push_back(l2[i]*5);
+                i++;
+            }else if(l3[j] < l2[i] && l3[j] < l5[k]){
+                if(z == n)  return l3[j];
+                l3.push_back(l3[j]*3);
+                l5.push_back(l3[j]*5);
+                j++;
+            }else if(l5[k] < l3[j] && l5[k] < l2[i]){
+                if(z == n)  return l5[k];
+                l5.push_back(l5[k]*5);
+                k++;
+            }else{
+                cout<<"erroR";
             }
-            ss.insert(f);
-            if(!ss.count(f*2)) pq.push(f*2);
-            if(!ss.count(f*3)) pq.push(f*3);
-            if(!ss.count(f*5)) pq.push(f*5);
         }
-        return f;
+        return -1;
     }
 };
