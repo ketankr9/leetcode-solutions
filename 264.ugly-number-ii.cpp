@@ -39,28 +39,15 @@ public:
     int nthUglyNumber(int n) {
         int i=0, j=0, k=0;
         if(n == 1)  return 1;
-        vector<long> l2(1, 2);
-        vector<long> l3(1, 3);
-        vector<long> l5(1, 5);
+        vector<long> vec(1, 1);
+
         for(int z=2; z<=n; z++){
-            if(l2[i] < l3[j] && l2[i] < l5[k]){
-                if(z == n)  return l2[i];
-                l2.push_back(l2[i]*2);
-                l3.push_back(l2[i]*3);
-                l5.push_back(l2[i]*5);
-                i++;
-            }else if(l3[j] < l2[i] && l3[j] < l5[k]){
-                if(z == n)  return l3[j];
-                l3.push_back(l3[j]*3);
-                l5.push_back(l3[j]*5);
-                j++;
-            }else if(l5[k] < l3[j] && l5[k] < l2[i]){
-                if(z == n)  return l5[k];
-                l5.push_back(l5[k]*5);
-                k++;
-            }else{
-                cout<<"erroR";
-            }
+            int m = min(vec[i]*2, min(vec[j]*3, vec[k]*5) );
+            if(z == n)  return m;
+            vec.push_back(m);
+            if(m == vec[i]*2)   i++;
+            if(m == vec[j]*3)   j++;
+            if(m == vec[k]*5)   k++;
         }
         return -1;
     }
