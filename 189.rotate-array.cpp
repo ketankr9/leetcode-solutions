@@ -48,26 +48,36 @@ using namespace std;
 
 class Solution {
 public:
-    int GCD(int a, int b){
-        if(a == 0 || b == 0)
-            return a+b;
-        if(a>b)
-            swap(a, b);
-        return GCD(b%a, a);
+    // int GCD(int a, int b){
+    //     if(a == 0 || b == 0)
+    //         return a+b;
+    //     if(a>b)
+    //         swap(a, b);
+    //     return GCD(b%a, a);
+    // }
+    void reverse(vector<int>& nums, int start, int end){
+        while(start<end){
+            swap(nums[start], nums[end-1]);
+            start++;
+            end--;
+        }
     }
     void rotate(vector<int>& nums, int k) {
         int n = nums.size();
         k = k%n;
-        k = n-k;
-        int gcd = GCD(n, k);
-        for(int start=0; start<gcd; start++){
-            int cur = start;
-            int tmp = nums[start];
-            while((cur+k)%n!=start){
-                nums[cur] = nums[(cur+k)%n];
-                cur = (cur+k)%n;
-            }
-            nums[cur] = tmp;
-        }
+        // k = n-k;
+        // int gcd = GCD(n, k);
+        // for(int start=0; start<gcd; start++){
+        //     int cur = start;
+        //     int tmp = nums[start];
+        //     while((cur+k)%n!=start){
+        //         nums[cur] = nums[(cur+k)%n];
+        //         cur = (cur+k)%n;
+        //     }
+        //     nums[cur] = tmp;
+        // }
+        reverse(nums, 0, n-k);
+        reverse(nums, n-k, n);
+        reverse(nums, 0, nums.size());
     }
 };
