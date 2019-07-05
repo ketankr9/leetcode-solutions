@@ -67,16 +67,13 @@ using namespace std;
 class Solution {
 public:
     unordered_map<int, int> imp;
-    unordered_set<int> visited;
+
     int callme(int id, vector<Employee*> employees){
         int ans = 0;
         for(auto e: employees){
             if(e->id == id){
-                // ans += e->importance;
                 for(auto s: e->subordinates){
-                    if(visited.count(s)!=0) continue;
                     ans += imp[s];
-                    visited.insert(s);
                     ans += callme(s, employees);
                 }
             }
@@ -87,11 +84,8 @@ public:
     int getImportance(vector<Employee*> employees, int id) {
         int ans = 0;
         imp.clear();
-        visited.clear();
         for(auto e: employees)
             imp[e->id] = e->importance;
-        visited.insert(id);
         return callme(id, employees) + imp[id];
-        // return ans;
     }
 };
