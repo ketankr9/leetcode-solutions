@@ -49,10 +49,14 @@ using namespace std;
 class Solution {
 public:
     bool repe(const string &s, int k, int n){
-        string temp = "";
-        for(int i=1; i<=n/k; i++)
-            temp += s.substr(0, k);
-        return temp == s;
+        int i = 0;
+        int p = 0;
+        while(i<n){
+            if(s[p++]!=s[i++])
+                return false;
+            p%=k;
+        }
+        return true;
     }
     bool repeatedSubstringPattern(string s) {
         int n = s.size();
