@@ -48,9 +48,9 @@ public:
     vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
         vector<int> hell(n, 0);
         for(auto e: bookings){
-            if(e[0]-1>=0)
-                hell[e[0]-1] += e[2];
-            if(e[1]<n)
+
+            hell[e[0]-1] += e[2];
+            if(e[1]!=n)
                 hell[e[1]] -= e[2];
         }
         for(int i=1; i<n; i++)
