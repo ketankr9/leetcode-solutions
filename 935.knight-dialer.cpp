@@ -76,45 +76,26 @@ using namespace std;
 
 class Solution {
 public:
-    long long M;
-    bool check(int x, int y){
-        if(x == 3 && y != 1)
-            return false;
-        if(x >=0 && x<4 && y>=0 && y<3)
-            return true;
-        return false;
-    }
-    long long addme(int x, int y, vector<vector<long long> > ans){
-        vector<int> two = {2, -2};
-        vector<int> one = {1, -1};
-        long long summ = 0;
-        for(auto t: two)
-            for(auto o: one){
-                if(check(x+t, y+o))
-                    summ = (summ + ans[x+t][y+o]%M)%M;
-                if(check(x+o, y+t))
-                    summ = (summ + ans[x+o][y+t]%M)%M;
-            }
-        return summ;
-    }
+    
     int knightDialer(int N) {
-        vector<vector<long long> > ans(4, vector<long long>(3, 1));
-        M = 1000000000+7;
+        long long M = 1000000000+7;
+        long long a,b,c,d,x; 
+        a=b=c=d=x=1;
         for(int k=1; k<N; k++){
-            vector<vector<long long> > tp(4, vector<long long>(3, 0));
-            tp[0][0] = tp[0][2] = tp[2][0] = tp[2][2] = (ans[2][1] + ans[1][2])%M;
-            tp[0][1] = tp[2][1] = (ans[2][0]*2)%M;
-            tp[1][0] = tp[1][2] = (ans[0][0]*2 + ans[3][1])%M;
-            tp[3][1] = (ans[1][0] + ans[1][2])%M;
-            tp[1][1] = 0;
-            ans = tp;
+            long long A,B,C,D,X;
+            A = (b+c)%M;
+            B = (2*a)%M;
+            C = (2*a%M+d)%M;
+            D = 2*c%M;
+            X = 0;
+            a = A, b = B, c = C, d = D, x = X;
         }
-        long long ret = 0;
-        for(int i=0; i<4; i++)
-                for(int j=0; j<3; j++){
-                    if(i == 3 && j != 1)    continue;
-                    ret = (ret + ans[i][j])%M;
-                }
+        long long ret = 4*a%M;
+        ret = (ret + 2*b%M)%M;
+        ret = (ret + 2*c%M)%M;
+        ret = (ret+d)%M;
+        ret = (ret + x)%M;
+
         return ret;
     }
 };
