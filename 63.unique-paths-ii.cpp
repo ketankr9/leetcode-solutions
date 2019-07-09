@@ -52,24 +52,24 @@ using namespace std;
 
 class Solution {
 public:
-    unordered_map<int, unordered_map<int, int>> mm;
-    int callme(int x, int y, int n, int m, const vector<vector<int>> &obs){
-        if(x==n-1 && y==m-1 && obs[x][y]==0)
-            return 1;
-        if(x==n || y==m || obs[x][y] == 1)
-            return 0;
-        
-        if(mm.count(x)!=0 && mm[x].count(y)!=0)
-            return mm[x][y];
-        int ans = callme(x+1, y, n, m, obs) + callme(x, y+1, n, m, obs);
-        mm[x][y] = ans;
-        return ans;
-    }
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int n = obstacleGrid.size();
         int m = obstacleGrid[0].size();
-        mm.clear();
-        return callme(0,0,n,m, obstacleGrid);        
+        vector<long long> dp(m+1, 0);
+        
+        for(int i=1;i<=n;i++)
+            for(int j=1;j<=m;j++){
+                if(i==1 && j==1){
+                    if(obstacleGrid[0][0]==0)
+                        dp[1] = 1;
+                    continue;
+                }
+                if(!obstacleGrid[i-1][j-1])
+                    dp[j] += dp[j-1];
+                else
+                    dp[j] = 0;
+            }
+        return dp[m];
     }
 };
 
