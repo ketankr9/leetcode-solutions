@@ -56,23 +56,11 @@ using namespace std;
 
 class Solution {
 public:
-    long long fact(long long a){
+    int fact(int a){
         if(a<=1)    return 1;
         return a*fact(a-1);
     }
-    int kth(int x, vector<bool> &used){
-        int i = 0, c=0;
-        while(c<=x && i<(int)used.size()){
-            if(!used[i]){
-                if(c == x){
-                    used[i] = true;    
-                    return i;
-                }
-                c++;
-            }
-            i++;
-        }
-    }
+
     string getPermutation(int n, int k) {
         vector<int> used;
         for(int p=1;p<=n;p++)
@@ -80,9 +68,9 @@ public:
         string ans = "";
         int i=n-1;
         while(k>0){
-            long long x = k/fact(i);
-            // cout<<k<<x<<"; ";
-            k -= x*fact(i--);
+            int ff = fact(i--);
+            int x = k/ff;
+            k -= x*ff;
             if(k == 0){
                 ans = ans + to_string(used[x-1]);
                 used.erase(used.begin()+x-1);
