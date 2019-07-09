@@ -41,11 +41,9 @@ using namespace std;
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        unordered_set<int> mm;
+        unordered_map<int, int> mm;
         for(auto e: nums)
-            if(!mm.count(e))
-                mm.insert(e);
-            else
+            if(++mm[e]>1)
                 return true;
         return false;        
     }
