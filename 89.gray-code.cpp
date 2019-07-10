@@ -54,29 +54,17 @@
  */
 class Solution {
 public:
-    vector<int> ans;
-    void callme(int p, int n, bool flip){
-        if(n == 0){
-            ans.push_back(p);
-            return;
-        }
-        if(flip){
-            callme(p*2+1, n-1, false);
-            callme(p*2, n-1, true);
-        }else{
-            callme(p*2, n-1, false);
-            callme(p*2+1, n-1, true);
-        }
-        
-    }
     vector<int> grayCode(int n) {
-        ans.clear();
-        if(n == 0){
-            ans.push_back(0);
-            return ans;
+        vector<int> ans;
+        ans.push_back(0);
+        for(int k=0; k<n; k++){
+            vector<int> tmp;
+            for(int i=0; i<(int)ans.size(); i++)
+                tmp.push_back(ans[i]*2+0);
+            for(int i=(int)ans.size()-1; i>=0; i--)
+                tmp.push_back(ans[i]*2+1);
+            ans = tmp;
         }
-        callme(0, n-1, false);
-        callme(1, n-1, true);
         return ans;
     }
 };
