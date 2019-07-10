@@ -46,31 +46,27 @@ using namespace std;
 
 class Solution {
 public:
-    bool findme(int low, int high, const vector<int>& nums, const int &target){
-        bool flag = false;
-        if(low>high)
-            return false;
-        // while(low<=high){
-            int mid = (low+high)/2;
-            if(target == nums[mid])
-                return true;
-            if(nums[low]<=nums[mid] && nums[low]<=target && target < nums[mid]) //left sorted
-                // if(nums[low]<=target && target < nums[mid])
-                    flag |= findme(low, mid-1, nums, target);//high = mid-1;
-                else if(nums[low]<=nums[mid] && !(nums[low]<=target && target < nums[mid]))
-                    flag |= findme(mid+1, high, nums, target);//low = mid+1;
-            
-            if(nums[mid]<=nums[high] && nums[mid]<target && target<=nums[high]) // right sorted
-                    flag |= findme(mid+1, high, nums, target);//low = mid+1;
-            else if(nums[mid]<=nums[high] && !(nums[mid]<target && target<=nums[high]))
-                    flag |= findme(low, mid-1, nums, target);//high = mid-1;
-            
-        // }
-        return flag;
-    }
     bool search(vector<int>& nums, int target) {
         int n = nums.size();
         int low = 0, high = n-1;
-        return findme(low, high, nums, target);
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(target == nums[mid])
+                return true;
+            if(nums[low] == nums[mid] && nums[mid] == nums[high]){
+                low++; high--;
+            }else if(nums[low]<=nums[mid]){ //left sorted
+                if(nums[low]<=target && target < nums[mid])
+                    high = mid-1;
+                else
+                    low = mid+1;
+            }else{ // right sorted
+                if(nums[mid]<target && target<=nums[high])
+                    low = mid+1;
+                else
+                    high = mid-1;
+            }
+        }
+        return false;
     }
 };
