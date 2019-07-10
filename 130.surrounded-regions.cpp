@@ -63,16 +63,28 @@ public:
         int n = board.size();
         if(n == 0)  return;
         int m = board[0].size();
-        for(int i=0; i<n; i++)
-            callme(board, i, 0, 'O', '.'), callme(board, i, m-1, 'O', '.');
-        for(int j=1; j<m-1; j++)
-            callme(board, 0, j, 'O', '.'), callme(board, n-1, j, 'O', '.');
+        
+        for(int i=0; i<n; i++){
+            if(board[i][0]=='O')
+                callme(board, i, 0, 'O', '.');
+            if(board[i][m-1]=='O')
+                callme(board, i, m-1, 'O', '.');
+        }
+        for(int j=1; j<m-1; j++){
+            if(board[0][j] == 'O')
+                callme(board, 0, j, 'O', '.');
+            if(board[n-1][j]=='O')
+                callme(board, n-1, j, 'O', '.');
+        }
         for(int i=0; i<n;i++)
             for(int j=0; j<m;j++)
-                callme(board, i, j, 'O', 'X');
+                if(board[i][j] == 'O')
+                    callme(board, i, j, 'O', 'X');
+        
         for(int i=0; i<n;i++)
             for(int j=0; j<m;j++)
-                callme(board, i, j, '.', 'O');
+                if(board[i][j] == '.')
+                    callme(board, i, j, '.', 'O');
 
     }
 };
