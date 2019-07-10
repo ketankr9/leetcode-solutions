@@ -55,15 +55,16 @@
 class Solution {
 public:
     vector<int> grayCode(int n) {
+
         vector<int> ans;
         ans.push_back(0);
         for(int k=0; k<n; k++){
-            vector<int> tmp;
-            for(int i=0; i<(int)ans.size(); i++)
-                tmp.push_back(ans[i]*2+0);
-            for(int i=(int)ans.size()-1; i>=0; i--)
-                tmp.push_back(ans[i]*2+1);
-            ans = tmp;
+            int t = ans.size();
+            ans.resize(t*2);            
+            for(int i=0; i<t; i++){
+                ans[2*t-i-1] = ans[i]*2+1;
+                ans[i] = ans[i]*2+0;
+            }
         }
         return ans;
     }
