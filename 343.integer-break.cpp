@@ -39,25 +39,18 @@
  */
 class Solution {
 public:
-    unordered_map<int, int> mm;
-    int m(int n){
-        if(n <= 4)
-            return n; 
-        if(mm.find(n)!=mm.end())
-            return mm[n];
-        
-        int maxx = n;
-        for(int i=1; i<=n/2; i++)
-            maxx = max(maxx, m(i)*m(n-i));
-        mm[n]= maxx;
-        return maxx;
-    }
     int integerBreak(int n) {
-        mm.clear();
-        int maxx = n-1;
+        vector<int> dp(n+1);
+        for(int i=0; i<n;i++)
+            dp[i]=i;
+        for(int k=2; k<n; k++){
+            for(int i=1; i<=k/2; i++)
+                dp[k] = max(dp[k], dp[i]*dp[k-i]);
+        }
+        dp[n] = n-1;
         for(int i=1; i<=n/2; i++)
-            maxx = max(maxx, m(i)*m(n-i));
-        return maxx;
+            dp[n] = max(dp[n], dp[i]*dp[n-i]);
+        return dp[n];
     }
 };
 
