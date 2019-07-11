@@ -46,9 +46,7 @@ public:
             return nums[0];
         if(nums[0]!=nums[1])
             return nums[0];
-        int n = nums.size()-1;
-        if(nums[n-1]!=nums[n])
-            return nums[n];
+        int n = nums.size();
         int k = n-1;
         while(k>=2){
             while(pos+k+1<n && nums[pos+k]==nums[pos+k+1])
