@@ -34,11 +34,21 @@ class Solution {
 public:
     vector<string> local;
     vector<vector<string>> ans;
-    bool ispali(const string &s){
+    unordered_map<int, unordered_map<int, bool>> mm;
+    
+    bool ispali(int p, int q, const string &s){
+        if(mm.find(p)!=mm.end() && mm[p].find(q)!=mm[p].end()){
+            // cout<<".";
+            return mm[p][q];
+        }
+
         int n = s.size();
         for(int i=0; i<=n/2; i++)
-            if(s[i]!=s[n-i-1])
+            if(s[i]!=s[n-i-1]){
+                mm[p][q] = false;
                 return false;
+            }
+        mm[p][q] = true;
         return true;
     }
     void callme(int i, string& s){
@@ -48,7 +58,7 @@ public:
         }
 
         for(int k=1; k<=(int)s.size()-i; k++){
-            if(ispali(s.substr(i, k))){
+            if(ispali(i, k, s.substr(i, k))){
                 local.push_back(s.substr(i, k));
                 callme(i+k, s);
                 local.pop_back();
@@ -58,6 +68,7 @@ public:
     vector<vector<string>> partition(string s) {
         ans.clear();
         local.clear();
+        mm.clear();
         callme(0, s);
         return ans;
     }
