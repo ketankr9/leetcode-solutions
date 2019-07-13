@@ -39,44 +39,36 @@
 class NumArray {
 public:
     vector<int> tree;
-    int offs;
+    int n;
     NumArray(vector<int>& nums) {
-        if((int)nums.size() == 0){
-            offs = -1;
+        n = nums.size();
+        if(n == 0)
             return;
-        }
-        int lg = ceil(log2((int)nums.size()));
-        int n = 1<<(lg+1);
-        offs = 1<<lg;
-        tree = vector<int>(n, 0);
-        for(int i=0; i<(int)nums.size(); i++)
-            tree[i+offs] = nums[i];
-        for(int l = lg; l>=1; l--){
-            for(int i=1<<(l-1); i<1<<l; i++)
-                tree[i] = tree[i*2] + tree[2*i+1];
-        }
-        // for(auto e: tree)
-        //     cout<<e<<" ";
+        
+        tree = vector<int>(2*n, 0);
+        
+        for(int i=n; i<2*n; i++)
+            tree[i] = nums[i-n];
+        
+        for(int i=n-1; i>=1; i--)
+            tree[i] = tree[i*2] + tree[2*i+1];
     }
     
     void update(int i, int val) {
-        if(offs==-1)    return;
-        int start = offs+i;
+        if(n==0)    return;
+        int start = n+i;
+        
         int diff = val-tree[start];
-        tree[start] = val;
-        start/=2;
+        
         while(start>=1){
             tree[start] += diff;
             start/=2;
         }
-        // cout<<" up ";
-        // for(auto e: tree)
-        //     cout<<e<<" ";
     }
     
     int sumRange(int i, int j) {
-        i += offs;
-        j += offs;
+        i += n;
+        j += n;
         int ans = 0;
         while(i<=j){
             if(i%2==1) ans += tree[i++];
