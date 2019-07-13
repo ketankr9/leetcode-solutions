@@ -31,7 +31,8 @@ class Codec:
         e = 7
         val = 0
         for i,c in enumerate(s):
-            val += (e**i)*ord(c)
+            val += e*ord(c)
+            e+=1
         val = val%62
         return self.alpha[val]
 
