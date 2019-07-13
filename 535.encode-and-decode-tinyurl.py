@@ -26,18 +26,15 @@
 #
 class Codec:
     dic = dict()
+    alpha = string.ascii_letters + '0123456789'
     def calc(self, s):
-        e = 3
+        e = 7
         val = 0
         for i,c in enumerate(s):
-            val += e**i*ord(c)
+            val += (e**i)*ord(c)
         val = val%62
-        if val>52:
-            return chr(ord('0')+val-52)
-        elif val >= 26:
-            return chr(ord('A') + (val-26))
-        else:
-            return chr(ord('a') + val)
+        return self.alpha[val]
+
     def encc(self, s):
         ret = ""
         for x in s.split('/'):
