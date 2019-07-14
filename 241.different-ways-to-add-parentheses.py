@@ -44,12 +44,15 @@ class Solution(object):
         :rtype: List[int]
         """
         ans = []
+        dic = dict()
         def callme(arr):
             if len(arr) == 1:
                 return [int(arr[0])]
             elif len(arr) == 0:
                 return []
-            
+            st = "".join(arr)
+            if st in dic:
+                return dic[st]
             tmp = []
             for i in range(1, len(arr), 2):
                 if arr[i] == '*':
@@ -64,6 +67,7 @@ class Solution(object):
                     for x in callme(arr[:i]):
                         for y in callme(arr[i+1:]):
                             tmp.append(x+y)
+            dic[st] = tmp
             return tmp
 
         x = " - ".join(x.split('-'))
