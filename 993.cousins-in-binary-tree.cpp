@@ -80,32 +80,37 @@
 class Solution {
 public:
 
-    int depth;
-    bool samedepth;
+    int depth1;
+    int depth2;
     bool sameparent;
     void callme(int d, TreeNode* root, int &x, int &y){
-        if(root == NULL)    return;
-        if(root->val == x || root->val == y){
-            if(depth == -1)
-                depth = d;
-            else if(depth==d)
-                samedepth = true;
+        if(root == NULL || sameparent)    return;
+
+        if(root->val == x){
+            depth1 = d;
+            return;
         }
-        if(root->left !=NULL && root->right!=NULL){
-            if(root->left->val == x && root->right->val == y)
+        else if(root->val == y){
+            depth2 = d;
+            return;
+        }
+
+        if(root->left != NULL && root->right != NULL){
+            if((root->left->val == x && root->right->val == y) 
+                || (root->left->val == y && root->right->val == x)){
                 sameparent = true;
-            else if(root->left->val == y && root->right->val == x)
-                sameparent = true;
+                return;
+            }
         }
 
         callme(d+1, root->left, x, y);
         callme(d+1, root->right, x, y);
     }
     bool isCousins(TreeNode* root, int x, int y) {
-        depth = -1;
-        samedepth = false;
+        depth1 = -1;
+        depth2 = -2;
         sameparent = false;
         callme(0, root, x, y);
-        return samedepth && !sameparent;
+        return depth1 == depth2 && !sameparent;
     }
 };
