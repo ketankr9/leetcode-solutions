@@ -38,42 +38,29 @@
 # 
 #
 class Solution(object):
-    def diffWaysToCompute(self, x):
+    dic = dict()
+    def diffWaysToCompute(self, arr):
         """
         :type input: str
         :rtype: List[int]
         """
-        ans = []
-        dic = dict()
-        def callme(arr):
-            if len(arr) == 1:
-                return [int(arr[0])]
-            elif len(arr) == 0:
-                return []
-            st = "".join(arr)
-            if st in dic:
-                return dic[st]
-            tmp = []
-            for i in range(1, len(arr), 2):
-                if arr[i] == '*':
-                    for x in callme(arr[:i]):
-                        for y in callme(arr[i+1:]):
-                            tmp.append(x*y)
-                elif arr[i] == '-':
-                    for x in callme(arr[:i]):
-                        for y in callme(arr[i+1:]):
-                            tmp.append(x-y)
-                elif arr[i] == '+':
-                    for x in callme(arr[:i]):
-                        for y in callme(arr[i+1:]):
-                            tmp.append(x+y)
-            dic[st] = tmp
-            return tmp
-
-        x = " - ".join(x.split('-'))
-        x = " * ".join(x.split('*'))
-        x = " + ".join(x.split('+'))
-        x = x.split()
+        if not ('-' in arr or '+' in arr or '*' in arr):
+            return [int(arr)]
         
-        return callme(x)
+        if arr in self.dic:
+            return self.dic[arr]
+        tmp = []
+        for i in range(len(arr)):
+            if not (arr[i] == '-' or arr[i] == '+' or arr[i] == '*'):
+                continue
+            for x in self.diffWaysToCompute(arr[:i]):
+                for y in self.diffWaysToCompute(arr[i+1:]):
+                    if arr[i] == '*':
+                        tmp.append(x*y)
+                    elif arr[i] == '-':
+                        tmp.append(x-y)
+                    elif arr[i] == '+':
+                        tmp.append(x+y)
+        self.dic[arr] = tmp
+        return tmp
         
