@@ -44,20 +44,27 @@
  */
 class Solution {
 public:
-    int countNodes(TreeNode* root) {
+    int callme(TreeNode* root, int left, int right){
         if(root == NULL)    return 0;
         
-        int left = 0, right = 0;
-        
+        // int left = 0, right = 0;
         TreeNode* tmp;
 
-        tmp = root;
-        while(tmp)  left++, tmp = tmp->left;
-        
-        tmp = root;
-        while(tmp)  right++, tmp = tmp->right;
-        
-        return left==right?(int)pow(2, left)-1:1 + countNodes(root->left) + countNodes(root->right);
-        
+        if(left == -1){
+            left = 0;
+            tmp = root;
+            while(tmp)  left++, tmp = tmp->left;
+        }
+
+        if(right == -1){
+            right = 0;
+          tmp = root;
+            while(tmp)  right++, tmp = tmp->right;
+        }
+
+        return left==right?(int)pow(2, left)-1:1 + callme(root->left, left-1, -1) + callme(root->right, -1, right-1);
+    }
+    int countNodes(TreeNode* root) {
+        return callme(root, -1, -1);
     }
 };
