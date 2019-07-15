@@ -41,13 +41,12 @@ public:
     int hIndex(vector<int>& cite) {
         sort(cite.rbegin(), cite.rend());
         
-        int ans = 0;
         int n = cite.size();
-        for(int i=0; i<n; i++){
+        for(int i=n-1; i>=0; i--){
             if(cite[i]>=i+1 && (i+1<n?cite[i+1]<=i+1:true))
-                ans = max(ans, i+1);
+                return i+1;
         }
-        return ans;
+        return 0;
     }
 };
 
