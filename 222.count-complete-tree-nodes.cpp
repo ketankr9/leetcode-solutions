@@ -44,8 +44,25 @@
  */
 class Solution {
 public:
+    int leftc(TreeNode* root){
+        if(root == NULL)    return 0;
+        return 1 + leftc(root->left);
+    }
+    int rightc(TreeNode* root){
+        if(root==NULL)  return 0;
+        return 1 + rightc(root->right);
+    }
+    // int callme(TreeNode* root){
+        
+    // }
     int countNodes(TreeNode* root) {
         if(root == NULL)    return 0;
-        return 1 + countNodes(root->right) + countNodes(root->left);
+        int left = 1+leftc(root->left);
+        int right = 1+rightc(root->right);
+        if(left == right){
+            return (int)pow(2, left)-1;
+        }else{
+            return 1 + countNodes(root->left) + countNodes(root->right);
+        }
     }
 };
