@@ -47,7 +47,6 @@ public:
     int callme(TreeNode* root, int left, int right){
         if(root == NULL)    return 0;
         
-        // int left = 0, right = 0;
         TreeNode* tmp;
 
         if(left == -1){
@@ -58,7 +57,7 @@ public:
 
         if(right == -1){
             right = 0;
-          tmp = root;
+            tmp = root;
             while(tmp)  right++, tmp = tmp->right;
         }
 
