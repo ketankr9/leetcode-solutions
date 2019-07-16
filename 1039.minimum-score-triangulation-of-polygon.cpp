@@ -74,27 +74,32 @@
 class Solution {
 public:
     int n;
-    unordered_map<int, unordered_map<int, int>> mm;
+    int dp[50][50];
     int callme(vector<int>& A, int i, int j){
-        if((j+1)%n == i)
+        if(j+1 == i)
             return 0;
-        if((j+2)%n == i){
-            return A[i]*A[j]*A[(j+1)%n];
+        if(j+2 == i){
+            return A[i]*A[j]*A[j+1];
         }
-        if(mm.find(i)!=mm.end() && mm[i].find(j)!=mm[i].end())
-            return mm[i][j];
+        // if(mm.find(i)!=mm.end() && mm[i].find(j)!=mm[i].end())
+        //     return mm[i][j];
+        if(dp[i][j]!=-1)
+            return dp[i][j];
         int res = INT_MAX;
-        for(int k = (j+1)%n; k!=i; k = (k+1)%n){
+        for(int k = j+1; k!=i; k++){
             int tmp = callme(A, k, j) + A[i]*A[k]*A[j] + callme(A, i, k);
             res = min(tmp, res);
         }
-        mm[i][j] = res;
+        dp[i][j] = res;
         return res;
     }
     int minScoreTriangulation(vector<int>& A) {
         n = A.size();
-        mm.clear();
-        return callme(A, 0, 1);
+        // mm.clear();
+        for(int i=0; i<50; i++)
+            for(int j=0; j<50; j++)
+                dp[i][j] = -1;
+        return callme(A, n-1, 0);
 
     }
 };
