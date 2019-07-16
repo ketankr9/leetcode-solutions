@@ -64,6 +64,7 @@ public:
         if(K+W-1<=N)    return (double)1;
 
         vector<double> vec(K+W, 0);
+        // ANOTHER APPROACH WHICH ISN'T WORKING
         // for(int i=0; i<K+W; i++){
         //     for(int j=1; j<=W && i>=j; j++){
         //         if(i-j<K)
@@ -81,20 +82,13 @@ public:
         //         deno += (long long)vec[i];
         // }
         // return (double)deno/(double)num;
-        double sum = NULL;
+        
         for(int i=K; i<=min(K+W-1, N); i++) vec[i] = 1;
+        double sum = min(K+W-1, N)-K+1-vec[K];
         for(int i=K-1; i>=0; i--){
-            if(sum == NULL){
-                sum = 0;
-                for(int j=i+1; j<=i+W; j++)
-                    sum += vec[j];
-                vec[i] = sum/W;
-                sum -= vec[i+W];
-            }else{
-                sum += vec[i+1];
-                vec[i] = sum/W;
-                sum -= vec[i+W];
-            }
+            sum += vec[i+1];
+            vec[i] = sum/W;
+            sum -= vec[i+W];
         }
         return vec[0];
 
