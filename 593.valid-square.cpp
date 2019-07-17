@@ -41,26 +41,36 @@
 
 class Solution {
 public:
-    bool checkSame(vector<int>& p1, vector<int>& p2, vector<int>& p3){
-        return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2) == pow((p1[0] - p3[0]),2) + pow((p1[1] - p3[1]),2);
-    }
+//     bool checkSame(vector<int>& p1, vector<int>& p2, vector<int>& p3){
+//         return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2) == pow((p1[0] - p3[0]),2) + pow((p1[1] - p3[1]),2);
+//     }
     int llen(vector<int>& p1, vector<int>& p2){
         return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2);
     }
     bool callme(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4){
         int x = llen(p1, p2);
-        if(x!=0 && x*2 == llen(p1, p4) && x == llen(p2, p4) && x == llen(p3, p4))
+        cout<<x<<":"<<llen(p2, p4)<<" "<<llen(p3, p4)<<" "<<llen(p1, p3);
+        if(x!=0 && x*2 == llen(p1, p4) && x == llen(p2, p4) && x == llen(p3, p4) && x == llen(p1, p3))
             return true;
         return false;
     }
+    static bool comp(const vector<int> &p1, const vector<int> &p2){
+        if(p1[0] == p2[0])
+            return p1[1] < p2[1];
+        return p1[0] < p2[0];
+    }
     bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
-        if(checkSame(p1, p2, p3)){
-            return callme(p1, p2, p3, p4);
-        }else if(checkSame(p1, p2, p4)){
-            return callme(p1, p2, p4, p3);
-        }else if(checkSame(p1, p3, p4)){
-            return callme(p1, p3, p4, p2);
-        }else
-            return false;
+        vector<vector<int>> mm{p1, p2, p3, p4};
+        sort(mm.begin(), mm.end(), comp); // now (p1-p4) and (p3-p2) are diag
+        for(auto e: mm)
+            cout<<e[0]<<":"<<e[1]<<"\n";
+        // if(checkSame(p1, p2, p3)){
+        return callme(mm[0], mm[1], mm[2], mm[3]);
+        // }else if(checkSame(p1, p2, p4)){
+        //     return callme(p1, p2, p4, p3);
+        // }else if(checkSame(p1, p3, p4)){
+        //     return callme(p1, p3, p4, p2);
+        // }else
+        //     return false;
     }
 };
