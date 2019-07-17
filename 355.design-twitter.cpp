@@ -64,9 +64,13 @@ public:
     unordered_map<int, unordered_set<int>> fmap;
     /** Initialize your data structure here. */
     vector<pair<int, int>> tvec;
+    unordered_map<int, queue<int>> recent;
+    unordered_map<int, int> lastidx;
     Twitter() {
         fmap.clear();
         tvec.clear();
+        lastidx.clear();
+        recent.clear();
     }
     
     /** Compose a new tweet. */
@@ -76,27 +80,42 @@ public:
     
     /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
     vector<int> getNewsFeed(int userId) {
-        vector<int> ans;
-        int i = tvec.size()-1;
-        int cnt = 0;
-        while(cnt<10 && i>=0){
+        int last = lastidx[userId]; 
+        int imax = tvec.size();
+        for(int i = last; i<imax; i++){
             if(fmap[userId].count(tvec[i].first)!=0 || tvec[i].first == userId){
-                ans.push_back(tvec[i].second);
-                cnt++;
+                recent[userId].push(tvec[i].second);
+                if((int)recent[userId].size() > 10)
+                    recent[userId].pop();
             }
-            i--;
         }
+        lastidx[userId] = imax;
+        queue<int> tmp;
+        vector<int> ans(recent[userId].size(), 0);
+        int p = recent[userId].size()-1;
+        while(!recent[userId].empty()){
+            tmp.push(recent[userId].front());
+            ans[p--] = recent[userId].front();
+            recent[userId].pop();
+        }
+        recent[userId] = tmp;
         return ans;
     }
     
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
     void follow(int followerId, int followeeId) {
         fmap[followerId].insert(followeeId);
+        lastidx[followerId] = 0;
+        queue<int> empty;
+        swap(recent[followerId], empty);
     }
     
     /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
     void unfollow(int followerId, int followeeId) {
         fmap[followerId].erase(followeeId);
+        lastidx[followerId] = 0;
+        queue<int> empty;
+        swap(recent[followerId], empty);
     }
 };
 
