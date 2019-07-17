@@ -35,7 +35,10 @@ class Solution {
 public:
     bool isPowerOfFour(int num) {
         if(num<=0)   return false;
-        long n = (long)sqrt(num);
-        return n*n == (long)num && (n&-n)==n; 
+        // num = pow(pow(2, 2), i) or pow(pow(2, i), 2)
+        // which implies that sqrt(num) is a power of two
+        // since x&-x is the greatest power of 2 dividing x -> imples here x&-x == x 
+        int n = sqrt(num);
+        return n*n == num && (n&-n)==n; 
     }
 };
