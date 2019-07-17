@@ -34,9 +34,8 @@
 class Solution {
 public:
     bool isPowerOfFour(int num) {
-        long long n = 1;
-        while(n<(long long)num)
-            n = n<<2;
-        return n == (long long)num;
+        if(num<=0)   return false;
+        long n = (long)sqrt(num);
+        return n*n == (long)num && (n&-n)==n; 
     }
 };
