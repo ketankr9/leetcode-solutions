@@ -42,13 +42,14 @@
 class Solution {
 public:
     bool checkSame(vector<int>& p1, vector<int>& p2, vector<int>& p3){
-        return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2) == pow((p1[0] - p3[0]),2) + pow((p1[1] - p3[1]),2) && (pow((p1[0] - p3[0]),2) + pow((p1[1] - p3[1]),2))!=0;
+        return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2) == pow((p1[0] - p3[0]),2) + pow((p1[1] - p3[1]),2);
     }
     int llen(vector<int>& p1, vector<int>& p2){
         return pow((p1[0] - p2[0]),2)+ pow((p1[1] - p2[1]),2);
     }
     bool callme(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4){
-        if(llen(p1, p2)*2 == llen(p1, p4) && checkSame(p4, p2, p3) && checkSame(p2, p1, p4))
+        int x = llen(p1, p2);
+        if(x!=0 && x*2 == llen(p1, p4) && x == llen(p2, p4) && x == llen(p3, p4))
             return true;
         return false;
     }
