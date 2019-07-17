@@ -70,10 +70,10 @@ public:
             summ += A[i];
             if(summ == target)
                 cnt++, summ = 0;
-            if(cnt>3)
+            if(cnt>3 && target!=0)
                 return false;
         }
-        if(cnt == 3)    return true;
+        if(cnt == 3 || (cnt>3 && target == 0))    return true;
         return false;
     }
 };
