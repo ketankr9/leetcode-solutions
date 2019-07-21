@@ -57,10 +57,15 @@
  */
 class Solution {
 public:
+    int mm[40][40];
     int maxme(vector<int>& arr, int start, int end){
+        if(mm[start][end] != -1)
+            return mm[start][end];
+        
         int ret = INT_MIN;
         for(int i=start; i<=end; i++)
             ret = max(ret, arr[i]);
+        mm[start][end] = ret;
         return ret;
     }
     int dp[40][40];
@@ -79,7 +84,7 @@ public:
         
         for(int i=0; i<40; i++)
             for(int j=0; j<40; j++)
-                dp[i][j] = -1;
+                dp[i][j] = -1, mm[i][j] = -1;
         
         return callme(0, arr.size()-1, arr);
     }
