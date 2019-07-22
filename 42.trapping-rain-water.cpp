@@ -38,7 +38,7 @@ public:
         int right = n-1;
         int lmax = 0, rmax = 0;
         int ans = 0;
-        while(left<right){
+        while(left<=right){
             if(height[left] < height[right]){
                 if(height[left] > lmax)
                     lmax = height[left];
