@@ -33,25 +33,26 @@ public:
     int trap(vector<int>& height) {
         int n = height.size();
         if(n == 0)  return 0;
-        
-        stack<int> st;
 
-        vector<int> nm(n, -1);
-        for(int i=n-1; i>=0; i--){
-            int last = -1;
-            while(!st.empty() && height[i] > height[st.top()])
-                last = st.top(), st.pop();
-            nm[i] = (st.empty() ? last : st.top());
-            st.push(i);
-        }
-        int start = 0;
+        int left = 0;
+        int right = n-1;
+        int lmax = 0, rmax = 0;
         int ans = 0;
-        while(nm[start]!=-1){
-            int end = nm[start];
-            ans += (end - start -1)*min(height[start], height[end]);
-            for(int i=start+1; i<end; i++)
-                ans -= height[i];
-            start = end;
+        while(left<right){
+            if(height[left] < height[right]){
+                if(height[left] > lmax)
+                    lmax = height[left];
+                else
+                    ans += lmax - height[left];
+                left++;
+            }
+            else{
+                if(height[right] > rmax)
+                    rmax = height[right];
+                else
+                    ans += rmax - height[right];
+                right--;
+            }
         }
         return ans;
 
