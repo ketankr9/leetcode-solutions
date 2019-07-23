@@ -48,7 +48,11 @@ public:
 
         int cnt = 0;
         int i = 0;
-        
+        if(n > 31){
+            int x = (n - 31)*pow(32,2);
+            if(N>x)
+                return false;
+        }
         vector<bool> ans(N+1, false);
 
         while(i<n){
