@@ -45,14 +45,14 @@ class Solution {
 public:
     bool queryString(string S, int N) {
         int n = S.size();
-
-        int cnt = 0;
-        int i = 0;
-        if(n > 31){
-            int x = (n - 31)*pow(32,2);
-            if(N>x)
+        if(n >= 32){
+            if(N>32*n)
                 return false;
         }
+        
+        int cnt = 0;
+        int i = 0;
+        
         vector<bool> ans(N+1, false);
 
         while(i<n){
