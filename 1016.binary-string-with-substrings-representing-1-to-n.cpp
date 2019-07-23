@@ -45,40 +45,26 @@ class Solution {
 public:
     bool queryString(string S, int N) {
         int n = S.size();
-        int arr[n][n];
-        
+
         int cnt = 0;
-        vector<bool> comp(N+1, false);
+        int i = 0;
+        
+        vector<bool> ans(N+1, false);
 
-        for(int i = 0; i < n; i++){
-            arr[i][i] = (S[i] == '1');
-            // cout<<i<<":"<<i<<" "<<arr[i][i]<<endl;
-            if(arr[i][i] <= N && !comp[arr[i][i]])
-                    cnt++, comp[arr[i][i]] = true;
-        }
-        
-        for(int i = 0; i+1 < n; i++){
-            arr[i][i+1] = ((S[i] == '1')<<1) + (S[i+1] == '1');
-            // cout<<i<<":"<<i+1<<" "<<arr[i][i+1]<<endl;
-            if(arr[i][i+1] <= N && !comp[arr[i][i+1]])
-                    cnt++, comp[arr[i][i+1]] = true;
-        }
-        
-        for(int k=2; k<n; k++)
-            for(int i=0; i+k<n; i++){
-                if(S[i] == '1' && k >= 10)
-                    arr[i][i+k] = INT_MAX;
-                if( arr[i+1][i+k-1] == INT_MAX || (((long long)arr[i+1][i+k-1])<<1) >= INT_MAX )
-                    arr[i][i+k] = INT_MAX;
-                else if( (((long long)((long long)(S[i] == '1'))<<k) + (((long long)arr[i+1][i+k-1])<<1) + (long long)(S[i+k] == '1')) >= INT_MAX)
-                    arr[i][i+k] = INT_MAX;
-                else
-                    arr[i][i+k] = ((long long)(S[i] == '1')<<k) + ((long long)arr[i+1][i+k-1]<<1) + (long long)(S[i+k] == '1');
-                // cout<<i<<":"<<i+k<<" "<<arr[i][i+k]<<endl;
-                if(arr[i][i+k] <= N && !comp[arr[i][i+k]])
-                    cnt++, comp[arr[i][i+k]] = true;
+        while(i<n){
+            if(S[i] == '0'){ i++; continue; }
+
+            int tmp = 0;
+            for(int k=i; k<min(i+31, n); k++){
+                tmp = (tmp<<1) + (S[k] == '1');
+                if(tmp<=N && !ans[tmp])
+                    ans[tmp] = true, cnt++;
+                if(tmp > N)
+                    break;
             }
+            i++;
+        }
 
-        return (cnt-(int)comp[0]) == N;
+        return (cnt - (ans[0] == true)) == N;
     }
 };
