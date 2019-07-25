@@ -43,18 +43,17 @@ public:
     int subarraysDivByK(vector<int>& A, int K) {
         int n = A.size();
 
-        int pprix[n+1]; fill_n(pprix, n+1, 0);
-        for(int i=0; i<n; i++)
-            pprix[i+1] = pprix[i] + A[i];
-        
+        int sum = 0;
         int cnt[K]; fill_n(cnt, K, 0);
-        for(int i=0; i<n+1; i++)
-            cnt[(pprix[i]%K+K)%K]++;
+        
+        cnt[0] = 1;
+        for(int i=0; i<n; i++)
+            cnt[((sum+= A[i])%K+K)%K]++;
         
         int ans = 0;
         for(int i=0; i<K; i++)
             ans += cnt[i]*(cnt[i]-1)/2;
-        // ans += (cnt[0]-1)*(cnt[0]-2)/2;
+        
         return ans;
     }
 };
