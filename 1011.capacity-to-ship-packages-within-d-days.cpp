@@ -93,15 +93,15 @@ public:
     }
     int shipWithinDays(vector<int>& wt, int d) {
         int maxi = wt[0];
-        int sum = 0;
+        int sum = 2500000;
 
-        for(int i=0; i<(int)wt.size(); i++)
-            sum += wt[i], maxi = max(maxi, wt[i]);
+        // for(int i=0; i<(int)wt.size(); i++)
+        //     sum += wt[i], maxi = max(maxi, wt[i]);
         
-        int avg = ceil((float)sum/d);
+        // int avg = ceil((float)sum/d);
 
-        int ans = max(avg, maxi)-1;
-        for(int k = (ans+sum)/2; k>=1; k/=2){
+        int ans = 1; //max(avg, maxi)-1;
+        for(int k = sum; k>=1; k/=2){
             // cout<<k<<" ";
             while(ans+k < sum && !callme(ans+k, wt, d))
                 ans+=k;
