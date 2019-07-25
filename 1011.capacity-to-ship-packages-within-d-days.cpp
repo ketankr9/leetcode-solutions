@@ -87,6 +87,7 @@ public:
             while(i < (int)wt.size() && sum + wt[i] <= ans){
                 sum += wt[i++];
             }
+            if(i == (int)wt.size()) return true;
         }
         return i == (int)wt.size();
     }
@@ -100,7 +101,7 @@ public:
         int avg = ceil((float)sum/d);
 
         int ans = max(avg, maxi)-1;
-        for(int k = sum; k>=1; k/=2){
+        for(int k = (ans+sum)/2; k>=1; k/=2){
             // cout<<k<<" ";
             while(ans+k < sum && !callme(ans+k, wt, d))
                 ans+=k;
