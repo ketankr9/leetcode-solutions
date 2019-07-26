@@ -34,29 +34,39 @@ public:
         int n = mat.size();
         if(n == 0)  return 0;
         int m = mat[0].size();
-        int matrix[n][m];
+        int matrix[n][m+1];
         
         for(int i=0; i<n; i++)
-            matrix[i][0] = (mat[i][0]=='1');
+            for(int j=0; j<m; j++){
+                if(mat[i][j] == '0')
+                    matrix[i][j] = 0;
+                else
+                    matrix[i][j] = (i!=0?matrix[i-1][j]:0) + 1;
+            }
         
-        for(int i=0; i<n; i++)
-            for(int j=1; j<m; j++)
-                matrix[i][j] = matrix[i][j-1]+(mat[i][j] == '1');
-        
-        int maxa = 0;
-        for(int r = 0; r < n; r++){
-            for(int i=0; i<m; i++)
-                for(int j=i; j<m; j++){
-                    int tr = r;
-                    while(i!=0 && tr>=0 && matrix[tr][j] - matrix[tr][i-1] == j-i+1)
-                        tr--;
-                    maxa = max(maxa, (j-i+1)*(r-tr));   
-                    tr = r;
-                    while(i==0 && tr>=0 && matrix[tr][j] == j+1)
-                        tr--;
-                    maxa = max(maxa, (j+1)*(r-tr));
+        for(int j=0; j<n; j++)
+            matrix[j][m] = 0;
+        // for(int i=0; i<n; i++){
+        //     for(int j=0; j<m+1; j++)
+        //         cout<<matrix[i][j]<<" ";
+        //     cout<<"\n";
+        //     }
+        int gmax = 0;
+        for(int r = 0; r<n; r++){
+            stack<int> st;
+
+            int ans = 0;
+            for(int i=0; i<m+1; i++){
+                while(!st.empty() && matrix[r][st.top()] >= matrix[r][i]){
+                    int h = matrix[r][st.top()];
+                    st.pop();
+                    ans = max(ans, (i-1 - (st.empty()?-1:st.top()))*h);
                 }
+                ans = max(ans, (i - (st.empty()?-1:st.top()))*matrix[r][i]);
+                st.push(i);
+            }
+            gmax = max(gmax, ans);
         }
-        return maxa;
+        return gmax;
     }
 };
