@@ -50,11 +50,12 @@ public:
         int pos = -1;
         int n = nums.size();
         if(n == 0)  return -1;
+
         for(int k = n; k>=1; k/=2){
             while(pos+k<n && nums[pos+k]<=target)
                 pos += k;
         }
-        if(pos>=0 && pos<n && nums[pos] == target)
+        if(pos>=0 && nums[pos] == target)
             return pos;
         return -1;
     }
