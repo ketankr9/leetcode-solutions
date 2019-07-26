@@ -47,18 +47,14 @@ public:
         for(int r = 0; r < n; r++){
             for(int i=0; i<m; i++)
                 for(int j=i; j<m; j++){
-                    if(i!=0 && matrix[r][j] - matrix[r][i-1] == j-i+1) // [i, j] both inclusive
-                    {   
-                        int tr = r, cnt = 0;
-                        while(tr>=0 && matrix[tr][j] - matrix[tr][i-1] == j-i+1)
-                            tr--, cnt++;
-                        maxa = max(maxa, (j-i+1)*cnt);   
-                    }else if(i==0 && matrix[r][j] == j+1){
-                        int tr = r, cnt = 0;
-                        while(tr>=0 && matrix[tr][j] == j+1)
-                            tr--, cnt++;
-                        maxa = max(maxa, (j+1)*cnt);
-                    }
+                    int tr = r;
+                    while(i!=0 && tr>=0 && matrix[tr][j] - matrix[tr][i-1] == j-i+1)
+                        tr--;
+                    maxa = max(maxa, (j-i+1)*(r-tr));   
+                    tr = r;
+                    while(i==0 && tr>=0 && matrix[tr][j] == j+1)
+                        tr--;
+                    maxa = max(maxa, (j+1)*(r-tr));
                 }
         }
         return maxa;
