@@ -41,33 +41,6 @@
  */
 class Solution {
 public:
-    // ListNode* callme(ListNode* l1, ListNode* l2){
-    //     if(l1 == NULL && l2 == NULL)
-    //         return NULL;
-
-    //     ListNode* root = new ListNode(l1->val + l2->val);
-    //     ListNode* next = callme(l1->next, l2->next);
-    //     if(next!=NULL && next->val >= 10)
-    //         root->val += 1, next->val -= 10;
-    //     root->next = next;
-    //     return root;
-    // }
-
-    // void callme2(ListNode* root, ListNode* next){
-    //     if(root->next == NULL){
-    //         root->next = next;
-    //         if(next->val > 9){
-    //             next->val -= 10;
-    //             root->val += 1;
-    //         }
-    //         return ;
-    //     }
-    //     callme(root->next, next);
-    //     if(root->next->val > 9)
-    //         root->next->val -= 10;
-    //     root->val+=1;
-    // }
-
     void callme(ListNode* l1, ListNode* l2){
         if(l1 == NULL && l2 == NULL)
             return;
@@ -97,62 +70,21 @@ public:
         while(node!=NULL)
             n2++, node = node->next;
         
-        // if(n1 == n2){
-        //     ListNode* next = callme(l1, l2);
-        //     if(next != NULL && next->val >= 10){
-        //         ListNode* root = new ListNode(1);
-        //         next->val -= 10;
-        //         root->next = next;
-        //         return root;
-        //     }else
-        //         return next;
-        // }else if(n1 > n2+1){
-        //     Node* prev = l1;
-        //     while(n1 > n2)
-        //         prev = prev->next, n1--;
-        //     ListNode* next = callme(prev->next, l2);
-        //     prev->next = NULL;
-        //     ListNode* next2 = callme2(l1, next);
-        // }else{ // n1 < n2
-
-        // }
-        if(n1 > n2){
-            ListNode* node = l1;
-            while(n1 > n2)
-                node = node->next, n1--;
-            callme(node, l2);
-            normalizer(l1);
-            if(l1->val > 9){
-                ListNode* root = new ListNode(1);
-                root->next = l1;
-                l1->val -= 10;
-                return root;
-            }else
-                return l1;
-        }else if(n2 > n1){
-            ListNode* node = l2;
-            while(n2 > n1)
-                node = node->next, n2--;
-            callme(node, l1);
-            normalizer(l2);
-            if(l2->val > 9){
-                ListNode* root = new ListNode(1);
-                root->next = l2;
-                l2->val -= 10;
-                return root;
-            }else
-                return l2;
-        }else{
-            callme(l1, l2);
-            normalizer(l1);
-            if(l1 != NULL && l1->val > 9){
-                ListNode* root = new ListNode(1);
-                root->next = l1;
-                l1->val -= 10;
-                return root;
-            }else
-                return l1;
+        if(n2 > n1){ swap(n1, n2); swap(l1, l2); }
+        
+        node = l1;
+        while(n1 > n2)
+            node = node->next, n1--;
+        callme(node, l2);
+        normalizer(l1);
+        if(l1->val > 9){
+            ListNode* root = new ListNode(1);
+            root->next = l1;
+            l1->val -= 10;
+            l1 = root;
         }
+        
+        return l1;
 
     }
 };
