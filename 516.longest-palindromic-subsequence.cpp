@@ -42,25 +42,35 @@
  */
 class Solution {
 public:
-    unordered_map<int, unordered_map<int, int>> mm;
-    int callme(int x, int y, string& s){
-        if(x>y)
-            return 0;
+    // unordered_map<int, unordered_map<int, int>> mm;
+    // int callme(int x, int y, string& s){
+    //     if(x>y)
+    //         return 0;
 
-        if(mm.find(x)!=mm.end() && mm[x].find(y)!=mm[x].end())
-            return mm[x][y];
+    //     if(mm.find(x)!=mm.end() && mm[x].find(y)!=mm[x].end())
+    //         return mm[x][y];
 
-        int ans = 0;
-        if(s[x] == s[y])
-            ans = (x==y?1:2) + callme(x+1, y-1, s);
-        else
-            ans = max(callme(x+1, y, s), callme(x, y-1, s));
-        mm[x][y] = ans;
+    //     int ans = 0;
+    //     if(s[x] == s[y])
+    //         ans = (x==y?1:2) + callme(x+1, y-1, s);
+    //     else
+    //         ans = max(callme(x+1, y, s), callme(x, y-1, s));
+    //     mm[x][y] = ans;
 
-        return ans;
-    }
+    //     return ans;
+    // }
     int longestPalindromeSubseq(string s) {
-        mm.clear();
-        return callme(0, (int)s.size()-1, s);
+        int n = s.size();
+
+        vector<int> arr(n+1, 0);
+        for(int r=0; r<n; r++){
+            int prev = 0;
+            for(int j=1; j<n+1; j++){
+                int tmp = arr[j];
+                arr[j] = (s[n-r-1] == s[j-1]?prev+1:max(arr[j], max(arr[j-1], prev)));
+                prev = tmp;
+            }
+        }
+        return arr[n];
     }
 };
