@@ -63,12 +63,12 @@ public:
         int n = s.size();
 
         vector<int> arr(n+1, 0);
+        
         for(int r=0; r<n; r++){
             int prev = 0;
             for(int j=1; j<n+1; j++){
-                int tmp = arr[j];
-                arr[j] = (s[n-r-1] == s[j-1]?prev+1:max(arr[j], max(arr[j-1], prev)));
-                prev = tmp;
+                prev = (s[n-r-1] == s[j-1]?prev+1:max(arr[j], max(arr[j-1], prev)));
+                swap(prev, arr[j]);
             }
         }
         return arr[n];
