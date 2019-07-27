@@ -46,14 +46,18 @@ public:
         int ans = INT_MAX;
         int pos = -1;
         for(int i=0; i<ns; i++){
-            if(mm.find(s[i])!=mm.end())
-                if(mm[s[i]]-- > 0)
-                    cnt++;
-            while(prev<i && ( mm.find(s[prev]) == mm.end() || mm[s[prev]]<0)){
-                if(mm.find(s[prev]) != mm.end())
-                    mm[s[prev]]++;
-                prev++;
+            if(mm.find(s[i])!=mm.end() && mm[s[i]]-- > 0)
+                cnt++;
+            
+            while(prev<i){
+                if(mm.find(s[prev]) == mm.end())
+                    prev++;
+                else if(mm[s[prev]]<0)
+                    mm[s[prev++]]++;
+                else
+                    break;
             }
+            
             if(cnt == (int)t.size() && ans > (i-prev + 1))
                 pos = prev, ans = i-prev + 1;
 
