@@ -54,23 +54,17 @@ class Solution {
 public:
     int findSubstringInWraproundString(string p) {
         vector<int> mm(26, 0);
-
-        // int i = 0;
-        int pos = 0;
-        int n = p.size();
+        int pos = 0, n = p.size(), ans = 0;
         while(pos < n){
             int i = pos;
             while(i+1<n && ((int)p[i+1]-'a') == ((int)p[i]-'a' + 1)%26)
                 i++;
             while(pos<=i){
-                mm[p[pos]-'a'] = max(mm[p[pos]-'a'], i-pos+1);
+                if(mm[p[pos]-'a'] < i-pos+1)
+                    ans += (i-pos+1)-mm[p[pos]-'a'], mm[p[pos]-'a'] = (i-pos+1);
                 pos++;
             }
-            pos = i+1;
         }
-        int ans = 0;
-        for(int i=0; i<26; i++)
-         ans += mm[i];
         return ans;
     }
 };
