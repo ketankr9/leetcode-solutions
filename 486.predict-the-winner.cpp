@@ -56,8 +56,8 @@ class Solution {
 public:
     int total;
     bool callme(int score, int start, int end, vector<int>& nums, bool ismax){
-        if(start == end){
-            return (score+nums[start])*2 >= total;
+        if(start > end){
+            return score*2 >= total;
         }
         
         bool ans;
