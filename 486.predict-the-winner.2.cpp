@@ -59,25 +59,16 @@ public:
         int dp[n][2];
         int total = 0;
         
-        // for(int i=0; i<n; i++)
-        //     dp[i][0] = dp[i][1] = nums[i], total += nums[i];
-        
-        for(int k=0; k<n; k++){
+        for(int k=0; k<n; k++)
             for(int i=0; i+k<n; i++){
-                // cout<<i<<":"<<i+k<<" ";
                 if(i == i+k){
-                    dp[i][0] = nums[i];
-                    dp[i][1] = nums[i];
-                    total += nums[i];
-                    continue;
+                    total += dp[i][0] = dp[i][1] = nums[i];
+                    continue;    
                 }
                 int tmp = max(nums[i+k]+dp[i][0], nums[i]+dp[i+1][0]);
                 dp[i][0] = min(dp[i][1], dp[i+1][1]);
                 dp[i][1] = tmp;
             }
-            // cout<<"\n";
-        }
-        cout<<dp[0][1]<<" ";
         return dp[0][1]*2 >= total;
     }
 };
