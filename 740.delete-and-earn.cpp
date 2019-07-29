@@ -57,60 +57,33 @@
  */
 class Solution {
 public:
-    // unordered_map<unordered_map<int, int>, int> dp;
-    // unordered_map<int, int> mm;
-    // int callme(){
-    //     int ans = 0;
-    //     for(auto e: mm){
-    //         if(e.second == 0)   continue;
-    //         mm[e.first]--;
-    //         bool isx = false, isy = false;
-    //         int x, y;
-    //         if(mm.find(e.first-1) != mm.end()){
-    //             isx = true;
-    //             x = mm[e.first-1]; mm[e.first-1] = 0;
-    //         }
-    //         if(mm.find(e.first+1) != mm.end()){
-    //             isy = true;
-    //             y = mm[e.first+1]; mm[e.first+1] = 0;
-    //         }
-    //         ans = max(ans, e.first + callme());
-    //         mm[e.first]++;
-    //         if(isx) mm[e.first-1] = x;
-    //         if(isy) mm[e.first+1] = y;
-    //     }
-    //     return ans;
-    // }
-    unordered_map<int, int> dp;
-    int callme(int start, int end, vector<int>& mm){
-        if(start >= end)    return 0;
-        if(dp.find(start)!=dp.end())
-            return dp[start];
-
-        dp[start] = max(mm[start] + callme(start+2, end, mm), callme(start+1, end, mm));
-        return dp[start];
-    } 
     int deleteAndEarn(vector<int>& nums) {
-        // // dp.clear();
-        // mm.clear();
-        // // unordered_map<int, int> mm;
-        // for(auto e: nums)
-        //     mm[e]++;
-        // return callme();
-
-        // unordered_map<int, int> mm;
         vector<int> mm(10001, 0);
-        dp.clear();
+        
         for(auto e: nums)
             mm[e]+=e;
-        int start = 1;
-        int ans = 0;
+        
+        int start = 1, ans = 0;
+        
         while(start <= 10000){
+            
             int i = start;
+            
             while(mm[i])
                 i++;
-            if(i!=start) // at least one present
-                ans += callme(start, i, mm);
+            
+            if(i!=start){
+                int rest = 0, add = mm[start];
+                
+                for(int j=start+1; j<i; j++){
+                    
+                    int r = max(rest, add);
+                    int a = mm[j] + rest;
+                    rest = r, add = a;
+                }
+                ans += max(rest, add);
+            }
+
             start = i+1;
         }
         return ans;
