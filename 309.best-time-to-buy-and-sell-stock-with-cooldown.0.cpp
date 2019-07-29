@@ -38,16 +38,13 @@ public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
         if(n == 0)  return 0;
-        int s1,s2,s0;
-        s0 = 0;
-        s1 = -prices[0];
-        s2 = INT_MIN;
+        int s0 = 0, s1 = -prices[0], s2 = INT_MIN;
+
         for(int i=1; i<n; i++){
-          int x, y, z;
-          x = max(s0, s2);
-          y = max(s1, - prices[i]+s0);
-          z = prices[i] + s1;
-          s0 = x, s1 = y, s2 = z;
+          int tmp = max(s0, s2);
+          s2 = prices[i] + s1;
+          s1 = max(s1, - prices[i]+s0);
+          s0 = tmp;
         }
         return max(s2, s0);
     }
