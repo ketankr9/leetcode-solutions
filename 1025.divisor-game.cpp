@@ -64,7 +64,7 @@ class Solution {
 public:
     unordered_map<int, unordered_map<bool, bool>> dp;
     bool callme(int n, bool isx){
-        if(n == 0)
+        if(n == 1)
             return !isx;
         
         if(dp.find(n)!=dp.end() && dp[n].find(isx)!=dp[n].end())
