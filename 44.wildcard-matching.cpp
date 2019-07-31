@@ -87,22 +87,21 @@ public:
         s = '#' + s;
         p = '#' + p;
         int ns = s.size(), np = p.size();
-        bool arr[ns][np];
+        bool arr[np];
 
-        for(int i=1; i<ns; i++)
-            arr[i][0] = false;
-        // for(int i=1; i<np; i++)
-        //     arr[0][i] = false;
-        arr[0][0] = true;
+        bool prev;
         for(int i=0; i<ns; i++){
+            arr[0] = (i==0?true:false);
+            prev = (i==1?true:false);
             for(int j=1; j<np; j++){
-                if(p[j] == '*'){
-                    arr[i][j] = (!i?false:arr[i-1][j]) || arr[i][j-1];
-                }else{
-                    arr[i][j] = (!i?false:arr[i-1][j-1]) && (p[j] == '?' || p[j] == s[i]);
-                }
+                bool tmp = (i==0?false:arr[j]);
+                if(p[j] == '*')
+                    arr[j] = (!i?false:arr[j]) || arr[j-1];
+                else
+                    arr[j] = (!i?false:prev) && (p[j] == '?' || p[j] == s[i]);
+                prev = tmp;
             }
         }
-        return arr[ns-1][np-1];
+        return arr[np-1];
     }
 };
