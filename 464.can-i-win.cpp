@@ -57,17 +57,20 @@ public:
 
       if(dp[k] != -1)
         return dp[k];
-      
-      bool ans = isx?false:true;
 
       for(int i=0; i<n; i++){
         if(k & (1<<i))  continue;
         bool tmp = callme(x+i+1, k | (1<<i), n, target, isx^true);
-        ans = isx?ans|=tmp:ans&=tmp;
+        if(isx && tmp){
+          dp[k] = 1;
+          return true;
+        }else if(!isx && !tmp){
+          dp[k] = 0;
+          return false;
+        }
       }
-      
-      dp[k] = ans;
-      return ans;
+      dp[k] = isx?false:true;
+      return dp[k];
     }
 
     vector<int> dp;
