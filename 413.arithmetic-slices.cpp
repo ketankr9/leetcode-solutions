@@ -46,19 +46,22 @@ class Solution {
 public:
     int numberOfArithmeticSlices(vector<int>& A) {
         int n = A.size();
-        if(n == 0)  return 0;
-        bool dp[n][n];
-        int cnt = 0;
-        for(int k=2; k<n; k++){
-            for(int i=0; i+k<n; i++){
-                if(k == 2){
-                    dp[i][i+k] = ((long)A[i] + A[i+2]) == (long)A[i+1]*2;
-                    cnt += dp[i][i+k];
-                    continue;
-                }
-                dp[i][i+k] = dp[i+1][i+k] && dp[i][i+k-1] && ((long)A[i] + A[i+2]) == (long)A[i+1]*2 && ((long)A[i+k-2] + A[i+k]) == (long)A[i+k-1]*2;                cnt += dp[i][i+k];
-            }
+        if(n < 3)  return 0;
+        
+        int ans = 0;
+        int cnt;
+        long prev;
+        int i = 0;
+        while(i+1<n){
+           prev = (long)A[i+1]-A[i];
+           cnt = 1;
+           while(i+1<n && (long)A[i+1]-A[i] == prev){
+               cnt++;
+               i++;
+           }
+           if(cnt >= 3)
+            ans += cnt*(cnt-3)/2 + 1;
         }
-        return cnt;
+        return ans;
     }
 };
