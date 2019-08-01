@@ -83,12 +83,14 @@ public:
             if(e!=0)    return false;
         return true;
     }
+    unordered_map<string, unordered_map<string, bool>> mm;
     bool isScramble(string s1, string s2) {
        if(s1.size() != s2.size())   return false;
        if(s1 == s2) return true;
        int n = s1.size();
        if(n == 1)   return false;
        if(n == 2)   return (s1[0] == s2[1] && s1[1]==s2[0]);
+       if(mm.find(s1)!=mm.end() && mm[s1].find(s2)!=mm[s1].end())   return mm[s1][s2];
 
        vector<int> cnt(26, 0);
 
@@ -97,7 +99,7 @@ public:
            cnt[s2[i]-'a']--;
            if(iszero(cnt) && i+1 != n)
                 if(isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1)))
-                    return true;
+                    {mm[s1][s2] = true; return true;}
        }
        fill(cnt.begin(), cnt.end(), 0);
        reverse(s2.begin(), s2.end());
@@ -106,9 +108,10 @@ public:
            cnt[s1[i]-'a']++;
            cnt[s2[i]-'a']--;
            if(iszero(cnt) && i+1 != n)
-            if(isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1)))
-                return true;
+                if(isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1)))
+                    {mm[s1][s2] = true; return true;}
        }
+       mm[s1][s2] = false;
        return false;
     }
 };
