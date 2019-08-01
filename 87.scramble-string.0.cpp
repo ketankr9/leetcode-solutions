@@ -84,20 +84,20 @@ public:
         return true;
     }
     bool isScramble(string s1, string s2) {
-        // cout<<s1<<"."<<s2<<"\n";
        if(s1.size() != s2.size())   return false;
        if(s1 == s2) return true;
        int n = s1.size();
-       if(n == 1)   return s1 == s2;
+       if(n == 1)   return false;
        if(n == 2)   return (s1[0] == s2[1] && s1[1]==s2[0]);
+
        vector<int> cnt(26, 0);
-       bool ans = false;
+
        for(int i=0; i<n; i++){
            cnt[s1[i]-'a']++;
            cnt[s2[i]-'a']--;
            if(iszero(cnt) && i+1 != n)
-            ans |= isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1));
-           if(ans)  return true;
+                if(isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1)))
+                    return true;
        }
        fill(cnt.begin(), cnt.end(), 0);
        reverse(s2.begin(), s2.end());
@@ -106,9 +106,9 @@ public:
            cnt[s1[i]-'a']++;
            cnt[s2[i]-'a']--;
            if(iszero(cnt) && i+1 != n)
-            ans |= isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1));
-           if(ans)  return true;
+            if(isScramble(s1.substr(0, i+1), s2.substr(0, i+1)) && isScramble(s1.substr(i+1), s2.substr(i+1)))
+                return true;
        }
-       return ans;
+       return false;
     }
 };
