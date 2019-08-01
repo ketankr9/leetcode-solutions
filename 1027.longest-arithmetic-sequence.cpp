@@ -63,29 +63,30 @@
  */
 class Solution {
 public:
-    unordered_map<int, unordered_map<int, int>> mm;
-    int callme(int start, int diff, vector<int>& A){
-        int i = start;
-        int cnt = 0;
-        int d = 0;
-        if(mm.find(start)!=mm.end() && mm[start].find(diff)!=mm[start].end())
-            return mm[start][diff];
+    // int callme(int start, int diff, vector<int>& A){
+    //     int i = start;
+    //     int cnt = 0;
+    //     int d = 0;
+    //     if(mm.find(start)!=mm.end() && mm[start].find(diff)!=mm[start].end())
+    //         return mm[start][diff];
 
-        while(i<(int)A.size()){
-            if(A[start]+d == A[i])
-                cnt++, d += diff;
-            i++;
-        }
-        mm[start][diff] = cnt;
-        return cnt;
-    }
+    //     while(i<(int)A.size()){
+    //         if(A[start]+d == A[i])
+    //             cnt++, d += diff;
+    //         i++;
+    //     }
+    //     mm[start][diff] = cnt;
+    //     return cnt;
+    // }
     int longestArithSeqLength(vector<int>& A) {
         int n = A.size();
         int ans = 0;
-        mm.clear();
+        unordered_map<int, unordered_map<int, int>> mm;
         for(int i=0; i<n; i++){
             for(int j=i+1; j<n; j++){
-                ans = max(ans, 1+callme(j, A[j]-A[i], A));
+                int d = A[j]-A[i];
+                mm[d][j] = mm[d][i] + (mm[d][i]==0?2:1);
+                ans = max(ans, mm[d][j]);
             }
         }
         return ans<2?0:ans;
