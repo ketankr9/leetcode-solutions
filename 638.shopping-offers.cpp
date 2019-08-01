@@ -72,27 +72,35 @@
  * 
  * 
  */
+void operator-=(vector<int> &a, const vector<int> &b) {
+    for (int i = 0; i < a.size(); i++)
+        a[i] -= b[i];
+}
+int operator*(const vector<int>& price, const vector<int>& needs){
+    int cost = 0;
+    for(int i=0; i<(int)needs.size(); i++)
+        cost += needs[i]*price[i];
+    return cost;
+}
+bool operator>(const vector<int>& lneeds, const vector<int>& needs){
+    for(int j=0; j<(int)lneeds.size(); j++){
+        if(lneeds[j] < needs[j]){
+            return false;
+        }
+    }
+    return true;
+}
 class Solution {
 public:
     int mincost(vector<int>& price, vector<vector<int>>& special, vector<int> needs){
-        int cost = 0;
-        for(int i = 0; i<(int)needs.size(); i++)
-            cost += needs[i]*price[i];
-        
+        int cost = price*needs;
         for(int i=0; i<special.size(); i++){
-
+            if(special[i].back() > cost)   continue;
             vector<int> lneeds = needs;
-            bool flag = true;
-            int j;
-            for(j=0; j<(int)needs.size(); j++){
-                if(lneeds[j] < special[i][j]){
-                    flag = false;
-                    break;
-                }
-                lneeds[j] -= special[i][j];
+            if(lneeds>special[i]){
+                lneeds -= special[i];
+                cost = min(cost, special[i].back()+mincost(price, special, lneeds));
             }
-            if(flag)    cost = min(cost, special[i][j]+mincost(price, special, lneeds));
-
         }
         return cost;
     }
