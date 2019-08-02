@@ -54,49 +54,15 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        // int max1, max2, lmax;
-        // max1 = max2 = lmax = INT_MIN;
-        // int n = prices.size();
-        // if(n == 0)  return 0;
-        // for(int i=n-1; i-1>=0; i--)
-        //     prices[i] = prices[i]-prices[i-1];
-        // prices[0] = 0;
-        // int sum = 0;
-        // for(int i=0; i<n; i++){
-        //     if(sum+prices[i] > prices[i]){
-        //         sum+=prices[i];
-        //         lmax = max(lmax, sum);
-        //     }else{
-        //         sum = prices[i];
-        //         cout<<" break "<<lmax<<" ";
-        //         if(lmax > max1){
-        //             max2 = max1;
-        //             max1 = lmax;
-        //         }else if(lmax > max2)
-        //             max2 = lmax;
-        //         lmax = sum;
-        //     }
-        // }
-        // cout<<lmax<<" ";
-        // if(lmax > max1){
-        //     max2 = max1;
-        //     max1 = lmax;
-        // }else if(lmax > max2)
-        //     max2 = lmax;
 
-        // return max(0, max1) + max(0, max2);
         int n = prices.size();
         if(n == 0)  return 0;
-        int diff[n];
-        for(int i=n-1; i-1>=0; i--)
-            diff[i] = prices[i]-prices[i-1];
-        diff[0] = 0;
-        int sum = 0;
+
         int buy1 = INT_MAX, sell1 = 0, buy2 = INT_MIN, sell2 = 0;
         for(int i=0; i<n; i++){
             buy2 = max(buy2, sell1-prices[i]);
             sell2 = max(sell2, buy2+prices[i]);
-            
+
             buy1 = min(buy1, prices[i]);
             sell1 = max(sell1, prices[i]-buy1);
         }
