@@ -48,15 +48,17 @@ public:
     int findLength(vector<int>& A, vector<int>& B) {
         int na = A.size(), nb = B.size();
         int ans = 0;
-        int dp[na][nb];
-        for(int i=0; i<na; i++)
+        int dp[nb];
+        int prev;
+        for(int i=0; i<na; i++){
+            prev = 0;
             for(int j=0; j<nb; j++){
-                if(i ==0 || j == 0)
-                    dp[i][j] = (A[i] == B[j]);
-                else
-                    dp[i][j] = A[i]==B[j]?dp[i-1][j-1]+1:0;
-                ans = max(ans, dp[i][j]);
+                int tmp = i==0?0:dp[j];
+                dp[j] = (A[i]==B[j])?prev+1:0;
+                ans = max(ans, dp[j]);
+                prev = tmp;
             }
+        }
         return ans;
     }
 };
