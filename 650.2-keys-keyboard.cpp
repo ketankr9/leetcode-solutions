@@ -51,26 +51,26 @@
  */
 class Solution {
 public:
-    unordered_map<string, unordered_map<string, int>> mm;
-    int callme(string cur, string cop, int n){
-        if((int)cur.size() == n)    return 0;
-        if((int)cur.size() > n) return INT_MAX;
+    unordered_map<int, unordered_map<int, int>> mm;
+    int callme(int cur, int cop, int n){
+        if(cur == n)    return 0;
+        if(cur > n) return INT_MAX;
 
         if(mm.find(cur)!=mm.end() && mm[cur].find(cop)!=mm[cur].end())
             return mm[cur][cop];
 
         int tmp;
-
         if(cur!=cop)
             tmp = min(callme(cur+cop, cop, n), callme(cur, cur, n));
         else
             tmp = callme(cur+cop, cop, n);
+        
         mm[cur][cop] = (tmp==INT_MAX?INT_MAX:tmp+1); 
         return mm[cur][cop];
     }
     int minSteps(int n) {
         if(n <= 1)  return 0;
         mm.clear();
-        return 1 + callme("A", "A", n);
+        return 1 + callme(1, 1, n);
     }
 };
