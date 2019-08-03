@@ -59,27 +59,23 @@
  */
 class Solution {
 public:
-    void checkme(vector<bool>& v){
-        int n = v.size();
-        while(n>=3 && !v[n-1] && !v[n-2] && v[n-3]){
-            v.pop_back();v.pop_back();v.pop_back();
-            v.push_back(false);
-            n -= 2;
-        }
-    } 
     bool isValidSerialization(string p) {
-        vector<bool> st; // true - number and false - #
         int i = 0;
+        int diff = 1;
         while(i<(int)p.size()){
             if(p[i] == ','){
                 i++; continue;
             }
-            st.push_back(p[i]=='#'?false:true);
-            checkme(st);
+            // st.push_back(p[i]=='#'?false:true);
+            // checkme(st);
+            if(diff <= 0)    return false;
+            if(p[i] == '#')
+                diff--;
+            else
+                diff+=1;
             while(i<(int)p.size() && p[i]!=',')
                 i++;
         }
-        // checkme(st);
-        return (int)st.size()==1 && st[0] == false;
+        return !diff;
     }
 };
