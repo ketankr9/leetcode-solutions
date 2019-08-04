@@ -47,8 +47,8 @@ public:
         
         int n = prices.size();
         if(n == 0 || k == 0)  return 0;
-        
-        k = min(n, k);
+
+        k = min(n/2, k);
         vector<int> b(k, INT_MIN);
         vector<int> s(k, 0);
         
