@@ -46,12 +46,7 @@ public:
         int val;
         bool last;
         unordered_map<char, Node*> child;
-        Node(char c){
-            ch = c;
-            child.clear();
-            last = false;
-            val = 0;
-        }
+        Node(char c){ ch = c; child.clear(); last = false; val = 0;}
     };
     Node* head; 
     MapSum() {
@@ -60,29 +55,31 @@ public:
     
     void insert(string key, int val) {
         Node* root = head;
-        for(int i=0; i<(int)key.size(); i++){
-            if(root->child.find(key[i])==root->child.end())
-                root->child[key[i]] = new Node(key[i]);
-            root = root->child[key[i]];
-        }
+
+        for(int i=0; i<(int)key.size(); i++)
+            root = root->child.find(key[i])==root->child.end()?root->child[key[i]] = new Node(key[i]):root->child[key[i]];
+
         root->val = val;
         root->last = true;
     }
     
     int dfs(Node* root){
         int sum = 0;
-        for(auto node: root->child){
+        
+        for(auto node: root->child)
             sum += dfs(node.second);
-        }
+    
         return sum + root->val;
     }
     int sum(string pre) {
         int ans = 0;
         Node* root = head;
+        
         for(int i=0; i<(int)pre.size(); i++){
             if(root->child.find(pre[i])==root->child.end()) return 0;
             root = root->child[pre[i]];
         }
+        
         return ans + dfs(root);
     }
 };
