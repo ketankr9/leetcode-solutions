@@ -83,11 +83,11 @@ public:
         for(auto e: days)   ss.insert(e);
         int dp[367];
         dp[0] = 0;
-        for(int i=1; i<=days.back(); i++){
+        for(int i=days.front(); i<=days.back(); i++){
             if(ss.find(i)==ss.end())
-                dp[i] = (i<1?0:dp[i-1]);
+                dp[i] = (i-1<days.front()?0:dp[i-1]);
             else
-                dp[i] = min( (i<1?0:dp[i-1])+costs[0] , min( (i<7?0:dp[i-7])+costs[1], (i<30?0:dp[i-30])+costs[2]));
+                dp[i] = min( (i-1<days.front()?0:dp[i-1])+costs[0] , min( (i-7<days.front()?0:dp[i-7])+costs[1], (i-30<days.front()?0:dp[i-30])+costs[2]));
         }
         return dp[days.back()];
     }
