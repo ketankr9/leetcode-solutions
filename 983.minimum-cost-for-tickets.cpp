@@ -76,53 +76,19 @@
  * 
  * 
  */
-// class Solution {
-// public:
-//     int callme(int i, vector<int>& days, vector<int>& costs){
-//         int n = days.size();
-
-//         int ans = INT_MAX;
-//         // 2 days
-//             int pos = i + (i+1<n && days[i+1]==days[i]+1?2:1);
-//             ans = min(ans, costs[0] + callme(pos, days, costs));
-//         // 7 days
-//             pos = i;
-//             for(int k=6; k>=1; k/=2){
-//                 while(pos+k<i+8 && days[pos+k] <= days[i]+7)
-//                     pos += k;
-//             }
-//         // 30 days
-//             pos = i;
-//             for(int k=30; k>=1; k/=2){
-//                 while(pos+k<30; && days[pos+k] <= days[i]+30)
-//             }
-//     }
-//     int mincostTickets(vector<int>& days, vector<int>& costs) {
-//         return callme(0, days, costs);
-//     }
-// };
 class Solution {
 public:
-    unordered_set<int> ss;
-    unordered_map<int, int> dp;
-    int callme(int d, vector<int>& costs){
-        if(d <= 0)  return 0;
-        if(dp.find(d)!=dp.end())
-            return dp[d];
-        if(ss.count(d) == 0)
-            return dp[d] = callme(d-1, costs);
-
-        return dp[d] = min(callme(d-1, costs)+costs[0], min(callme(d-7, costs)+costs[1], callme(d-30, costs)+costs[2]));
-    }
-
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        ss.clear();
-        dp.clear();
-        int maxx = INT_MIN;
-        
-        for(auto e: days)
-            ss.insert(e), maxx = max(maxx, e);
-        
-        return callme(maxx, costs);
+        unordered_set<int> ss;
+        for(auto e: days)   ss.insert(e);
+        int dp[367];
+        dp[0] = 0;
+        for(int i=1; i<=days.back(); i++){
+            if(ss.find(i)==ss.end())
+                dp[i] = (i<1?0:dp[i-1]);
+            else
+                dp[i] = min( (i<1?0:dp[i-1])+costs[0] , min( (i<7?0:dp[i-7])+costs[1], (i<30?0:dp[i-30])+costs[2]));
+        }
+        return dp[days.back()];
     }
 };
