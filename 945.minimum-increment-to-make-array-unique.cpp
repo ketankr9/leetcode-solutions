@@ -58,7 +58,6 @@ public:
             mm[x] = find(mm, mm[x]);
             return mm[x];
         }
-        // mm[x] = x+1;
         return x;
     }
     int minIncrementForUnique(vector<int>& A) {
@@ -71,7 +70,7 @@ public:
                 int x = e;
                 int y = find(next, x);
                 // cout<<x<<">"<<y<<" ";
-                next[y] = y+1;
+                next[y] = find(next, y+1);
                 ans += y - x;
             }
         }
