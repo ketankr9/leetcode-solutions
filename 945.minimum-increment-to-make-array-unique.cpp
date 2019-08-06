@@ -54,11 +54,11 @@
 class Solution {
 public:
     int find(unordered_map<int, int>& mm, int x){
-        // cout<<x<<" ";
         if(mm.find(x)!=mm.end()){
             mm[x] = find(mm, mm[x]);
             return mm[x];
         }
+        mm[x] = x+1;
         return x;
     }
     int minIncrementForUnique(vector<int>& A) {
@@ -71,8 +71,6 @@ public:
                 int x = e;
                 next[x] = find(next, x);
                 // cout<<x<<">"<<next[x]<<" ";
-                next[next[x]] = next[x]+1;
-                
                 ans += next[x] - x;
             }
         }
