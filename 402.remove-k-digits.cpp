@@ -57,11 +57,12 @@ public:
         int i = 0;
         if(k >= (int)num.size())    return "0";
         while(k--){
+            int start = i;
             int n = num.size();
-            i = 0;
             while(i+1<n && num[i] <= num[i+1])
                 i++;
-            num = num.substr(0, i)+num.substr(i+1);            
+            num = num.substr(0, i)+num.substr(i+1);
+            i = max(start-1, 0);            
         }
         i = 0;
         while(i<(int)num.size() && num[i]=='0')
