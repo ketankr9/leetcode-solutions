@@ -52,15 +52,12 @@ public:
         vector<int> vec(n, 1);
         for(int i=0; i+1<n; i++){
             if(rat[i+1] > rat[i])
-                vec[i+1] = vec[i]+1;
-        }
-        for(int i=n-1; i-1>=0; i--){
-            if(rat[i-1] > rat[i])
-                vec[i-1] = max(vec[i]+1, vec[i-1]);
+                vec[i+1] = max(vec[i]+1, vec[i+1]);
+            if(rat[n-i-2] > rat[n-i-1])
+                vec[n-i-2] = max(vec[n-i-2], 1+vec[n-i-1]);
         }
         int ans = 0;
-        for(auto e: vec)
-            ans += e;
+        for(auto e: vec)    ans += e;
         return ans;
     }
 };
