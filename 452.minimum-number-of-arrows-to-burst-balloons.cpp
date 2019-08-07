@@ -48,7 +48,7 @@ public:
     // }
     int findMinArrowShots(vector<vector<int>>& points) {
         if(points.empty())  return 0;
-        auto comp = [](const vector<int>& a, const vector<int>& b){ return a[0] == b[0]?a[1]<b[1]:a[0]<b[0]; };
+        auto comp = [](const vector<int>& a, const vector<int>& b){ return a[0] < b[0] || (a[0]==b[0]&&a[1]<b[1]); };
         sort(points.begin(), points.end(), comp);
         int cnt = 1;
         vector<int> prev = {INT_MIN, INT_MAX};
