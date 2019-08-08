@@ -71,13 +71,13 @@ public:
         int pb = find_(b, parent);
         if(pa == pb)
             return false;
+        
         if(rank[pa] == rank[pb])
             rank[pb]++;
-        
         if(rank[pa] > rank[pb])
-            parent[pb] = pa, rank[pa] += rank[pb];
+            parent[pb] = pa;
         else if(rank[pa] < rank[pb])
-            parent[pa] = pb, rank[pb] += rank[pa];
+            parent[pa] = pb;
         
         return true;
     }
@@ -91,7 +91,7 @@ public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int N = edges.size();
         vector<int> parent(N+1, -1);
-        vector<int> rank(N+1, 1);
+        vector<int> rank(N+1, 0);
         
         for(auto e: edges){
             if(!union_(e[0], e[1], parent, rank))
