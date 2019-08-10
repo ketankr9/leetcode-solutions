@@ -80,28 +80,23 @@
  */
 class Solution {
 public:
-    vector<int> mm;
-    int callme(int start, int pos, vector<vector<int>>& clips, int end, int n){
-        if(start>=end)  return 0;
-        if(mm[start]!=-2)
-            return mm[start];
-        int ans = INT_MAX;
-        while(pos<n && clips[pos][0]<=start){
-            if(clips[pos][1]>start)
-                ans = min(ans, callme(clips[pos][1], pos, clips, end, n));
-            pos++;
-        }
-        return mm[start] = (ans==INT_MAX?INT_MAX:ans+1);
-    }
     int videoStitching(vector<vector<int>>& clips, int T) {
-        auto comp = [](const vector<int>& a, const vector<int>& b){ return a[0]==b[0]?a[1]<b[1]:a[0]<b[0]; };
+        auto comp = [](const vector<int>& a, const vector<int>& b){ return a[0]<b[0]; };
         sort(clips.begin(), clips.end(), comp);
-        int n = clips.size();
-        mm.resize(101, -2);
-        // for(int i=0; i+1<clips.size(); i++){
-        //     if(clips[i])
-        // }
-        int ret = callme(0, 0, clips, T, n);
-        return ret==INT_MAX?-1:ret;
+
+        int end = 0;
+        int i = 0;
+        int cnt = 0;
+        while(i<(int)clips.size() && end < T){
+            int newend = end;
+            while(i<(int)clips.size() && clips[i][0] <= end)
+                newend = max(clips[i][1], newend), i++;
+            
+            if(newend == end && end<T) return -1;
+            end = newend;
+            cnt++;
+        }
+        // cout<<end<<" ";
+        return end<T?-1:cnt;
     }
 };
