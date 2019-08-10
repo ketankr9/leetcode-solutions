@@ -65,17 +65,23 @@ public:
             return parent[x] = find_(parent[x], parent);
         return parent[x]=x;
     }
-    void union_(int x, int y, vector<int>& parent){
+    void union_(int x, int y, vector<int>& parent, vector<int>& rank){
         int px = find_(x, parent);
         int py = find_(y, parent);
         if(px == py)    return;
-        parent[px] = py;
+        if(rank[px] == rank[py])
+            rank[px]++;
+        if(rank[px] > rank[py])
+            parent[py] = px;
+        else
+            parent[px] = py;
     }
     int removeStones(vector<vector<int>>& stones) {
          
         vector<int> parent(10000+10000+2, -1);
+        vector<int> rank(10000+10000+2, 0);
         for(auto e: stones)
-            union_(e[0], 10001+e[1], parent);
+            union_(e[0], 10001+e[1], parent, rank);
         unordered_set<int> mm;
         for(auto e: stones){
             mm.insert(find_(e[0], parent));
