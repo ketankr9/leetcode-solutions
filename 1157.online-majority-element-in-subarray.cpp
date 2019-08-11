@@ -76,7 +76,7 @@ public:
         //     for(int i=left; i<=right; i++) count += (vec[i]==prev);
         //     return count>=t?prev:-1;
         // }
-        for(int o=0; o<20; o++){
+        for(int o=0; o<10; o++){
             int num = vec[left + rand()%(right-left+1)];
             if(upper_bound(pos[num].begin(), pos[num].end(), right)-lower_bound(pos[num].begin(), pos[num].end(), left)>= t)
                 return num;
