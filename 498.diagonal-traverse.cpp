@@ -48,26 +48,37 @@ public:
         int m = matrix[0].size();
         bool ulta = false;
         bool left = true;
+        bool up = true;
         int x = 0, y = 0;
-        int a, b;
+        int a = 0, b = 1;//(m >= 2?1:);
         while((int)ans.size() < n*m){
-            a = x, b = y;
             if(!ulta){
-                while(a>=0 && b<m)
-                    ans.push_back(matrix[a--][b++]);
+                // cout<<"L"<<x<<y<<"\n";
+                if(x>=n){
+                    left = false;
+                    y = x-(n-1);
+                    x = n-1;
+                }
+                int p = x, q = y;
+                while(p>=0 && q<m)
+                    ans.push_back(matrix[p--][q++]);
+                if(left) x+=2;
+                else   y+=2;
+                
             }else{
-                vector<int> rev;
-                while(a>=0 && b<m)
-                    rev.push_back(matrix[a--][b++]);
-                for(int i=rev.size()-1; i>=0; i--)
-                    ans.push_back(rev[i]);
+                // cout<<"U"<<a<<b<<"\n";
+                if(b>=m){
+                    up = false;
+                    a = b-(m-1);
+                    b = m-1;
+                }
+                int p = a, q = b;
+                while(p<n && q>=0)
+                    ans.push_back(matrix[p++][q--]);
+                if(up) b+=2;
+                else   a+=2;
+                
             }
-            if(left) x++;
-            if(x==n){
-                x--;
-                left = false;
-            }
-            if(!left)   y++;
             ulta^=true;
         }
         return ans;
