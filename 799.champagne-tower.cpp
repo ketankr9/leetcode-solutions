@@ -70,18 +70,9 @@ public:
     double champagneTower(int poured, int query_row, int query_glass) {
         vector<double> glass(100, 0);
         glass[0] = poured;
-        for(int row = 0; row<100; row++){
-            if(query_row == row)
-                return min(glass[query_glass], 1.0);
-            vector<double> next(100, 0);
-            for(int i=0; i<=row; i++){
-                if(glass[i]-1 > 0){
-                    next[i]   += (glass[i]-1)/2;
-                    next[i+1] += (glass[i]-1)/2;
-                }
-            }
-            glass = next;
-        }
-        return -1;
+        for(int row = 1; row<=query_row; row++)
+            for(int i=row-1; i>=0; i--)
+                glass[i+1] += glass[i] = max((glass[i]-1)/2, 0.0);
+        return min(1.0, glass[query_glass]);
     }
 };
