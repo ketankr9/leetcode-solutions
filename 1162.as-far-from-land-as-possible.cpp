@@ -65,19 +65,21 @@ public:
             for(int j=0; j<m; j++)
                 if(grid[i][j] == 1)
                     q.push(make_pair(i, j));
+
+        if((int)q.size() == 0)  return -1;
+        
         int dist = 0;
         while(!q.empty()){
             queue<pair<int, int>> l;
             while(!q.empty()){
                 pair<int, int> p = q.front(); q.pop();
-                // cout<<p.first<<":"<<p.second<<" ";
-                if(p.first == -1 || p.first == n || p.second == -1 || p.second == m)    continue;
                 if(dp[p.first][p.second] != INT_MAX)    continue;
-                if(dist != 0 && grid[p.first][p.second] == 1)    continue;
-                l.push(make_pair(p.first+1, p.second));
-                l.push(make_pair(p.first, p.second+1));
-                l.push(make_pair(p.first, p.second-1));
-                l.push(make_pair(p.first-1, p.second));
+                
+                if(p.first+1 != n && dp[p.first+1][p.second] == INT_MAX && grid[p.first+1][p.second] != 1)  l.push(make_pair(p.first+1, p.second));
+                if(p.second+1 != m && dp[p.first][p.second+1] == INT_MAX && grid[p.first][p.second+1] != 1) l.push(make_pair(p.first, p.second+1));
+                if(p.second-1 != -1 && dp[p.first][p.second-1] == INT_MAX && grid[p.first][p.second-1] != 1) l.push(make_pair(p.first, p.second-1));
+                if(p.first-1 != -1 && dp[p.first-1][p.second] == INT_MAX && grid[p.first-1][p.second] != 1)  l.push(make_pair(p.first-1, p.second));
+                
                 dp[p.first][p.second] = dist;
             }
             dist++;
