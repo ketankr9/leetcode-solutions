@@ -60,6 +60,10 @@ public:
             int tmp = j, tmp2 = i;
             while(j<n && s[i] == s[j])
                 i++, j++;
+            if(i>=j){
+                i = start;
+                continue;
+            }
 
             if(j<n && s[j] > s[i])
                 start = tmp, i = tmp, j = tmp+1;
