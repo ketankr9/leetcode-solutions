@@ -56,10 +56,9 @@ public:
         for(int i=1; i<=9; i++)
             if((K*i)%10 == 1)   flag = true;
         if(!flag)   return -1;
-        
-        int n = 100000000;
+
         int prev = 0;
-        for(int i=0; i<n; i++){
+        for(int i=0; i<=INT_MAX; i++){
             prev = (prev*10+1)%K;
             if(prev == 0) return i+1;
         }
