@@ -58,7 +58,7 @@ public:
         if(!flag)   return -1;
 
         int prev = 0;
-        for(int i=0; i<=INT_MAX; i++){
+        for(int i=0; i<INT_MAX; i++){
             prev = (prev*10+1)%K;
             if(prev == 0) return i+1;
         }
