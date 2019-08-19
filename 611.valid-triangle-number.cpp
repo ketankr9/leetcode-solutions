@@ -46,11 +46,8 @@ public:
         for(int c = 2; c<n; c++){
             int a = 0, b = c-1;
             while(a<b){
-                while( a<b && (nums[a]+nums[b])<=nums[c] ){
-                    a++;
-                }
-                cnt += b-a;
-                b--;
+                for( ;a<b && (nums[a]+nums[b])<=nums[c]; a++ );
+                cnt += (b--)-a;
             }
         }
         return cnt;
