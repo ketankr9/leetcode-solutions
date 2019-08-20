@@ -54,13 +54,14 @@
 class Solution {
 public:
 	int ans;
-	void callme(TreeNode* root, int cur, int& sum, unordered_map<int, int> mm){
+	void callme(TreeNode* root, int cur, int& sum, unordered_map<int, int>& mm){
 		if(root == NULL)	return;
 		cur += root->val;
 		ans += mm[cur-sum];
 		mm[cur]++;
 		callme(root->left,  cur, sum, mm);
 		callme(root->right, cur, sum, mm);
+		mm[cur]--;
 	}
     int pathSum(TreeNode* root, int sum) {
         ans = 0;
