@@ -33,24 +33,27 @@ class Solution {
 public:
 	// #define for(i, n) for(int i=0; i<n; i++)
     int threeSumClosest(vector<int>& nums, int target) {
-    	sort(nums.begin(), nums.end());
     	int n = nums.size();
+    	sort(nums.begin(), nums.end());
+    	
     	int diff = INT_MAX;
     	int ans;
 
-    	for(int i=0; i<n; i++)
-    		for(int j=i+1; j<n; j++){
-    			auto it = upper_bound(nums.begin()+j+1, nums.end(), target-nums[i]-nums[j]);
-    			if(it != nums.end() && diff > abs(target-nums[i]-nums[j]-*it)){
-    				diff = abs(target-nums[i]-nums[j]-*it);
-    				ans = nums[i]+nums[j]+*it;
+    	for(int k=0; k+2<n; k++){
+    		int i = k+1, j = n-1;
+    		while(i<j){
+    			if(diff > abs(target-nums[i]-nums[j]-nums[k])){
+    				diff = abs(target-nums[i]-nums[j]-nums[k]);
+    				ans = nums[i]+nums[j]+nums[k];
     			}
-    			if(it-nums.begin()-1!=j && diff > abs(target-nums[i]-nums[j]-*(it-1))){
-    				diff = abs(target-nums[i]-nums[j]-*(it-1));
-    				ans = nums[i]+nums[j]+*(it-1);
-    			}
+    			if(nums[k] + nums[i] + nums[j] > target)
+    				j--;
+    			else if(nums[k] + nums[i] + nums[j] < target)// sum < target
+    				i++;
+    			else
+    				i++, j--;
     		}
-
+    	}
     	return ans;
     }
 };
