@@ -81,34 +81,32 @@
  */
 class Solution {
 public:
+    void step(vector<int>& x){
+        vector<int> next(8, 0);
+        for(int j=1; j<7; j++)
+            next[j] = !(x[j-1]^x[j+1]);
+        x = next;
+    }
     vector<int> prisonAfterNDays(vector<int>& x, int N) {
         
         // convert 1st state as it is different from other states 
         // by ability to have 1 at first and last position
-        vector<int> nextt(8, 0);
-        for(int j=1; j<7; j++)
-            nextt[j] = !(x[j-1]^x[j+1]);
-        x = nextt;
+        step(x);
         N--;
+
+        vector<int> nextt = x;
 
         // find after how many days the states repeat
         int i;
         for(i=1; i<=(1<<8); i++){
-            vector<int> next(8, 0);
-            for(int j=1; j<7; j++)
-                next[j] = !(x[j-1]^x[j+1]);
-            x = next;
-            if(next == nextt)
+            step(x);
+            if(x == nextt)
                 break;
         }
 
         N %= i; // after %, N <= 256
-        for(i=0; i<N; i++){
-            vector<int> next(8, 0);
-            for(int j=1; j<7; j++)
-                next[j] = !(x[j-1]^x[j+1]);
-            x = next;
-        }
+        for(i=0; i<N; i++)
+            step(x);
         return x;
 
     }
