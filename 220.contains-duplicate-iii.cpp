@@ -44,12 +44,13 @@ public:
     	mm[nums[0]]++;
     	
     	for(int i = 1; i<nums.size(); i++){
-			if(i>k){
-				if(--mm[nums[i-k-1]]==0)
+			
+			if(i>k && --mm[nums[i-k-1]]==0)
 					ss.erase(nums[i-k-1]);
-			}
+			
 			auto it = ss.upper_bound(nums[i]);
-			if(it!=ss.end() && abs((long long)(*it)-nums[i]) <= (long long)t)	return true;
+
+			if(it!=ss.end()   && abs((long long)(*it)      -nums[i]) <= (long long)t)	return true;
 			if(it!=ss.begin() && abs((long long)(*prev(it))-nums[i]) <= (long long)t)	return true;
 
 			ss.insert(nums[i]);
