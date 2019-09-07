@@ -79,19 +79,20 @@ class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         int n = cost.size();
-        vector<int> diff;
-        int tsum = 0;
-        for(int i=0; i<n; i++)
-            diff.push_back(gas[i]-cost[i]), tsum += gas[i]-cost[i];
-        int sum = 0, pos = 0;
+        
+        int sum = 0, position = 0, tsum = 0;
+
         for(int i=0; i<2*n; i++){
-            if(diff[i%n] > sum + diff[i%n])
-                sum = 0, pos = i;
-            sum += diff[i%n];
+            int diff = gas[i%n]-cost[i%n];
+            tsum += diff;
+            
+            if(diff > sum + diff)
+                sum = 0, position = i;
+            sum += diff;
         }
+
         if(tsum>=0)
-            return pos;
+            return position;
         return -1;
     }
 };
-
