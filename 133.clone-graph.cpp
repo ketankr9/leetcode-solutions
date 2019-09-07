@@ -66,37 +66,30 @@ public:
 class Solution {
 public:
 	unordered_map<Node*, Node*> mm;
-	
+
     void dfs(Node* node, unordered_set<Node*>& visited){
+
     	visited.insert(node);
 
-    	mm[node] = new Node(node->val, vector<Node*>());
+    	if(mm.find(node)==mm.end())
+    		mm[node] = new Node(node->val, vector<Node*>());
+
     	for(auto n: node->neighbors){
-    		if(visited.count(n)!=0){
-    			continue;
-    		}
-    		visited.insert(n);
+    		
+    		if(mm.find(n)==mm.end())
+    			mm[n] = new Node(n->val, vector<Node*>());
+    		mm[node]->neighbors.push_back(mm[n]);
+
+    		if(visited.count(n)!=0)	continue;
+
     		dfs(n, visited);
     	}
     }
-    void fillme(Node* node,	unordered_set<Node*>& visited){
-    	visited.insert(node);
 
-    	vector<Node*> nigga;
-    	for(auto n: node->neighbors){
-    		nigga.push_back(mm[n]);
-    		if(visited.count(n)!=0)	continue;
-    		fillme(n, visited);
-    	}
-    	mm[node]->neighbors = nigga;
-    }
     Node* cloneGraph(Node* node) {
     	mm.clear();
     	unordered_set<Node*> visited;
-
     	dfs(node, visited);
-		unordered_set<Node*> visited2;
-		fillme(node, visited2);   	
     	return mm[node];
     }
 };
