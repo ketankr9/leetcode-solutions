@@ -63,19 +63,20 @@ public:
         int max1 = arr[0]; // max elemment in the array
 
         int ignored = 0, notignored = 0;
+        
         for(int i=0; i<arr.size(); i++){
-        	max1 = max(max1, arr[i]);
-        	
-        	// ignored
-        	//		- current element ignored  -> max(notignored)
-        	//		- some previous element was ignored -> ignored+arr[i]
-        	ignored = max({notignored, ignored+arr[i], arr[i]});
+        	// ignored -> two possibility explained below
+        	//		- current element ignored  -> look for `notignored`
+        	//		- some previous element was ignored -> look for `ignored+arr[i]`
+        	ignored = max(notignored, ignored+arr[i]);
 
-        	// none element ignored till now
+        	// none element ignored till now - typical kadane's
         	notignored = max(arr[i], arr[i]+notignored);
         	
         	gmax = max({gmax, ignored, notignored});
+        	max1 = max(max1, arr[i]);
         }
+
         return max1<0?max1:gmax;
     }
 };
