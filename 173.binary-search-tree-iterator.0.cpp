@@ -67,7 +67,7 @@ public:
 			st.push(root), root = root->left;
 	}
     BSTIterator(TreeNode* root) {
-        stack<TreeNode*> empty;	swap(empty, st);
+    	assert(st.empty());
         fillme(root);
     }
     
