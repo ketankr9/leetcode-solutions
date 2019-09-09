@@ -51,7 +51,6 @@ public:
 
     /** Returns a random shuffling of the array. */
     vector<int> shuffle() {
-      curr = arr;
       if(n == 0)
         return curr;
       for(int i=0; i<n; i++){
