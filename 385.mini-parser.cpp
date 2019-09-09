@@ -83,41 +83,40 @@ public:
 	bool isalpha(char c){
 		return (c >= '0' && c <= '9') || c == '-';
 	}
-    NestedInteger deserialize(string s) {
+
+	NestedInteger deserialize(string& s, int i, int N){
     	NestedInteger* root = new NestedInteger();
-    	if(s.size() == 0)
+    	if(N-i == 0)
     		return *root;
-        if(isalpha(s[0])){
-        	int tmp = stoi(s);
+        if(isalpha(s[i])){
+        	int tmp = stoi(s.substr(i, N-i));
         	root->setInteger(tmp);
         	return *root;
         }
-        int i = 1, n = s.size();
-        while(i<n-1){
-        	string tmp = "";
+        i = i+1;
+        while(i<N-1){
+	        int start = i;
         	if(isalpha(s[i])){
-        		while(i<n-1 && s[i]!=',')
-        			tmp += s[i++];
-        		root->add(deserialize(tmp));
-        		i++; // remove ,
-        		continue;
+        		while(i<N-1 && s[i]!=',')
+        			i++;
+        	}else{
+	        	int open = 1, close = 0;
+	        	i++; // bypass [
+	        	while(i<N-1 && open > close){
+	        		if(s[i] == '[')
+	        			open++;
+	        		else if(s[i] == ']')
+	        			close++;
+	        		i++;
+	        	}
         	}
-        	// s[i] == '['
-        	assert(s[i] == '[');
-        	tmp = "[";
-        	int open = 1, close = 0;
-        	i++; // bypass [
-        	while(i<n-1 && open > close){
-        		if(s[i] == '[')
-        			open++;
-        		else if(s[i] == ']')
-        			close++;
-        		tmp += s[i++];
-        	}
-        	root->add(deserialize(tmp));
+        	root->add(deserialize(s, start, i));
         	i++; //bypass ,
     	}
 
         return *root;
+	}
+    NestedInteger deserialize(string s) {
+    	return deserialize(s, 0, s.size());
     }
 };
