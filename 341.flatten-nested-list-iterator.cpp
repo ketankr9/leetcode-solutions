@@ -61,9 +61,11 @@ class NestedIterator {
 public:
 	stack<NestedInteger> st;
     void flattenFront(){
-    	vector<NestedInteger> tmp = st.top().getList(); st.pop();
-		for(int i=(int)tmp.size()-1; i>=0; i--)
-        	st.push(tmp[i]);
+    	while(!st.empty() && !st.top().isInteger()){
+	    	vector<NestedInteger> tmp = st.top().getList(); st.pop();
+			for(int i=(int)tmp.size()-1; i>=0; i--)
+	        	st.push(tmp[i]);
+    	}
     }
     NestedIterator(vector<NestedInteger> &nestedList) {
      	for(int i=(int)nestedList.size()-1; i>=0; i--)
@@ -71,15 +73,13 @@ public:
     }
 
     int next() {
-    	while(!st.top().isInteger())
-        	flattenFront();
+        flattenFront();
         int top = st.top().getInteger(); st.pop();
         return top;
     }
 
     bool hasNext() {
-    	while(!st.empty() && !st.top().isInteger())
-        	flattenFront();
+        flattenFront();
         return !st.empty() && st.top().isInteger();
     }
 };
