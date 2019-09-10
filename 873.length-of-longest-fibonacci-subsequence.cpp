@@ -68,7 +68,8 @@ public:
     int lenLongestFibSubseq(vector<int>& A) {
     	int n = A.size();
     	int ans = 0;
-        unordered_map<int, unordered_map<int, int>> mm;
+        // unordered_map<int, unordered_map<int, int>> mm;
+        vector<vector<int>> mm(n, vector<int>(n, 0));
         for(int k=0; k<n; k++){
         	int i = 0, j = k-1;
         	while(i<j){
