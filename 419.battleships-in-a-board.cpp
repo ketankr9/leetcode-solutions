@@ -47,31 +47,19 @@ public:
     int countBattleships(vector<vector<char>>& board) {
    		int cnt = 0;
    		if(board.empty())	return cnt;
-   		int i = 0;
-   		int n = board.size();
-   		int m = board[0].size();
-        for(i=1; i<n; i++){
+   		int n = board.size(), m = board[0].size();
+        for(int i=1; i<=n; i++){
         	int j = 0;
         	while(j<m){
-	        	if(board[i-1][j] == 'X' && board[i][j] == '.'){
-		        	while(j<m && board[i][j] == '.' && board[i-1][j] == 'X')
+	        	if(board[i-1][j] == 'X' && (i==n?true:board[i][j] == '.') ){
+		        	while(j<m && (i==n?true:board[i][j] == '.') && board[i-1][j] == 'X')
 		        		j++;
 		        	cnt++;
-	        	}
-        		while(j<m && !(board[i][j] == '.' && board[i-1][j] == 'X'))
-        			j++;
+	        	}else
+		    		while(j<m && !((i==n?true:board[i][j] == '.') && board[i-1][j] == 'X'))
+		    			j++;
         	}
         }
-        int j = 0;
-        while(j<m){
-	        if(board[n-1][j] == 'X'){
-		        	while(j<m && board[n-1][j] == 'X')
-		        		j++;
-		        	cnt++;
-	        }
-    		while(j<m && !(board[n-1][j] == 'X'))
-    			j++;
-    	}
     	return cnt;
     }
 };
