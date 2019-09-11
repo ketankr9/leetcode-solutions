@@ -41,23 +41,24 @@ public:
 	int p(int x, int y){
 		return x*n+y;
 	}
-	typedef pair<int, pair<int, int>> pp;
+	typedef vector<int> pp;
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         n = matrix.size();
   		priority_queue<pp, vector<pp>, greater<pp>> pq;
   		unordered_set<int> visited;
-  		pq.push({matrix[0][0], {0, 0}});
+  		pq.push({matrix[0][0], 0, 0});
   		visited.insert(p(0, 0));
   		while(k--){
   			pp top = pq.top(); pq.pop();
-  			if(k == 0)	return top.first;
-  			if(top.second.first+1<n && visited.count(p(top.second.first+1, top.second.second))==0)
-  				pq.push({matrix[top.second.first+1][top.second.second], {top.second.first+1, top.second.second}}), 
-  			visited.insert(p(top.second.first+1, top.second.second));
+  			int val = top[0], i = top[1], j = top[2];
+  			if(k == 0)	return val;
+  			if(i+1<n && visited.count(p(i+1, j))==0)
+  				pq.push({matrix[i+1][j], i+1, j}), 
+  			visited.insert(p(i+1, j));
 
-  			if(top.second.second+1<n && visited.count(p(top.second.first, top.second.second+1))==0)
-  				pq.push({matrix[top.second.first][top.second.second+1], {top.second.first, top.second.second+1}}), 
-  			visited.insert(p(top.second.first, top.second.second+1));
+  			if(j+1<n && visited.count(p(i, j+1))==0)
+  				pq.push({matrix[i][j+1], i, j+1}), 
+  			visited.insert(p(i, j+1));
   		}
   		return -1;
     }
