@@ -46,14 +46,14 @@
  */
 class Solution {
 public:
-    int n, m;
+    int n, m, K;
     int p(int x, int y){
         return x*max(m, n)+y;
     }
     typedef vector<int> pp;
     typedef unordered_set<int> us;
     bool checkninsert(int i, int j, us& visited, pp& nums1, pp& nums2){
-        if(i<n && j<m && visited.count(p(i, j))==0){
+        if(i<n && j<m && visited.count(p(i, j))==0 && i<K && j<K){
             visited.insert(p(i, j));
             return true;
         }
@@ -62,6 +62,7 @@ public:
     vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
         vector<std::vector<int>>    ans;
         n = nums1.size(), m = nums2.size();
+        K = k;
         if(n == 0 || m == 0)    return ans;
         priority_queue<pp, vector<pp>, greater<pp>> pq;
         unordered_set<int> visited;
