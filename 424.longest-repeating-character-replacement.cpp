@@ -57,26 +57,19 @@
  */
 class Solution {
 public:
-	int callme(vector<vector<int>>& dp, int j, int i){
-		int maxx = INT_MIN;
+	int callme(vector<int>& dp){
+		int maxx = 0;
 		for(int c=0; c<26; c++)
-			maxx = max(maxx, dp[i+1][c]-dp[j][c]);
-		return i-j+1-maxx;
+			maxx = max(maxx, dp[c]);
+		return maxx;
 	}
     int characterReplacement(string s, int K) {
-    	int n = s.size();
-    	int ans = 0;
-
-        vector<vector<int>> dp(1, vector<int>(26, 0));
-        for(auto const& c: s){
-        	vector<int> tmp = dp.back();
-        	tmp[c-'A']++;
-        	dp.push_back(tmp);
-        }
-        int i = 0;
+    	vector<int> cnt(26, 0);
+        int ans = 0, i = 0;
         for(int j = 0; j<s.size(); j++){
-        	while(i<j && callme(dp, i, j)>K)
-        		i++;
+        	cnt[s[j]-'A']++;
+        	while(i<j && (j-i+1-callme(cnt))>K)
+        		--cnt[s[i++]-'A'];
         	ans = max(ans, j-i+1);
         }
         return ans;
