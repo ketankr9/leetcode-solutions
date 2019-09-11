@@ -67,6 +67,7 @@ public:
         dist[K-1] = 0;
         while(!pq.empty()){
         	pr top = pq.top(); pq.pop();
+        	if(visited.count(top.s)!=0)	continue;
         	visited.insert(top.s);
         	for(auto const& e: mm[top.s]){
         		if(visited.count(e.f)!=0)	continue;
