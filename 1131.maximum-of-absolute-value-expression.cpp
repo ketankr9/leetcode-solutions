@@ -45,21 +45,20 @@
 class Solution {
 public:
 	int callme(vector<int>& arr1, vector<int>& arr2, int a, int b){
-		int minn = arr1[0]+a*arr2[0], maxx = arr1[0]+a*arr2[0];
+		int minn = a*arr1[0]+b*arr2[0];
 		int ans = INT_MIN;
 		for(int i=1; i<arr1.size(); i++){
-			int cur = arr1[i]+a*arr2[i]+b*i;
-			ans = max({ans, abs(maxx - cur), abs(minn - cur)});
+			int cur = a*arr1[i]+b*arr2[i]+i;
+			ans = max(ans, cur-minn);
 			minn = min(minn, cur);
-			maxx = max(maxx, cur);
 		}
 		return ans;
 	}
     int maxAbsValExpr(vector<int>& arr1, vector<int>& arr2) {
-        return max({callme(arr1, arr2, 1, 1),
-        	callme(arr1, arr2, 1, -1), 
-        	callme(arr1, arr2, -1, 1),
-        	callme(arr1, arr2, -1, -1)
-        });
+    	int ans = INT_MIN;
+    	for(int x: {1, -1})
+    		for(int y: {1, -1})
+    			ans = max(ans, callme(arr1, arr2, x, y));
+    	return ans;
     }
 };
