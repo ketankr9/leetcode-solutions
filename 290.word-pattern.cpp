@@ -48,8 +48,8 @@
 class Solution {
 public:
     bool wordPattern(string pattern, string str) {
-        unordered_map<char, string> mm;
-        unordered_set<string> ss;
+        unordered_map<string, char> mm;
+        unordered_set<char> ss;
         int j = 0;
         for(int i=0; i<pattern.size(); i++){
         	string tmp = "";
@@ -57,11 +57,11 @@ public:
         		tmp += str[j++];
         	j++; // remove space
         	if(tmp == "")	return false;
-        	if(mm.find(pattern[i]) == mm.end()){
-        		mm.insert({pattern[i], tmp});
-        		if(ss.count(tmp)!=0)	return false;
-        		ss.insert(tmp);
-        	}else if(mm[pattern[i]] != tmp){
+        	if(mm.find(tmp) == mm.end()){
+        		mm.insert({tmp, pattern[i]});
+        		if(ss.count(pattern[i])!=0)	return false;
+        		ss.insert(pattern[i]);
+        	}else if(mm[tmp] != pattern[i]){
         		return false;
         	}
         }
