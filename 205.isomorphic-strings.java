@@ -44,16 +44,10 @@
  */
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        HashMap<Character, Character> mm = new HashMap<Character, Character>();
-        HashSet<Character> p = new HashSet<Character>();
+        int[] arr = new int[512];
         for(int i=0; i<s.length(); i++){
-        	
-        	if(mm.containsKey(s.charAt(i)) && !mm.get(s.charAt(i)).equals(t.charAt(i)))	return false;
-			       
-        	if(!mm.containsKey(s.charAt(i)) && p.contains(t.charAt(i)))	return false;
-        	
-        	mm.put(s.charAt(i), t.charAt(i));
-        	p.add(t.charAt(i));
+        	if(arr[s.charAt(i)] != arr[256+t.charAt(i)])	return false;
+        	arr[s.charAt(i)] = arr[256+t.charAt(i)] = s.charAt(i);
         }
         return true;
     }
