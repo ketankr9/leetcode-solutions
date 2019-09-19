@@ -37,9 +37,6 @@ class Solution {
     	A += a; i++;
     	if(A.contains(B))
     		return i;
-    	A += a; i++;
-    	if(A.contains(B))
-    		return i;
     	return -1;
 
     }
