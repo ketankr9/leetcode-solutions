@@ -51,8 +51,6 @@ public:
 	#define s second
 	#define mk make_pair
 	#define pb push_back
-	unordered_map<int, unordered_map<int, int>> mm;
-	int ans;
 	bool check(int i, int j, vector<vector<int>>& matrix){
 		if(i<0 || j<0 || i>=matrix.size() || j>=matrix[0].size())	return false;
 		return true;
@@ -61,30 +59,31 @@ public:
 		if(i+x<0 || j+y<0 || i+x>=matrix.size() || j+y>=matrix[0].size())	return false;
 		return matrix[i+x][j+y] < matrix[i][j];
 	}
-	int dfs(int i, int j, vector<vector<int>>& matrix){
+	int dfs(int i, int j, vector<vector<int>>& matrix, vector<vector<int>>& mm){
 		if(!check(i, j, matrix))	return 0;
 
-		if(mm.find(i)!=mm.end() && mm[i].find(j)!=mm[i].end())	return mm[i][j];
+		if(mm[i][j]!=0)	return mm[i][j];
 
 		int ret = 0;
 		if(check(i, j, 1, 0, matrix))
-			ret = max(ret, dfs(i+1, j, matrix));
+			ret = max(ret, dfs(i+1, j, matrix, mm));
 		if(check(i, j, -1, 0, matrix))
-			ret = max(ret, dfs(i-1, j, matrix));
+			ret = max(ret, dfs(i-1, j, matrix, mm));
 		if(check(i, j, 0, 1, matrix))
-			ret = max(ret, dfs(i, j+1, matrix));
+			ret = max(ret, dfs(i, j+1, matrix, mm));
 		if(check(i, j, 0, -1, matrix))
-			ret = max(ret, dfs(i, j-1, matrix));
+			ret = max(ret, dfs(i, j-1, matrix, mm));
 		return mm[i][j] = ret+1;
 	}
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         if(matrix.empty())	return 0;
-        mm.clear();
-        ans = 1;
+        
+        int ans = 1;
     	int n = matrix.size(), m = matrix[0].size();
+    	vector<vector<int>> mm(n, vector<int>(m, 0));
     	for(int i=0; i<n; i++)
     		for(int j=0; j<m; j++)
-    			ans = max(ans, dfs(i, j, matrix));
+    			ans = max(ans, dfs(i, j, matrix, mm));
     	return ans;
     }
 };
