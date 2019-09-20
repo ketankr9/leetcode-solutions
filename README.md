@@ -7,13 +7,10 @@ Solutions to leetcode problems.
 **cat .env.sh**
 ```
 #!/bin/bash
-###-begin-leetcode-completions-###
-#
-# yargs command completion script
-#
-# Installation: ../.local/bin/leetcode completion >> ~/.bashrc
-#    or ../.local/bin/leetcode completion >> ~/.bash_profile on OSX.
-#
+
+editor="sublime-text.subl"
+LEETCODE='/home/user/.local/bin/leetcode'
+
 _yargs_completions()
 {
     local cur_word args type_list
@@ -36,75 +33,87 @@ _yargs_completions()
 complete -F _yargs_completions leetcode
 ###-end-leetcode-completions-###
 
-alias lee='leetcode'
-alias list='leetcode list'
+
+alias lee="$LEETCODE"
+alias leetcode="$LEETCODE"
+alias list='$LEETCODE list'
 #alias submit='leetcode submit'
 #alias commit='leetcode submit'
 #alias show='leetcode show'
-alias view='leetcode view'
+alias view='$LEETCODE view'
 #alias star='leetcode star'
-alias stat='leetcode stat'
+alias stat='$LEETCODE stat'
 
 function show {
-  leetcode show "$@";
+  "$LEETCODE" show "$@";
   ls -t | head -n1 > .lastAttempt;
 }
 
 function run {
+	ls -t | head -n1 > .lastAttempt;
 	echo "$(cat .lastAttempt)";
 	if [ -z "$1" ];then
-		leetcode run "$(cat .lastAttempt | tr -d '\n')";
+		"$LEETCODE" run "$(cat .lastAttempt | tr -d '\n')";
 	else
-		leetcode run "$(cat .lastAttempt | tr -d '\n')" -t "$1";
+		"$LEETCODE" run "$(cat .lastAttempt | tr -d '\n')" -t "$@";
 	fi
 }
 
 function commit {
+	ls -t | head -n1 > .lastAttempt;
 	echo "$(cat .lastAttempt)";
-	leetcode submit "$(cat .lastAttempt | tr -d '\n')";
+	"$LEETCODE" submit "$(cat .lastAttempt | tr -d '\n')";
 }
 
 function star {
   Q="$(cat .lastAttempt | tr -d '\n')";
 	if [ -z "$1" ]; then
-		leetcode star $(echo -n "${Q%%.*}");
+		"$LEETCODE" star $(echo -n "${Q%%.*}");
 	elif [ "$1" = "del" ]; then
-		leetcode star $(echo -n "${Q%%.*}") -d;
+		"$LEETCODE" star $(echo -n "${Q%%.*}") -d;
   else
-    leetcode star "$@";
+    "$LEETCODE" star "$@";
 	fi
 }
 function fetch {
   if [ -z "$1" ]; then
     Q="$(cat .lastAttempt | tr -d '\n')";
-		leetcode submission $(echo -n "${Q%%.*}");
+		"$LEETCODE" submission $(echo -n "${Q%%.*}");
 	else
-    out=$(leetcode submission "$1");
+    out=$("$LEETCODE" submission "$1");
     echo "$out";
     if [ "$(echo -n $out | awk '{ print $NF }')" != "submissions?" ]; then
-      atom "$(echo -n $out | awk '{ print $NF }')";
+      $($editor "$(echo -n $out | awk '{ print $NF }')");
     fi
 	fi
 }
 function solution {
 	Q="$(cat .lastAttempt | tr -d '\n')";
   echo "########   Java   ########";
-  leetcode show $(echo -n "${Q%%.*}") --solution -l java;
+  "$LEETCODE" show $(echo -n "${Q%%.*}") --solution -l java;
   echo "########   cpp   ########";
-  leetcode show $(echo -n "${Q%%.*}") --solution -l cpp;
+  "$LEETCODE" show $(echo -n "${Q%%.*}") --solution -l cpp;
 }
 function resume {
   Q="$(cat .lastAttempt | tr -d '\n')";
-  leetcode show $(echo -n "${Q%%.*}");
-  atom ./"$(cat .lastAttempt | tr -d '\n')";
+  "$LEETCODE" show $(echo -n "${Q%%.*}");
+  $($editor "$(cat .lastAttempt | tr -d '\n')");
 }
+alias startt="xterm -geometry 45x21-0+0 termdown &";
+#function startt{
+#	"xterm -geometry 42x21-0+0 termdown &"
+#}
 function solve {
   if [ -z "$1" ]; then
     resume;
+  elif [ -z "$2" ] && [ ! -z "$(ls | grep -i "^$1\.")" ]; then
+    "$editor" "$(ls | grep -i "$(ls | grep -i "^$1\.")")";
   else
-    show "$1" -gxe -q D;
+    show "$1" -gxe -q D -l java;
   fi
+  xterm -geometry 48x27-0+0 termdown &
 }
+
 export -f run
 export -f commit
 alias submit='commit'
@@ -113,4 +122,5 @@ export -f star
 export -f solution
 export -f resume
 export -f solve
+alias up='ls -t | head -n1 > .lastAttempt'
 ```
