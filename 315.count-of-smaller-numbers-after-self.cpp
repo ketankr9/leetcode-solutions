@@ -36,52 +36,32 @@ public:
 	typedef pair<int, int> pr;
 	void sort(int start, int end, vector<pr>& vec, vector<int>& ans){
 		if(start >= end)	return;
-
 		int mid = start+(end-start)/2;
 
 		sort(start, mid, vec, ans);
 		sort(mid+1, end, vec, ans);
 		
-		int i = start, j = mid+1, tmp = 0;
 		vector<pr> arr;
-		while(i <= mid && j <= end){
-			// if(i>mid && j>end)	break;
-			if(vec[i].f <= vec[j].f){
-				// vec[i].s.f += tmp;
+		// merge [start, mid] and [mid+1, end]
+		int i = start, j = mid+1, tmp = 0;
+		while(i <= mid || j <= end){
+			if( i <= mid && ( j > end || vec[i].f <= vec[j].f) ){
 				ans[vec[i].s] += tmp;
-				arr.pb(vec[i]);
-				i++;
-			}else if(vec[i].f > vec[j].f){
-				tmp++;
-				arr.pb(vec[j]);
-				j++;
-			}
-		}
-		while(i<=mid){
-			// vec[i].s.f += tmp;
-			ans[vec[i].s] += tmp;
-				arr.pb(vec[i]);
-				i++;
-		}
-		while(j<=end){
-			tmp++;
-			arr.pb(vec[j]);
-			j++;
+				arr.pb(vec[i++]);
+			}else if( j <= end && ( i > mid || vec[i].f > vec[j].f) )
+				tmp++, arr.pb(vec[j++]);
 		}
 		i = start;
-		assert(arr.size() == end-start+1);
-		while(i<=end)
+		while(i <= end)
 			vec[i] = arr[i-start], i++;
 	}
     vector<int> countSmaller(vector<int>& nums) {
-    	int n = nums.size();
-    	vector<int> ans(n, 0);
+    	vector<int> ans(nums.size(), 0);
     	vector<pr> vec;
-    	
-    	for(int i=0; i<n; i++)
-    		vec.push_back({nums[i], i});
+
+    	for(int i=0; i<nums.size(); i++)	vec.pb({nums[i], i});
 		
-		sort(0, n-1, vec, ans);
+		sort(0, nums.size()-1, vec, ans);
     	return ans;
     }
 };
