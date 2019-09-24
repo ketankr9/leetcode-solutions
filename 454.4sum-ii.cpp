@@ -53,7 +53,6 @@ public:
      			mm2[C[i]+D[j]]++;
      	
      	for(auto const& x: mm2)
-     		if(mm1.find(-x.first)!=mm1.end())
      		ans += x.second*mm1[-x.first]; 	
      	return ans;
     }
