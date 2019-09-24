@@ -102,15 +102,15 @@ class Solution {
 public:
 	#define f first
 	#define s second
-	typedef pair<TreeNode*, long long> pr;
+	typedef pair<TreeNode*, int> pr;
     int widthOfBinaryTree(TreeNode* root) {
+        int ans = 0;
         queue<pr> q;
-        long long ans = 0;
         q.push({root, 0});
         while(!q.empty()){
         	int x = 0;
         	queue<pr> tmp;
-        	long long start = q.front().s, end;
+        	int start = q.front().s, end;
         	while(!q.empty()){
         		pr front = q.front(); q.pop();
         		TreeNode* root = front.f;
