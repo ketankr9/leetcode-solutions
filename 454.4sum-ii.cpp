@@ -42,7 +42,7 @@
 class Solution {
 public:
     int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
-     	unordered_map<int, int> mm1, mm2;
+     	unordered_map<int, int> mm1;
      	int ans = 0;
      	for(int i=0; i<A.size(); i++)
      		for(int j=0; j<B.size(); j++)
@@ -50,10 +50,8 @@ public:
 
      	for(int i=0; i<C.size(); i++)
      		for(int j=0; j<D.size(); j++)
-     			mm2[C[i]+D[j]]++;
-     	
-     	for(auto const& x: mm2)
-     		ans += x.second*mm1[-x.first]; 	
+     			if(mm1.find(-C[i]-D[j])!=mm1.end())
+     				ans += mm1[-C[i]-D[j]];
      	return ans;
     }
 };
