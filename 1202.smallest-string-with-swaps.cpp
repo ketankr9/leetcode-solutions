@@ -67,33 +67,33 @@
 class Solution {
 public:
     int find(vector<int>& p, int x){
-        if(p[x]!=-1 && p[x]!=x)
+        if(p[x] != x)
             return p[x] = find(p, p[x]);
         return p[x] = x;
     }
     string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
         int n = s.size();
-        vector<int> p, idx;
-        for(int i=0; i<n; i++)  idx.push_back(i), p.push_back(i);
-        
+        vector<int> p;
+
+        for(int i=0; i<n; i++) p.push_back(i);        
         for(auto const& pr: pairs){
-            int p1 = find(p, pr[0]);
-            int p2 = find(p, pr[1]);
+            int p1 = find(p, pr[0]), p2 = find(p, pr[1]);
             if(p1 != p2)
                 p[p1] = p2;
         }
+
         unordered_map<int, vector<int>> mm;
-        for(int i=0; i<n; i++)
-        	mm[find(p, i)].push_back(i);
+        for(int i=0; i<n; i++)	mm[find(p, i)].push_back(i);
 
         string ans = string(n, ' ');
         for(auto const& arr: mm){
+        	
         	vector<int> tmp = arr.second;
         	sort(tmp.begin(), tmp.end(), [&s](const int &i, const int &j){
         		return s[i] < s[j];
         	});
-        	for(int i=0; i<tmp.size(); i++)
-        		ans[arr.second[i]] = s[tmp[i]];
+
+        	for(int i=0; i<tmp.size(); i++)	ans[arr.second[i]] = s[tmp[i]];
         }
         return ans;
     }
