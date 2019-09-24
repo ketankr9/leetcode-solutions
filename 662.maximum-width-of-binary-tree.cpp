@@ -100,30 +100,27 @@
  */
 class Solution {
 public:
+	#define f first
+	#define s second
+	typedef pair<TreeNode*, long long> pr;
     int widthOfBinaryTree(TreeNode* root) {
-        queue<TreeNode*> q;
-        int ans = 0;
-        q.push(root);
+        queue<pr> q;
+        long long ans = 0;
+        q.push({root, 0});
         while(!q.empty()){
         	int x = 0;
-        	queue<TreeNode*> tmp; 
+        	queue<pr> tmp;
+        	long long start = q.front().s, end;
         	while(!q.empty()){
-        		TreeNode* root = q.front(); q.pop();
-        		if(tmp.empty() && root == NULL)	continue;
-
-        		x++;
-        		if(root != NULL)
-        			ans = max(ans, x);
-
-        		if(root == NULL || root->left == NULL)
-        			tmp.push(NULL);
-        		else
-        			tmp.push(root->left);
-        		if(root == NULL || root->right == NULL)
-        			tmp.push(NULL);
-        		else
-        			tmp.push(root->right);
+        		pr front = q.front(); q.pop();
+        		TreeNode* root = front.f;
+        		end = front.s;
+        		if(root->left!=NULL)
+        			tmp.push({root->left, end*2-start});
+        		if(root->right!=NULL)
+        			tmp.push({root->right, end*2+1-start});
         	}
+        	ans = max(ans, end-start+1);
         	q = tmp;
         }
         return ans;
