@@ -55,16 +55,16 @@ public:
     bool find132pattern(vector<int>& nums) {
         int n = nums.size();
         if(n<3)	return false;
-        vector<int> leftmax(n);
-        leftmax[0] = nums[0];
+        vector<int> leftmin(n);
+        leftmin[0] = nums[0];
         for(int i=1; i<nums.size(); i++)
-        	leftmax[i] = min(leftmax[i-1], nums[i]);
+        	leftmin[i] = min(leftmin[i-1], nums[i]);
     	stack<int> st;
    		for(int i=n-1; i>=1; i--){
-   			if(nums[i] <= leftmax[i-1])	continue;
-   			while(!st.empty() && leftmax[i-1] >= st.top())
+   			if(nums[i] <= leftmin[i-1])	continue;
+   			while(!st.empty() && leftmin[i-1] >= st.top())
    				st.pop();
-   			if(!st.empty() && leftmax[i-1] < nums[i] && nums[i] > st.top())	return true;
+   			if(!st.empty() && leftmin[i-1] < nums[i] && nums[i] > st.top())	return true;
    			st.push(nums[i]);
    		}
    		return false;
