@@ -67,27 +67,38 @@
  */
 class Solution {
 public:
-    int balancedString(string s) {
-        vector<int> req(26, 0);
-        int n = (int)s.size()/4;
-        for(auto& e: s)
-        	req[e-'A']++;
+	int g(char c){
+		if(c == 'Q')
+			return 0;
+		else if(c == 'W')
+			return 1;
+		else if(c == 'E')
+			return 2;
+		return 3;
+	}
 
-        for(int i=0; i<26; i++)
+    int balancedString(string s) {
+        vector<int> req(4, 0);
+        int n = (int)s.size()/4;
+        
+        for(auto& e: s)
+        	req[g(e)]++;
+
+        for(int i=0; i<4; i++)
         	req[i] = max(0, req[i]-n);
         
         int j = 0, ans = INT_MAX;
-        vector<int> cur(26, 0);
+        vector<int> cur(4, 0);
+        
         for(int i = 0; i<n*4; i++){
-        	cur[s[i]-'A']++;
-        	while(j<=i && cur[s[j]-'A'] > req[s[j]-'A'])
-        		cur[s[j++]-'A']--;
-        	if(cur['Q'-'A'] >= req['Q'-'A'] && 
-        		cur['W'-'A'] >= req['W'-'A'] && 
-        		cur['E'-'A'] >= req['E'-'A'] && 
-        		cur['R'-'A'] >= req['R'-'A']){
+        	cur[g(s[i])]++;
+        	
+        	while(j<=i && cur[g(s[j])] > req[g(s[j])])
+        		cur[g(s[j++])]--;
+
+        	if(cur[0] >= req[0] && cur[1] >= req[1] && 
+        		cur[2] >= req[2] && cur[3] >= req[3])
         		ans = min(ans, i-j+1);
-        	}
         }
 
         return ans;
