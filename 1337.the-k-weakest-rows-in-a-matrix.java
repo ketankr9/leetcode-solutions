@@ -79,8 +79,8 @@
 class PQCompare implements Comparator<Pair<Integer, Integer>>{
 	public int compare(Pair<Integer, Integer> x, Pair<Integer, Integer> y){
 		if(x.getValue() < y.getValue() || (x.getValue() == y.getValue() && x.getKey() < y.getKey()))
-			return -1;
-		return 1;
+			return 1;
+		return -1;
 	}
 }
 
@@ -99,11 +99,12 @@ class Solution {
         		if(mat[i][j] == 1)
         			soldierCount += 1;
         	pq.add(new Pair<Integer, Integer>(i, soldierCount));
+        	if(pq.size() > k)
+        		pq.poll();
         }
 
         for(int i=0; i<k; i++){
-        	ans[i] = pq.poll().getKey();
-        	// pq.pop();
+        	ans[k-i-1] = pq.poll().getKey();
         }
         return ans;
     }
