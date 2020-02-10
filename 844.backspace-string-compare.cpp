@@ -75,26 +75,23 @@
 // @lc code=start
 class Solution {
 public:
-	stack<char> kyon(string& s){
-        stack<char> qs;
-        for(auto &e: s){
-        	if(e == '#'){
-        		if(!qs.empty())
-        			qs.pop();
-        	}else
-        		qs.push(e);
-        }
-        return qs;
+	int pos(string& S){
+		int i = 0, k = 0;
+		while(k<S.size()){
+    		if(S[k] == '#')
+    			i = max(0, i-1);
+    		else
+    			S[i++] = S[k];
+    		k++;
+    	}
+    	return i;
 	}
-
     bool backspaceCompare(string S, string T) {
-        stack<char> qs = kyon(S), qt = kyon(T);
-        
-        while(!qs.empty() && !qt.empty() && qs.top() == qt.top())
-        	qs.pop(), qt.pop();
-
-        return qs.empty() && qt.empty();
-
+    	int i = pos(S), j = pos(T);
+    	if(i != j)	return false;
+    	for(i=0; i<j; i++)
+    		if(S[i] != T[i])	return false;
+    	return true;
     }
 };
 // @lc code=end
