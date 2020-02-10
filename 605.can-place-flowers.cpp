@@ -52,7 +52,7 @@ public:
         while(n>0 && i<flowerbed.size()){
         	if(flowerbed[i] != 1 && (i-1 < 0 || flowerbed[i-1] == 0) && (i+1 == flowerbed.size() || flowerbed[i+1] == 0))
         		n--, flowerbed[i] = 1;
-        	i++;
+        	i += 1 + flowerbed[i];
         }
         return n==0;
     }
