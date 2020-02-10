@@ -69,7 +69,8 @@ public:
         vector<bool> ret;
         int num = 0;
         for(auto& e: A){
-        	num = (num*2+e)%5;
+        	num = (num*2+e);
+        	if(num >= 5)	num -= 5;
         	ret.push_back(num==0);
         }
         return ret;
