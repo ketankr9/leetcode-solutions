@@ -62,6 +62,10 @@ private:
             left = NULL;
             right = NULL;
         }
+        ~Node() {
+            if(left  != nullptr) delete left;
+            if(right != nullptr) delete right;
+        }
     };
 
     bool findme(Node* head, int key){
@@ -80,8 +84,8 @@ private:
             head->right = insert(head->right, key);
         return head;
     }
-    
-    void rem(Node* head, int key){
+
+    void removeHelper(Node* head, int key){
         if(head == NULL)    return;
         if(head->left != NULL && head->left->val == key){
             Node* tmp = head->left->left;
@@ -98,15 +102,15 @@ private:
                 head = head->right;
             head->right = tmp;
         }else if(key < head->val)
-            rem(head->left, key);
+            removeHelper(head->left, key);
         else if(key > head->val)
-            rem(head->right, key);
+            removeHelper(head->right, key);
     }
 public:
     /** Initialize your data structure here. */
     Node* root;
     MyHashSet() {
-        root = new Node(-1);
+        root = new Node(-1); //dummy value just to ease the deletion of otherwise root
     }
 
     void add(int key) {
@@ -114,7 +118,7 @@ public:
     }
 
     void remove(int key) {
-        rem(root, key);
+        removeHelper(root, key);
     }
     
     /** Returns true if this set contains the specified element */
