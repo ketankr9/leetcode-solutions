@@ -74,26 +74,17 @@ class Node {
 };
 */
 class Solution {
-    List<Integer> ret = new ArrayList<Integer>();
-    public void helper(Node root){
-        if(root == null)    return;
-
-        ret.add(root.val);
-        for(int i=0; i<root.children.size(); i++)
-            helper(root.children.get(i));
-    }
     public List<Integer> preorder(Node root) {
-        ret.clear();
-        helper(root);
-        // if(root == null)    return ret;
-        // Stack<Node> st = new Stack<>();
-        // st.push(root);
-        // while(!st.empty()){
-        //     Node top = st.pop();
-        //     ret.add(top.val);
-        //     for(int i=top.children.size()-1; i>=0; i--)
-        //         st.push(top.children.get(i));
-        // }
+        List<Integer> ret = new ArrayList<Integer>();
+        if(root == null)    return ret;
+        Stack<Node> st = new Stack<>();
+        st.push(root);
+        while(!st.empty()){
+            Node top = st.pop();
+            ret.add(top.val);
+            for(int i=top.children.size()-1; i>=0; i--)
+                st.push(top.children.get(i));
+        }
         return ret;
     }
 }
