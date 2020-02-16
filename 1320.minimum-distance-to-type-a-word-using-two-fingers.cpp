@@ -89,35 +89,30 @@ public:
 	#define f first
 	#define s second
 
-	unordered_map<int, int> mm;
-	int pp(int i, pr& x, pr& y){
-		return ( (x.f*6+x.s)*26 + (y.f*6+y.s) )*300 + i;
+	int dist(int x, int pos){
+		if(x == -1)	return 0;
+		return abs(x/6 - pos/6) + abs(x%6 - pos%6);
 	}
 
-	pr bd(char c){
-		int pos = (int)c - (int)'A';
-		return {pos/6, pos%6};
+	int p(int x, int y){
+		return x*27 + y+1;
 	}
 
-	int callme(int i, string& word, pr x, pr y){
+	int callme(int i, string& word, int x, int y, vector<vector<int>>& dp){
 		if(i >= word.size())	return 0;
 		
-		if(mm.find(pp(i, x, y)) != mm.end())
-			return mm[pp(i, x, y)];
-		
-		pr pos = bd(word[i]);
+		if(dp[i][p(x, y)] != -1)
+			return dp[i][p(x, y)];
 
-		int ret = INT_MAX;
-		// left
-		int d1 = abs(x.f-pos.f) + abs(x.s-pos.s);
-		// right
-		int d2 = (y.f == -1 ? 0 : (abs(y.f-pos.f) + abs(y.s-pos.s)) );
-
-		return mm[pp(i, x, y)] = min(d1+callme(i+1, word, pos, y), d2+callme(i+1, word, x, pos));
+		int pos = word[i]-'A';
+		int d1 = dist(x, pos)+callme(i+1, word, pos, y, dp);
+		int d2 = dist(y, pos)+callme(i+1, word, x, pos, dp);
+		return dp[i][p(x, y)] = min(d1, d2);
 	}
 
     int minimumDistance(string word) {
-        return callme(1, word, bd(word[0]), {-1, -1});
+    	vector<vector<int>> dp(300, vector<int>(702, -1));
+        return callme(1, word, word[0]-'A', -1, dp);
     }
 };
 // @lc code=end
