@@ -55,7 +55,7 @@ class Solution {
 
         for(int i=0; i<mat[0].length; i++)
         	sortme(0, i, mat);
-        for(int i=0; i<mat.length; i++)
+        for(int i=1; i<mat.length; i++)
         	sortme(i, 0, mat);
 
         return mat;
