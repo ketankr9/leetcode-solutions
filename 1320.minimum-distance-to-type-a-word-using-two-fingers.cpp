@@ -85,10 +85,6 @@
 // @lc code=start
 class Solution {
 public:
-	#define pr pair<int, int>
-	#define f first
-	#define s second
-
 	int dist(int x, int pos){
 		if(x == -1)	return 0;
 		return abs(x/6 - pos/6) + abs(x%6 - pos%6);
