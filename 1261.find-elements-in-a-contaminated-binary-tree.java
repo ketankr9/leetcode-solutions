@@ -122,29 +122,26 @@ class FindElements {
 			root.right.val = root.val*2+2;
 	}
 
-    public FindElements(TreeNode root) {
-        if(root != null)	root.val = 0;
-        head = root;
-    }
-    
     private boolean find_(TreeNode root, List<Boolean> arr, int i){
     	if(i == -1)
     		return root != null;
     	if(root == null)
     		return false;
-
-    	if(arr.get(i)) // true
-    		return find_(root.right, arr, i-1);
     	
-    	return find_(root.left, arr, i-1);
+    	return find_(arr.get(i) ? root.right : root.left, arr, i-1);
     }
+    
+    public FindElements(TreeNode root) {
+        if(root != null)	root.val = 0;
+        head = root;
+    }
+    
     public boolean find(int target) {
         List<Boolean> arr = new ArrayList<Boolean>();
         while(target != 0){
         	arr.add((((target-1) & 1) == 1) ? true : false);
         	target = (target-1)/2;
         }
-        // System.out.println(arr);
         return find_(head, arr, arr.size()-1);
     }
 }
