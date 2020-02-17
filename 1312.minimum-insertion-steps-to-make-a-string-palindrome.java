@@ -82,13 +82,14 @@ class Solution {
         	cur[i] = s.charAt(i) == s.charAt(i+1) ? 0 : 1;
 
         for(int k=2; k<n; k++){
-        	int[] prev_ = Arrays.copyOf(cur, cur.length);
         	for(int i=0; i+k<n; i++)
         		if(s.charAt(i) == s.charAt(i+k))
-        			cur[i] = prev[i+1];
+        			prev[i] = prev[i+1];
         		else
-        			cur[i] = 1 + Integer.min(cur[i], cur[i+1]);
-        	prev = prev_;
+        			prev[i] = 1 + Math.min(cur[i], cur[i+1]);
+        	int[] tmp = prev;
+        	prev = cur;
+        	cur = tmp;
         }
 
         return cur[0];
