@@ -75,22 +75,23 @@ class Solution {
 
     public int minInsertions(String s) {
         int n = s.length();
-        int[][] dp = new int[n][n];
+        int[] prev = new int[n];
+        int[] cur = new int[n];
         
-        for(int i=0; i<n-1; i++){
-        	dp[i][i] = 0;
-        	dp[i][i+1] = (s.charAt(i) == s.charAt(i+1) ? 0 : 1);
-        }
-        dp[n-1][n-1] = 0;
+        for(int i=0; i+1<n; i++)
+        	cur[i] = s.charAt(i) == s.charAt(i+1) ? 0 : 1;
 
-        for(int k=2; k<n; k++)
+        for(int k=2; k<n; k++){
+        	int[] prev_ = Arrays.copyOf(cur, cur.length);
         	for(int i=0; i+k<n; i++)
         		if(s.charAt(i) == s.charAt(i+k))
-        			dp[i][i+k] = dp[i+1][i+k-1];
+        			cur[i] = prev[i+1];
         		else
-        			dp[i][i+k] = 1 + Integer.min(dp[i][i+k-1], dp[i+1][i+k]);
+        			cur[i] = 1 + Integer.min(cur[i], cur[i+1]);
+        	prev = prev_;
+        }
 
-        return dp[0][n-1];
+        return cur[0];
     }
 }
 // @lc code=end
