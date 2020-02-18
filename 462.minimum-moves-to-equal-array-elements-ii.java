@@ -49,12 +49,9 @@ class Solution {
 
     	long ans = Long.MAX_VALUE, sumTillNow = 0;
     	for(int i=0; i<n; i++){
-    		long cur = (long)nums[i];
-    		sumTillNow += cur;
-    		long tmp = ((long)(i+1)*cur - sumTillNow) + (total-sumTillNow - ((long)n-(long)(i+1))*cur);
-    		ans = Math.min(ans, tmp); 
+    		sumTillNow += nums[i];
+    		ans = Math.min(ans, total + (long)nums[i]*((i+1)*2 - n) - sumTillNow*2); 
     	}
-
     	return (int)ans;
     }
 }
