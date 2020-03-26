@@ -56,29 +56,18 @@ class Solution {
 public:
     vector<int> closestDivisors(int num) {
         vector<int> ans(2, -1);
-        int n = num+1;
-        int diff = INT_MAX;
-        for(int i=(int)sqrt(n); i>=1; i--){
-            int i2= n/i;
-            if(i2*i == n){
-                if(abs(i-i2) < diff){
-                    diff = abs(i-i2);
-                    ans[0] = i;
-                    ans[1] = i2;
-                }
-                break;
+
+        for(int i=(int)sqrt(num+2); i>=1; i--){
+            int i2 = (num+2)/i, i1 = (num+1)/i;
+            if(i1*i == num+1){
+                ans[0] = i;
+                ans[1] = i1;
+                return ans;
             }
-        }
-        n = num+2;
-        for(int i=(int)sqrt(n); i>=1; i--){
-            int i2= n/i;
-            if(i2*i == n){
-                if(abs(i-i2) < diff){
-                    diff = abs(i-i2);
-                    ans[0] = i;
-                    ans[1] = i2;
-                }
-                break;
+            if(i2*i == num+2){
+                ans[0] = i;
+                ans[1] = i2;
+                return ans;
             }
         }
 
