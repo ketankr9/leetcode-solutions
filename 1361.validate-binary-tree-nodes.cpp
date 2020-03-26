@@ -77,19 +77,15 @@ public:
     int root;
     bool loop;
     void visit(int u, vector<bool>& visited, vector<int>& leftChild, vector<int>& rightChild){
-        if(visited[u])
+        if(u == -1 || visited[u])
             return;
         
         visited[u] = true;
 
-        if(leftChild[u] != -1)
-            visit(leftChild[u], visited, leftChild, rightChild);
-        
-        if(rightChild[u] != -1)
-            visit(rightChild[u], visited, leftChild, rightChild);
-        
+        visit(leftChild[u], visited, leftChild, rightChild);
+        visit(rightChild[u], visited, leftChild, rightChild);
+
         root = u;
-        // cout<<u<<" ";
     }
     
     void traverseTree(int u, vector<bool>& visited, vector<int>& leftChild, vector<int>& rightChild){
@@ -98,25 +94,25 @@ public:
             loop = true;
             return;
         }
+
         visited[u] = true;
+        
         traverseTree(leftChild[u], visited, leftChild, rightChild);
         traverseTree(rightChild[u], visited, leftChild, rightChild);
     }
 
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
-        vector<bool> visited(n, false);
         loop = false;
         root = -1;
 
+        vector<bool> visited(n, false);
         for(int i=n-1; i>=0; i--)
             visit(i, visited, leftChild, rightChild);
 
         fill_n(visited.begin(), n, false);
-
         traverseTree(root, visited, leftChild, rightChild);
 
         if(loop)    return false;
-
         for(bool e: visited)
             if(!e)  return false;
 
