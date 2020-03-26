@@ -81,7 +81,6 @@ public:
         
         int i = 0, j = 0;
 
-        // 0, 2
         if( (!ones.empty() && ones.size()%3 == 0 && twos.size()%3 == 2)
          || (!twos.empty() && twos.size()%3 == 0 && ones.size()%3 == 2) ){
             nums.push_back(twos[j++]);
@@ -89,19 +88,18 @@ public:
             nums.push_back(twos[j++]);
             nums.push_back(ones[i++]);           
         }
-        // 2, 0
         
-        while(i+2<ones.size())
-            for(int k=0; k<3; k++)
-                nums.push_back(ones[i++]);
-        while(j+2<twos.size())
-            for(int k=0; k<3; k++)
-                nums.push_back(twos[j++]);
+        int r = (ones.size()-i)/3;
+        nums.insert(nums.end(), ones.begin()+i, ones.begin()+i+r*3);
+        i += r*3;
         
-        while(j<twos.size() && i<ones.size()){
-            nums.push_back(twos[j++]);
-            nums.push_back(ones[i++]);
-        }
+        r = (twos.size()-j)/3;
+        nums.insert(nums.end(), twos.begin()+j, twos.begin()+j+r*3);
+        j += r*3;
+
+        r = min(twos.size()-j, ones.size()-i);
+        nums.insert(nums.end(), ones.begin()+i, ones.begin()+i+r);
+        nums.insert(nums.end(), twos.begin()+j, twos.begin()+j+r);
 
         sort(nums.begin(), nums.end(), greater<int>());
         
