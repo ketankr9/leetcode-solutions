@@ -101,11 +101,10 @@
 // @lc code=start
 class Solution {
 public:
-	string callme(string st, unordered_map<char, vector<int>>& mm, int i){
+	string callme(string& st, unordered_map<char, vector<int>>& mm, int i){
 		if(st.size() <= 1)	return st;
-		
-		int n = mm[st[0]].size();
-		if(i >= n){
+
+		if(i >= mm[st[0]].size()){
 			sort(st.begin(), st.end());
 			return st;
 		}
@@ -116,7 +115,7 @@ public:
 
 		string ret = "";
 		int j = 0;
-		
+
 		while(j<st.size()){
 			int first = j;
 			string tmp = "";
