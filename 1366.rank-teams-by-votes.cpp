@@ -101,45 +101,25 @@
 // @lc code=start
 class Solution {
 public:
-	string callme(string& st, unordered_map<char, vector<int>>& mm, int i){
-		if(st.size() <= 1)	return st;
-
-		if(i >= mm[st[0]].size()){
-			sort(st.begin(), st.end());
-			return st;
-		}
-
-		sort(st.begin(), st.end(), [&mm,&i](char x,char y){
-			return mm[x][i] > mm[y][i];
-		});
-
-		string ret = "";
-		int j = 0;
-
-		while(j<st.size()){
-			int first = j;
-			string tmp = "";
-
-			while(j<st.size() && mm[st[first]][i] == mm[st[j]][i])
-				tmp += st[j++];
-			
-			ret += callme(tmp, mm, i+1);
-		}
-		return ret;
-	}
-
     string rankTeams(vector<string>& votes) {
-        int n = votes[0].size();
-
+		string st = votes[0];
+        
         unordered_map<char, vector<int>> mm;
-        for(char c: votes[0])
-        	mm[c] = vector<int>(n, 0);
+        for(char c: st)
+        	mm[c] = vector<int>(st.size(), 0);
 
         for(int i=0; i<votes.size(); i++)
-        	for(int c=0; c<n; c++)
+        	for(int c=0; c<st.size(); c++)
         		mm[votes[i][c]][c]++;
-        
-        return callme(votes[0], mm, 0);
+
+        sort(st.begin(), st.end(), [&mm](const char& x, const char& y){
+        	for(int i=0; i<mm[x].size(); i++)
+        		if(mm[x][i] != mm[y][i])
+        			return mm[x][i] > mm[y][i];
+        	return x < y;
+        });
+
+        return st;
     }
 };
 // @lc code=end
