@@ -89,16 +89,14 @@ public:
 	int n;
 	long long M, C, val;
 	void callme(long long cur, TreeNode* root){
-
 		if(root == NULL || found)
 			return;
 		
-		if((int)vec.size()-n >= 0){
-			cur = (cur-C*(long long)vec[vec.size()-n])%M;
+		if(vec.size() >= n){
+			cur = (cur-C*vec[vec.size()-n])%M;
 			cur  = (cur+M)%M;
 		}
-
-		cur = (cur*10ll + (long long)root->val)%M;
+		cur = (cur*10ll + root->val)%M;
 
 		vec.push_back(root->val);
 		if(cur == val && vec.size() >= n)
@@ -111,16 +109,11 @@ public:
 
 	long long poww(int k){
 		if(k == 0)	return 1ll;
-		if(k == 1)	return 10ll;
-		long long tmp;
-		if( (k&1) == 0){
-			tmp = poww(k>>1);
-			return (tmp*tmp)%M;
-		}
-		
-		tmp = poww((k-1)>>1);
+		long long tmp = poww(k>>1);
 		tmp = (tmp*tmp)%M;
-		return (tmp*10ll)%M;
+		if(k&1)
+			return (tmp*10ll)%M;
+		return tmp;
 	}
 
     bool isSubPath(ListNode* head, TreeNode* root) {
