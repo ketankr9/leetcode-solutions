@@ -81,8 +81,7 @@ public:
         int cnt = 0;
         for(int i=0; i<n; i++)
         	for(int j=0; j<m; j++)
-        		if(grid[i][j] && (row[i]+col[j]-2))
-        			cnt += 1;
+        		cnt += (grid[i][j] && row[i]+col[j]-2);
        
        return cnt;
     }
