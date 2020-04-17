@@ -58,16 +58,21 @@
  * }
  */
 class Solution {
-	int callme(int cur, TreeNode root){
+	int ans = 0;
+	void callme(int cur, TreeNode root){
 		if(root == null)
-			return 0;
+			return;
 		cur = cur*2 + root.val;
-		if(root.left == null && root.right == null)
-			return cur;
-		return callme(cur, root.left) + callme(cur, root.right);
+		if(root.left == null && root.right == null){
+			ans += cur;
+			return;
+		}
+		callme(cur, root.left);
+		callme(cur, root.right);
 	}
     public int sumRootToLeaf(TreeNode root) {
-        return callme(0, root);
+        callme(0, root);
+        return ans;
     }
 }
 // @lc code=end
