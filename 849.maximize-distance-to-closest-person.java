@@ -64,10 +64,7 @@ class Solution {
         int last = -1;
         for(int i=0; i<seats.length; i++){
         	if(seats[i] == 1){
-        		if(last == -1)
-        			ans = Math.max(ans, i);
-        		else
-        			ans = Math.max(ans, (i-last)/2);
+        		ans = Math.max(ans, (i - (last==-1?-i:last) )/2);
         		last = i;
         	}
         }
