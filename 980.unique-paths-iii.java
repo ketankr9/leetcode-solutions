@@ -77,21 +77,17 @@
 class Solution {
 	int zeros = 0;
 	private int callme(int x, int y, int[][] grid){
-		if(x<0 || y<0 || x>=grid.length || y>=grid[0].length)
+		if(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y] == -1 || grid[x][y] == 3)
 			return 0;
-		if(grid[x][y] == -1 || grid[x][y] == 3)
-			return 0;
-		if(grid[x][y] == 2){
-			if(zeros == 0)
-				return 1;
-			else
-				return 0;
-		}
 		
-		zeros--;
-		grid[x][y] = 3;
+		if(grid[x][y] == 2)
+			return zeros == 0 ? 1 : 0;
+		
 		int ret = 0;
 		
+		grid[x][y] = 3;
+		zeros--;
+
 		//left
 		ret += callme(x, y-1, grid);
 		//right
@@ -103,23 +99,24 @@ class Solution {
 		
 		zeros++;
 		grid[x][y] = 0;
+		
 		return ret;
 	}
 
     public int uniquePathsIII(int[][] grid) {
 
+    	int x = 0, y = 0;
     	for(int i=0; i<grid.length; i++)
         	for(int j=0; j<grid[0].length; j++)
         		if(grid[i][j] == 0)
         			zeros++;
-        for(int i=0; i<grid.length; i++)
-        	for(int j=0; j<grid[0].length; j++)
-        		if(grid[i][j] == 1){
-        			grid[i][j] = -1;
-        			return callme(i+1, j, grid)+callme(i-1, j, grid)+callme(i, j-1, grid)+callme(i, j+1, grid);
+        		else if(grid[i][j] == 1){
+        			x = i;
+        			y = j;
         		}
 
-        return 0;
+		grid[x][y] = -1;
+		return callme(x+1, y, grid)+callme(x-1, y, grid)+callme(x, y-1, grid)+callme(x, y+1, grid);
     }
 }
 // @lc code=end
