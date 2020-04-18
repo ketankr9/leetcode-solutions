@@ -82,8 +82,8 @@ class Solution {
         ans[0][1] = c0;
         
         for(int d=1; d<R+C; d++)
-        	for(int i=0; i<R; i++)
-        		for(int j=0; j<C; j++)
+        	for(int i=Math.max(r0-d, 0); i<Math.min(r0+d+1, R); i++)
+        		for(int j=Math.max(c0-d, 0); j<Math.min(c0+d+1, C); j++)
         			if(Math.abs(i-r0) + Math.abs(j-c0) == d){
         				ans[k][0] = i;
         				ans[k][1] = j;
