@@ -8,7 +8,8 @@ Solutions to leetcode problems.
 ```
 #!/bin/bash
 
-editor="sublime-text.subl"
+LLANG="java"
+EDITOR="sublime-text.subl"
 LEETCODE='/home/user/.local/bin/leetcode'
 
 _yargs_completions()
@@ -83,7 +84,7 @@ function fetch {
     out=$("$LEETCODE" submission "$1");
     echo "$out";
     if [ "$(echo -n $out | awk '{ print $NF }')" != "submissions?" ]; then
-      $($editor "$(echo -n $out | awk '{ print $NF }')");
+      $($EDITOR "$(echo -n $out | awk '{ print $NF }')");
     fi
 	fi
 }
@@ -97,21 +98,26 @@ function solution {
 function resume {
   Q="$(cat .lastAttempt | tr -d '\n')";
   "$LEETCODE" show $(echo -n "${Q%%.*}");
-  $($editor "$(cat .lastAttempt | tr -d '\n')");
+  $($EDITOR "$(cat .lastAttempt | tr -d '\n')");
 }
 alias startt="xterm -geometry 45x21-0+0 termdown &";
-#function startt{
-#	"xterm -geometry 42x21-0+0 termdown &"
-#}
+
+function restartTimer {
+  pkill -f termdown
+  xterm -geometry 48x27-0+0 termdown &
+  # pkill -f leetimer
+  # ./.leetimer.sh &
+}
+
 function solve {
   if [ -z "$1" ]; then
     resume;
   elif [ -z "$2" ] && [ ! -z "$(ls | grep -i "^$1\.")" ]; then
-    "$editor" "$(ls | grep -i "$(ls | grep -i "^$1\.")")";
+    "$EDITOR" "$(ls | grep -i "^$1\." | head -n1)";
   else
-    show "$1" -gxe -q D -l java;
+    "$LEETCODE" show "$1" -gx -e "${EDITOR}" -q D -l ${LLANG};
   fi
-  xterm -geometry 48x27-0+0 termdown &
+  restartTimer;
 }
 
 export -f run
