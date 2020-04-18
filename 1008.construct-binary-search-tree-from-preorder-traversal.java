@@ -58,15 +58,11 @@ class Solution {
 		if(start > end)
 			return null;
 
-		TreeNode root = new TreeNode(arr[start]);
-		
-		if(start == end)
-			return root;
-
 		int mid = start+1;
 		while(mid <= end && arr[mid] < arr[start])
 			mid++;
-
+		
+		TreeNode root = new TreeNode(arr[start]);
 		root.left = callme(arr, start+1, mid-1);
 		root.right = callme(arr, mid, end);
 		
