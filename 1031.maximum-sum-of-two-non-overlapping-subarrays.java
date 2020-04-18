@@ -80,29 +80,24 @@
 // @lc code=start
 class Solution {
 	int callme(int[] A, int L, int M){
-		int n = A.length, cur = 0;
-		int[] dp = new int[n];
-		for(int i=0; i<n; i++){
-			cur += A[i];
-			if(i>=L)
-				cur -= A[i-L];
-			else if(i < L-1)
-				continue;
-			dp[i] = Math.max( i == 0 ? 0 : dp[i-1], cur);
-		}
-		cur = 0;
-		int maxtillnow = 0, ans = 0;
-		for(int i=n-1; i>=L; i--){
-			cur += A[i];
-			if(i+M < n)
-				cur -= A[i+M];
-			else if(i+M > n)
-				continue;
-			maxtillnow = Math.max(maxtillnow, cur);
-			ans = Math.max(ans, dp[i-1]+maxtillnow);
+		int msum = 0, lsum = 0, maxlsum = 0, ans = 0;
+		for(int i=0; i<A.length; i++){
+			msum += A[i];
+			if(i-M >= 0){
+				msum -= A[i-M];
+				lsum += A[i-M];
+			}
+			if(i-M-L>=0)
+			lsum -= A[i-M-L];
+
+			if(i-M-L >= -1){
+				maxlsum = Math.max(maxlsum, lsum);
+				ans = Math.max(ans, maxlsum+msum);
+			}
 		}
 		return ans;
 	}
+
     public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         return Math.max(callme(A, L, M), callme(A, M, L));
     }
